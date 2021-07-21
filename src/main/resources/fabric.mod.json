@@ -1,0 +1,45 @@
+{
+  "schemaVersion": 1,
+  "id": "spectrite",
+  "version": "${version}",
+  "name": "Spectrite 2",
+  "description": "Fabric rewrite of the original Spectrite mod",
+  "authors": [
+    "Samuel H"
+  ],
+  "contact": {
+    "homepage": "https://github.com/Flashfyre/Spectrite-2/",
+    "sources": "https://github.com/Flashfyre/Spectrite-2/"
+  },
+  "license": "CC0-1.0",
+  "icon": "assets/spectrite/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "main": [
+      "com.flashfyre.spectrite.Spectrite"
+    ],
+    "client": [
+      "com.flashfyre.spectrite.client.SpectriteClient"
+    ],
+    "cardinal-components-entity": [
+      "com.flashfyre.spectrite.component.Components"
+    ]
+  },
+  "mixins": [
+    "spectrite.mixins.json",
+    "spectrite.client.mixins.json"
+  ],
+  "accessWidener": "spectrite.accessWidener",
+  "custom": {
+    "cardinal-components": [
+      "spectrite:spectrite_entity",
+      "spectrite:spectrite_weapon_entity_attributes"
+    ]
+  },
+  "depends": {
+    "fabricloader": ">=0.11.3",
+    "fabric": "*",
+    "minecraft": "1.17.x",
+    "java": ">=16"
+  }
+}

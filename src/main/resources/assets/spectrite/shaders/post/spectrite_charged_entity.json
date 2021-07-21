@@ -1,0 +1,28 @@
+{
+  "targets": [
+    "swap",
+    "final"
+  ],
+  "passes": [
+    {
+      "name": "blit",
+      "intarget": "minecraft:main",
+      "outtarget": "swap"
+    },
+    {
+      "name": "spectrite:spectrite_charged",
+      "intarget": "final",
+      "outtarget": "minecraft:main",
+      "auxtargets": [
+        {
+          "name": "DiffuseDepthSampler",
+          "id": "minecraft:main:depth"
+        },
+        {
+          "name": "Sampler",
+          "id": "swap"
+        }
+      ]
+    }
+  ]
+}

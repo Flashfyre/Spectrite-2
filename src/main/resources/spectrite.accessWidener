@@ -1,0 +1,10 @@
+accessWidener v1 named
+
+accessible method net/minecraft/entity/LivingEntity getDeathSound ()Lnet/minecraft/sound/SoundEvent;
+accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
+accessible method net/minecraft/client/particle/ExplosionLargeParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDLnet/minecraft/client/particle/SpriteProvider;)V
+accessible method net/minecraft/client/particle/GlowParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDDDLnet/minecraft/client/particle/SpriteProvider;)V
+accessible field net/minecraft/client/model/ModelPart cuboids Ljava/util/List;
+accessible field net/minecraft/client/model/ModelPart$Cuboid sides [Lnet/minecraft/client/model/ModelPart$Quad;
+accessible class net/minecraft/client/model/ModelPart$Quad
+accessible class net/minecraft/client/model/ModelPart$Vertex

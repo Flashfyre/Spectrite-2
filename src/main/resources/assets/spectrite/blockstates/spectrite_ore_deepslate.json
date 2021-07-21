@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"odd=false": { "model": "spectrite:block/spectrite_ore_deepslate" },
+		"odd=true": { "model": "spectrite:block/spectrite_ore_deepslate_odd" }
+	}
+}

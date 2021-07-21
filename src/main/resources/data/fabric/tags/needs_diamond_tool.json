@@ -1,0 +1,9 @@
+{
+  "replace": "false",
+  "values": [
+    "spectrite:spectrite_ore",
+    "spectrite:spectrite_ore_deepslate",
+    "spectrite:spectrite_ore_nether",
+    "spectrite:spectrite_ore_end"
+  ]
+}

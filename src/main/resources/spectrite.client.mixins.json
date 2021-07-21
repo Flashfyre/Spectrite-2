@@ -1,0 +1,32 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.flashfyre.spectrite.client.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "client": [
+    "ArmorFeatureRendererMixin",
+    "ArrowEntityRendererMixin",
+    "ChestBlockEntityRendererMixin",
+    "EntityRenderDispatcherMixin",
+    "FeatureRendererMixin",
+    "FramebufferAccessor",
+    "FramebufferMixin",
+    "InGameHudMixin",
+    "ItemRendererMixin",
+    "LivingEntityRendererMixin",
+    "ModelLoaderMixin",
+    "ModelPartAccessor",
+    "ModelPartMixin",
+    "NativeImageAccessor",
+    "ParticleManagerMixin",
+    "ProjectileEntityRendererMixin",
+    "ReloadableResourceManagerImplMixin",
+    "SpectralArrowEntityRendererMixin",
+    "SpectriteClientWorldMixin",
+    "SpriteAtlasTextureDataAccessor",
+    "TridentEntityRendererMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}

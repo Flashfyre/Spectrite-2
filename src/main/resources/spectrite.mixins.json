@@ -1,0 +1,41 @@
+{
+  "required": true,
+  "minVersion": "0.8",
+  "package": "com.flashfyre.spectrite.mixin",
+  "compatibilityLevel": "JAVA_16",
+  "mixins": [
+    "AbstractBlockStateMixin",
+    "BaseTextAccessor",
+    "ConstantLootNumberProviderAccessor",
+    "EntityMixin",
+    "ExplosionAccessor",
+    "ExplosionMixin",
+    "ItemEntryAccessor",
+    "LeafEntryAccessor",
+    "LeafEntryBuilderAccessor",
+    "LivingEntityAccessor",
+    "MobEntityMixin",
+    "PersistentProjectileEntityAccessor",
+    "PersistentProjectileEntityMixin",
+    "PlayerInventoryAccessor",
+    "ProjectileEntityMixin",
+    "SetCountLootFunctionAccessor",
+    "TridentEntityMixin",
+    "UniformLootNumberProviderAccessor"
+  ],
+  "client": [
+    "BaseTextAccessor",
+    "ExplosionAccessor",
+    "ItemStackMixin",
+    "LivingEntityAccessor",
+    "MobEntityMixin",
+    "PersistentProjectileEntityAccessor",
+    "PersistentProjectileEntityMixin",
+    "PlayerInventoryAccessor",
+    "ProjectileEntityMixin",
+    "TridentEntityMixin"
+  ],
+  "injectors": {
+    "defaultRequire": 1
+  }
+}
