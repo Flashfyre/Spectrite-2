@@ -11,7 +11,7 @@
     "homepage": "https://github.com/Flashfyre/Spectrite-2/",
     "sources": "https://github.com/Flashfyre/Spectrite-2/"
   },
-  "license": "CC0-1.0",
+  "license": "ARR",
   "icon": "assets/spectrite/icon.png",
   "environment": "*",
   "entrypoints": {
