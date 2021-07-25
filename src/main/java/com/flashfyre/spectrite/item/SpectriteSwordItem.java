@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
-import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -12,7 +11,6 @@ import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
-import net.minecraft.world.explosion.Explosion;
 
 public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, SpectriteWeaponItem
 {
@@ -28,6 +26,12 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
     public boolean isDepleted()
     {
         return depleted;
+    }
+
+    @Override
+    public int getSpectriteDamageLevel()
+    {
+        return 3;
     }
 
     @Override
@@ -66,40 +70,7 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
     public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
     {
         final boolean ret = super.postHit(stack, target, attacker);
-        final PlayerEntity playerEntity = attacker instanceof PlayerEntity
-                ? (PlayerEntity) attacker
-                : null;
-        if (ret && (playerEntity == null
-                || playerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0f) == 0f)
-                && isCharged(stack) && !isDepleted())
-        {
-            if (playerEntity == null || !(target instanceof PlayerEntity targetPlayer)
-                    || playerEntity.shouldDamagePlayer(targetPlayer))
-            {
-                final int power = 3;
-                stack.damage((int) Math.pow(power, 3f), attacker, (e) ->
-                {
-                });
-
-                if (!attacker.world.isClient)
-                {
-                    target.hurtTime = 0;
-
-                    SpectriteUtils.newSpectriteExplosion(attacker.world, attacker, target, null,
-                            (target.getX()), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, (target.getZ()),
-                            power, false, Explosion.DestructionType.NONE);
-
-                    if (playerEntity != null)
-                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, stack);
-                }
-
-                setCharged(stack, false);
-
-                return true;
-            }
-        }
-
-        return ret;
+        return SpectriteItemUtils.spectriteWeaponPostHit(ret, stack, target, attacker);
     }
 
     @Override

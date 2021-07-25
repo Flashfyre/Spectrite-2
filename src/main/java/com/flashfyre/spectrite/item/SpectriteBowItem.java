@@ -25,6 +25,12 @@ public class SpectriteBowItem extends BowItem implements SpectriteWeaponItem
     }
 
     @Override
+    public int getSpectriteDamageLevel()
+    {
+        return 1;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;

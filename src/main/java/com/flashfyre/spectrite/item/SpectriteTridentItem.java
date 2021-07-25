@@ -50,6 +50,12 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteWeapon
     }
 
     @Override
+    public int getSpectriteDamageLevel()
+    {
+        return 4;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;
@@ -59,6 +65,13 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteWeapon
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
     {
         return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
+    }
+
+    @Override
+    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
+    {
+        final boolean ret = super.postHit(stack, target, attacker);
+        return SpectriteItemUtils.spectriteWeaponPostHit(ret, stack, target, attacker);
     }
 
     @Override

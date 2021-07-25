@@ -3,6 +3,7 @@ package com.flashfyre.spectrite.util;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.item.SpectriteChargeableItem;
 import com.flashfyre.spectrite.item.SpectriteDamageableItem;
+import com.flashfyre.spectrite.item.SpectriteWeaponItem;
 import com.flashfyre.spectrite.mixin.PlayerInventoryAccessor;
 import com.flashfyre.spectrite.soundEvent.SoundEvents;
 import net.minecraft.entity.Entity;
@@ -15,6 +16,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 public class SpectriteItemUtils
 {
@@ -50,6 +52,43 @@ public class SpectriteItemUtils
         }
 
         return TypedActionResult.pass(itemStack);
+    }
+
+    public static boolean spectriteWeaponPostHit(boolean result, ItemStack stack, LivingEntity target, LivingEntity attacker)
+    {
+        final PlayerEntity playerEntity = attacker instanceof PlayerEntity
+                ? (PlayerEntity) attacker
+                : null;
+        final SpectriteWeaponItem spectriteWeaponItem = (SpectriteWeaponItem) stack.getItem();
+        if (result && (playerEntity == null
+                || playerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0f) == 0f)
+                && spectriteWeaponItem.isCharged(stack) && !spectriteWeaponItem.isDepleted())
+        {
+            if (playerEntity == null || !(target instanceof PlayerEntity targetPlayer)
+                    || playerEntity.shouldDamagePlayer(targetPlayer))
+            {
+                final int power = spectriteWeaponItem.getSpectriteDamageLevel();
+                stack.damage((int) Math.pow(power, 3f), attacker, (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
+
+                if (!attacker.world.isClient)
+                {
+                    target.hurtTime = 0;
+
+                    SpectriteUtils.newSpectriteExplosion(attacker.world, attacker, target, null,
+                            (target.getX()), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, (target.getZ()),
+                            power, false, Explosion.DestructionType.NONE);
+
+                    if (playerEntity != null)
+                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, stack);
+                }
+
+                spectriteWeaponItem.setCharged(stack, false);
+
+                return true;
+            }
+        }
+
+        return result;
     }
 
     public static void stopUsingSpectriteChargeableItem(LivingEntity user, ItemStack itemStack, int remainingUseTicks)

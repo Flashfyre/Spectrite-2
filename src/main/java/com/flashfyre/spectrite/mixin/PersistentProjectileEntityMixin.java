@@ -83,16 +83,14 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
         if (spectriteWeaponStack != null)
         {
             final boolean spectriteCharged = ((SpectriteWeaponItem) spectriteWeaponStack.getItem()).isCharged(spectriteWeaponStack);
-            final int power = 1 + (spectriteCharged ? 1 : 0);
+            final int power = ((SpectriteWeaponItem) spectriteWeaponStack.getItem()).getSpectriteDamageLevel() + (spectriteCharged ? 1 : 0);
             ((SpectriteCompatibleEntity) persistentProjectileEntity).setSpectriteEntity(true);
             ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
                     SpectriteUtils.getItemStackStDamage(spectriteWeaponStack));
             ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(spectriteCharged);
             if (spectriteCharged)
             {
-                spectriteWeaponStack.damage((int) Math.pow(power, 3f), owner, (e) ->
-                {
-                });
+                spectriteWeaponStack.damage((int) Math.pow(power, 3f), owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
                 if (owner instanceof PlayerEntity playerEntity)
                     SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, spectriteWeaponStack);
             }
