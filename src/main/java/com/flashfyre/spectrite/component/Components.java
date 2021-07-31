@@ -7,6 +7,7 @@ import dev.onyxstudios.cca.api.v3.entity.EntityComponentFactoryRegistry;
 import dev.onyxstudios.cca.api.v3.entity.EntityComponentInitializer;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
+import net.minecraft.entity.projectile.WitherSkullEntity;
 
 public final class Components implements EntityComponentInitializer
 {
@@ -22,5 +23,7 @@ public final class Components implements EntityComponentInitializer
         registry.registerFor(MobEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
         registry.registerFor(PersistentProjectileEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
         registry.registerFor(PersistentProjectileEntity.class, SPECTRITE_WEAPON_ENTITY_ATTRIBUTES, entity -> new SpectriteWeaponEntityAttributesComponent());
+        registry.registerFor(WitherSkullEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
+        registry.registerFor(WitherSkullEntity.class, SPECTRITE_WEAPON_ENTITY_ATTRIBUTES, entity -> new SpectriteWeaponEntityAttributesComponent());
     }
 }

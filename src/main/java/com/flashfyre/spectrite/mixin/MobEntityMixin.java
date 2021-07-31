@@ -12,6 +12,7 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.nbt.NbtCompound;
@@ -57,6 +58,8 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
         if (world instanceof ServerWorld)
         {
             final MobEntity entity = (MobEntity) ((Object) this);
+            if (entity instanceof EnderDragonEntity)
+                return;
             final boolean isCrystalInRange = false;//SpectriteUtils.isCrystalInRange(e.getWorld(), entity.getPosition());
             final float spectriteMobSpawnRate = 50f;
             final float spectriteMobCrystalSpawnRate = 90f;

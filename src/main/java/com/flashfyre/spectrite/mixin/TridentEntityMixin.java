@@ -72,7 +72,7 @@ public class TridentEntityMixin
         if (livingEntity != null)
             f += EnchantmentHelper.getAttackDamage(tridentStack, livingEntity.getGroup());
 
-        final DamageSource damageSource = DamageSource.trident(tridentEntity, entity == null ? tridentEntity : entity);
+        final DamageSource damageSource = DamageSource.trident(tridentEntity, entity == null ? tridentEntity : entity2);
         this.dealtDamage = true;
 
         final double targetX = entity.getX();

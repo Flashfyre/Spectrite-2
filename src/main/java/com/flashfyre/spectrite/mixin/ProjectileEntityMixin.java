@@ -7,8 +7,10 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.entity.projectile.WitherSkullEntity;
 import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
+import net.minecraft.world.GameRules;
 import net.minecraft.world.explosion.Explosion;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
@@ -19,7 +21,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class ProjectileEntityMixin
 {
     @Inject(method = "onCollision", at = @At("TAIL"))
-    private void injectOnCollisionDiscardSpectriteProperties(HitResult hitResult, CallbackInfo ci)
+    private void injectOnCollisionSpectriteExplosion(HitResult hitResult, CallbackInfo ci)
     {
         if (hitResult.getType() != HitResult.Type.MISS)
         {
@@ -36,12 +38,20 @@ public class ProjectileEntityMixin
                     target = entityHitResult.getEntity();
                 } else
                     target = null;
-                final int power = 1 + (spectriteCompatibleWeaponEntity.isSpectriteCharged() ? 1 : 0);
+                int power = 1 + (spectriteCompatibleWeaponEntity.isSpectriteCharged() ? 1 : 0);
+                final boolean isWitherSkull = projectileEntity instanceof WitherSkullEntity;
+                final Explosion.DestructionType destructionType;
+                if (isWitherSkull)
+                {
+                    destructionType = projectileEntity.world.getGameRules().getBoolean(GameRules.DO_MOB_GRIEFING) ? Explosion.DestructionType.DESTROY : Explosion.DestructionType.NONE;
+                    power++;
+                } else
+                    destructionType = Explosion.DestructionType.NONE;
                 SpectriteUtils.newSpectriteExplosion(projectileEntity.world, projectileEntity,
                         target != null && target instanceof EndermanEntity ? null : target,
-                        null, hitResult.getPos().x, hitResult.getPos().y, hitResult.getPos().z,
-                        power, false, Explosion.DestructionType.NONE);
-                if (hitResult.getType() == HitResult.Type.BLOCK)
+                        null, projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(),
+                        power, false, destructionType);
+                if (hitResult.getType() == HitResult.Type.BLOCK || isWitherSkull)
                     projectileEntity.discard();
             }
         }

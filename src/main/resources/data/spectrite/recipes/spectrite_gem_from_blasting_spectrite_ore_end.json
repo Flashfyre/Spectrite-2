@@ -1,0 +1,9 @@
+{
+  "type": "minecraft:blasting",
+  "ingredient": {
+    "item": "spectrite:spectrite_ore_end"
+  },
+  "result": "spectrite:spectrite_gem",
+  "experience": 1.0,
+  "cookingtime": 100
+}

@@ -18,10 +18,12 @@
     "PersistentProjectileEntityAccessor",
     "PersistentProjectileEntityMixin",
     "PlayerInventoryAccessor",
+    "ProjectileEntityAccessor",
     "ProjectileEntityMixin",
     "SetCountLootFunctionAccessor",
     "TridentEntityMixin",
-    "UniformLootNumberProviderAccessor"
+    "UniformLootNumberProviderAccessor",
+    "WitherSkullEntityMixin"
   ],
   "client": [
     "BaseTextAccessor",
@@ -32,8 +34,10 @@
     "PersistentProjectileEntityAccessor",
     "PersistentProjectileEntityMixin",
     "PlayerInventoryAccessor",
+    "ProjectileEntityAccessor",
     "ProjectileEntityMixin",
-    "TridentEntityMixin"
+    "TridentEntityMixin",
+    "WitherSkullEntityMixin"
   ],
   "injectors": {
     "defaultRequire": 1

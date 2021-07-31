@@ -24,7 +24,8 @@
     "SpectralArrowEntityRendererMixin",
     "SpectriteClientWorldMixin",
     "SpriteAtlasTextureDataAccessor",
-    "TridentEntityRendererMixin"
+    "TridentEntityRendererMixin",
+    "WitherSkullEntityRendererMixin"
   ],
   "injectors": {
     "defaultRequire": 1

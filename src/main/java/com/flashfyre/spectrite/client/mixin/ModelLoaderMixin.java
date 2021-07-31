@@ -62,7 +62,10 @@ public abstract class ModelLoaderMixin
                 "spectrite_ore_nether",
                 "spectrite_ore_end"
         });
-        spectrite$blockDependencyModelsMap.put("deepslate_diamond_ore", new String[]{"spectrite_ore_deepslate"});
+        spectrite$blockDependencyModelsMap.put("deepslate_diamond_ore", new String[]{
+                "spectrite_ore_deepslate",
+                "spectrite_ore_blackstone"
+        });
         spectrite$blockDependencyModelsMap.put("diamond_block", new String[]{"spectrite_block"});
         spectrite$itemDependencyModelsMap.put("diamond", new String[]{"spectrite_gem"});
         spectrite$itemDependencyModelsMap.put("blaze_rod", new String[]{"spectrite_rod"});

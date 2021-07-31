@@ -33,6 +33,10 @@ public class Blocks
             .mapColor(MapColor.DARK_RED),
             UniformIntProvider.create(14, 21));
 
+    public static Block BLACKSTONE_SPECTRITE_ORE = new SpectriteOreBlock(AbstractBlock.Settings.copy(SPECTRITE_ORE)
+            .mapColor(MapColor.BLACK),
+            UniformIntProvider.create(14, 21));
+
     public static Block END_SPECTRITE_ORE = new SpectriteOreBlock(AbstractBlock.Settings.copy(SPECTRITE_ORE)
             .mapColor(MapColor.PALE_YELLOW),
             UniformIntProvider.create(14, 21));
@@ -60,6 +64,7 @@ public class Blocks
         registerBlock("spectrite_ore", SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_ore_deepslate", DEEPSLATE_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_ore_nether", NETHER_SPECTRITE_ORE, new FabricItemSettings());
+        registerBlock("spectrite_ore_blackstone", BLACKSTONE_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_ore_end", END_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_block", SPECTRITE_BLOCK, new FabricItemSettings());
         registerBlock("spectrite_chest", SPECTRITE_CHEST, new FabricItemSettings().group(ItemGroup.DECORATIONS));

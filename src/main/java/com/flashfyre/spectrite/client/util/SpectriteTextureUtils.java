@@ -119,6 +119,7 @@ public final class SpectriteTextureUtils
             case "spectrite_ore":
             case "spectrite_ore_deepslate":
             case "spectrite_ore_nether":
+            case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
                 //case "spectrite_chest":
@@ -135,6 +136,7 @@ public final class SpectriteTextureUtils
             case "spectrite_ore":
             case "spectrite_ore_deepslate":
             case "spectrite_ore_nether":
+            case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
                 return new String[]{"ew", "ns", "top", "bottom", "top_odd", "bottom_odd"};
@@ -169,11 +171,11 @@ public final class SpectriteTextureUtils
         return ret + (variantIndex > 0 ? variantIndex : "");
     }
 
-    public static Identifier getSpectriteEntityTextureLocation(Identifier baseTextureLocation)
+    public static Identifier getSpectriteEntityTextureLocation(Identifier baseTextureLocation, String entityId)
     {
         final String baseTexturePath = baseTextureLocation.getPath();
         return new Identifier(Spectrite.MODID, "textures/entity/" + baseTextureLocation.getNamespace() + "/"
-                + baseTexturePath.substring(baseTexturePath.lastIndexOf('/') + 1));
+                + entityId + "/" + baseTexturePath.substring(baseTexturePath.lastIndexOf('/') + 1));
     }
 
     public static JsonObject getBlockStateObj(String name, Map.Entry<Identifier, Integer>[] baseModelEntries)
@@ -215,6 +217,7 @@ public final class SpectriteTextureUtils
             case "spectrite_ore":
             case "spectrite_ore_deepslate":
             case "spectrite_ore_nether":
+            case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
                 populateSpectriteSimpleBlockModelObj(modelObj, name, variant, variantIndex);
@@ -329,6 +332,9 @@ public final class SpectriteTextureUtils
                 break;
             case "spectrite_ore_nether":
                 populateSpectriteOreTextures(textures, resourceManager, "netherrack", textureName, baseModelEntries);
+                break;
+            case "spectrite_ore_blackstone":
+                populateSpectriteOreTextures(textures, resourceManager, "blackstone", textureName, baseModelEntries);
                 break;
             case "spectrite_ore_end":
                 populateSpectriteOreTextures(textures, resourceManager, "end_stone", textureName, baseModelEntries);
@@ -685,7 +691,10 @@ public final class SpectriteTextureUtils
         switch (baseBlockName)
         {
             case "deepslate":
-                baseBlock = oreBaseBlock = getNativeImage(resourceManager, new Identifier("textures/block/deepslate.png"));
+            case "blackstone":
+                oreBaseBlock = getNativeImage(resourceManager, new Identifier("textures/block/deepslate.png"));
+                baseBlock = "deepslate".equals(baseBlockName) ? oreBaseBlock : getNativeImage(resourceManager,
+                        new Identifier("textures/block/" + baseBlockName + ".png"));
                 break;
             default:
                 oreBaseBlock = getNativeImage(resourceManager, new Identifier("textures/block/stone.png"));

@@ -91,27 +91,27 @@ public class SpectriteExplosion extends Explosion
             {
                 if (power >= 6)
                 {
-                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.PLAYERS, 0.75F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.NEUTRAL, 0.75F + Math.max(power, 0F),
                             0.5F + (world.random.nextFloat()) * 0.4F, false);
-                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.FATALITY, SoundCategory.PLAYERS, 1.0F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.FATALITY, SoundCategory.NEUTRAL, 1.0F + Math.max(power, 0F),
                             0.75F, false);
                 } else if (power >= 5)
                 {
-                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.PLAYERS, 0.75F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.NEUTRAL, 0.75F + Math.max(power, 0F),
                             0.75F + (world.random.nextFloat()) * 0.4F, false);
-                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.FATALITY, SoundCategory.PLAYERS, 1.0F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.FATALITY, SoundCategory.NEUTRAL, 1.0F + Math.max(power, 0F),
                             1.0F, false);
                 } else if (power >= 4)
-                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.PLAYERS, 0.75F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, com.flashfyre.spectrite.soundEvent.SoundEvents.EXPLOSION, SoundCategory.NEUTRAL, 0.75F + Math.max(power, 0F),
                             1.0F + (world.random.nextFloat()) * 0.4F, false);
                 else if (power >= 3)
-                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 0.75F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.75F + Math.max(power, 0F),
                             1.0F + (world.random.nextFloat()) * 0.4F, false);
                 else if (power >= 2)
-                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.PLAYERS, 0.75F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_GENERIC_EXPLODE, SoundCategory.NEUTRAL, 0.75F + Math.max(power, 0F),
                             1.6F + (world.random.nextFloat()) * 0.4F, false);
                 else
-                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, SoundCategory.PLAYERS, 1.0F + Math.max(power, 0F),
+                    world.playSound(this.x, this.y, this.z, SoundEvents.ENTITY_FIREWORK_ROCKET_LARGE_BLAST, SoundCategory.NEUTRAL, 1.0F + Math.max(power, 0F),
                             1.0F + (world.random.nextFloat()) * 0.4F, false);
             }
         }

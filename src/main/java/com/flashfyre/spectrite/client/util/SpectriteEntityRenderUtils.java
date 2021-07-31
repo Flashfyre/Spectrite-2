@@ -100,7 +100,7 @@ public class SpectriteEntityRenderUtils
                 final Identifier spectriteTextureLocation = spectriteTexturePath == null
                         ? isArmor
                         ? new Identifier(Spectrite.MODID, texture.getPath())
-                        : SpectriteTextureUtils.getSpectriteEntityTextureLocation(texture)
+                        : SpectriteTextureUtils.getSpectriteEntityTextureLocation(texture, entityId.getPath())
                         : new Identifier(Spectrite.MODID, spectriteTexturePath);
                 resourcePack.putImage(
                         "assets/" + Spectrite.MODID + "/" + spectriteTextureLocation.getPath(),

@@ -44,7 +44,7 @@ public class SpectriteResourcePack implements ResourcePack
 
     private static Identifier fromPath(String path)
     {
-        String[] split = path.split("/", 2);
+        final String[] split = path.split("/", 2);
         return new Identifier(split[0], split[1]);
     }
 
@@ -63,7 +63,7 @@ public class SpectriteResourcePack implements ResourcePack
             this.resources.put(location, outStream.toByteArray());
             if (true)
             {
-                var file = new File("debug/spectrite/" + location);
+                final File file = new File("debug/spectrite/" + location);
                 file.getParentFile().mkdirs();
 
                 try (FileChannel fc = FileChannel.open(file.toPath(), StandardOpenOption.CREATE, StandardOpenOption.WRITE))

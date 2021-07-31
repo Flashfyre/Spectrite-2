@@ -1,6 +1,0 @@
-{
-  "parent": "minecraft:block/cube_all",
-  "textures": {
-    "all": "spectrite:block/spectrite_ore_deepslate"
-  }
-}
