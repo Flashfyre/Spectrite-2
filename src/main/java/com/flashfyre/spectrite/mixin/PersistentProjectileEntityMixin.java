@@ -92,7 +92,7 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
             {
                 spectriteWeaponStack.damage((int) Math.pow(power, 3f), owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
                 if (owner instanceof PlayerEntity playerEntity)
-                    SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, spectriteWeaponStack);
+                    SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, spectriteWeaponStack);
             }
         }
     }

@@ -79,7 +79,7 @@ public class SpectriteItemUtils
                             power, false, Explosion.DestructionType.NONE);
 
                     if (playerEntity != null)
-                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, stack);
+                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, stack);
                 }
 
                 spectriteWeaponItem.setCharged(stack, false);

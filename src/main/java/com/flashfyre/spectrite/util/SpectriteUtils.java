@@ -108,12 +108,12 @@ public final class SpectriteUtils
         return MAP_COLORS[(posOffset + (int) (worldIn.getTime() >> 2)) % 7];
     }
 
-    public static void tryActivateSpectriteChargeableItemCooldown(PlayerEntity playerEntity, ItemStack spectriteChargeableItemStack)
+    public static void tryActivateSpectriteChargeableItemCooldown(PlayerEntity playerEntity, int power, ItemStack spectriteChargeableItemStack)
     {
         if (playerEntity != null && !playerEntity.isCreative())
         {
             final ItemCooldownManager itemCooldownManager = playerEntity.getItemCooldownManager();
-            final float cooldown = SpectriteConfig.getSpectriteToolCooldown() * 20f;
+            final float cooldown = SpectriteConfig.getSpectriteToolCooldown() * (2.5f * (float) Math.pow(2, power));
             for (Item spectriteChargeableItem : Items.SPECTRITE_CHARGEABLE_ITEMS)
             {
                 final int currentCooldown = Math.round(itemCooldownManager.getCooldownProgress(spectriteChargeableItem, 0f));

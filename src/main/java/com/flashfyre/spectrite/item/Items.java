@@ -27,7 +27,7 @@ import java.util.Map;
 
 public class Items
 {
-    private static final SpectriteToolDamageHandler spectriteDamageableDamageHandler = new SpectriteToolDamageHandler();
+    private static final SpectriteDamageableDamageHandler spectriteDamageableDamageHandler = new SpectriteDamageableDamageHandler();
 
     public static Map<Item, Item> DEPLETED_DAMAGEABLE_ITEMS_MAP = new HashMap<>();
 

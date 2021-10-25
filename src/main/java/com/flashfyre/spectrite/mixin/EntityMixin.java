@@ -43,7 +43,7 @@ public abstract class EntityMixin
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity())
         {
             if (entity.getScoreboardTeam() == null || entity.getScoreboardTeam().getColor() == Formatting.RESET)
-                cir.setReturnValue(new SpectriteText(cir.getReturnValue(), true));
+                cir.setReturnValue(new SpectriteText(cir.getReturnValue(), false));
         }
     }
 

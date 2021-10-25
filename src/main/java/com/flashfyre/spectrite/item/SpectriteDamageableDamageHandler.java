@@ -11,7 +11,7 @@ import net.minecraft.util.Hand;
 
 import java.util.function.Consumer;
 
-public class SpectriteToolDamageHandler implements CustomDamageHandler
+public class SpectriteDamageableDamageHandler implements CustomDamageHandler
 {
     public int damage(ItemStack stack, int amount, LivingEntity entity, Consumer<LivingEntity> breakCallback)
     {
@@ -27,13 +27,14 @@ public class SpectriteToolDamageHandler implements CustomDamageHandler
                     final ItemStack depletedStack = new ItemStack(depletedItem);
                     if (stack.hasTag())
                         depletedStack.setTag(stack.getTag());
-                    if (item instanceof SpectriteToolItem)
+                    if (item instanceof SpectriteChargeableItem)
                     {
                         if (entity.getStackInHand(Hand.MAIN_HAND) == stack)
                         {
                             entity.setStackInHand(Hand.MAIN_HAND, depletedStack);
                             return ret;
-                        }
+                        } else if (item instanceof SpectriteTridentItem)
+                            return ret;
                     } else if (item instanceof SpectriteArmorItem armorItem)
                     {
                         final EquipmentSlot armorSlot = armorItem.getSlotType();

@@ -103,7 +103,7 @@ public class TridentEntityMixin
                                 (tridentEntity.getZ() + targetZ) / 2d,
                                 power, false, Explosion.DestructionType.NONE);
                         if (livingEntity2 instanceof PlayerEntity playerEntity)
-                            SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, tridentStack);
+                            SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, tridentStack);
                     }
 
                     spectriteTridentItem.setCharged(tridentStack, false);
