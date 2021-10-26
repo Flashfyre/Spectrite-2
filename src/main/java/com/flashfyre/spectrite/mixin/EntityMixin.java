@@ -69,14 +69,6 @@ public abstract class EntityMixin
             ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar().setName(entity.getDisplayName());
     }
 
-    @Inject(method = "onStartedTrackingBy", at = @At("TAIL"))
-    private void injectOnStartedTrackingSpectriteBossBarAddPlayer(ServerPlayerEntity player, CallbackInfo ci)
-    {
-        final Entity entity = (Entity) ((Object) this);
-        if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar() != null)
-            ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar().addPlayer(player);
-    }
-
     @Inject(method = "onStoppedTrackingBy", at = @At("TAIL"))
     private void injectOnStoppedTrackingSpectriteBossBarRemovePlayer(ServerPlayerEntity player, CallbackInfo ci)
     {
