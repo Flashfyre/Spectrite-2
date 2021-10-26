@@ -11,6 +11,10 @@ public class SpectriteConfig implements ConfigData
 
     private float spectriteToolCooldown = 10f;
 
+    private float spectriteMobSpawnRate = 0.048828125f;
+
+    private float spectriteMobCrystalSpawnRate = 0.390625f;
+
     @ConfigEntry.Gui.CollapsibleObject
     private SpectriteEntityAttributes spectriteEntityAttributes = new SpectriteEntityAttributes();
 
@@ -132,6 +136,16 @@ public class SpectriteConfig implements ConfigData
     public static float getSpectriteToolCooldown()
     {
         return INSTANCE.spectriteToolCooldown;
+    }
+
+    public static float getSpectriteMobSpawnRate()
+    {
+        return INSTANCE.spectriteMobSpawnRate;
+    }
+
+    public static float getSpectriteMobCrystalSpawnRate()
+    {
+        return INSTANCE.spectriteMobCrystalSpawnRate;
     }
 
     public static SpectriteEntityAttributes getSpectriteEntityAttributes()

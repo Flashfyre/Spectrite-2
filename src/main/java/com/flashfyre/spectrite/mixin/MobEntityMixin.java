@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
+import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
@@ -61,13 +62,13 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
             if (entity instanceof EnderDragonEntity)
                 return;
             final boolean isCrystalInRange = false;//SpectriteUtils.isCrystalInRange(e.getWorld(), entity.getPosition());
-            final float spectriteMobSpawnRate = 50f;
-            final float spectriteMobCrystalSpawnRate = 90f;
+            final float spectriteMobSpawnRate = SpectriteConfig.getSpectriteMobSpawnRate();
+            final float spectriteMobCrystalSpawnRate = SpectriteConfig.getSpectriteMobCrystalSpawnRate();
             final long leastSignificantBits = Math.abs(entity.getUuid().getLeastSignificantBits());
             if ((!isCrystalInRange && spectriteMobSpawnRate > 0f
-                    && (int) (leastSignificantBits % (100l / (long) spectriteMobSpawnRate)) == 0)
+                    && (int) (leastSignificantBits % (long) (100l / spectriteMobSpawnRate)) == 0)
                     || (isCrystalInRange && spectriteMobCrystalSpawnRate > 0f
-                    && (int) (leastSignificantBits % (100l / (long) spectriteMobCrystalSpawnRate)) == 0))
+                    && (int) (leastSignificantBits % (long) (100l / spectriteMobCrystalSpawnRate)) == 0))
                 setSpectriteEntity(true);
         }
     }

@@ -36,7 +36,6 @@ import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
-import net.minecraft.particle.ParticleTypes;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
@@ -264,7 +263,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     @Override
     public void spawnSpectriteExplosionParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
     {
-        final Particle particle = MinecraftClient.getInstance().particleManager.addParticle(ParticleTypes.EXPLOSION, posX, posY, posZ, xSpeed, ySpeed, zSpeed);
+        final Particle particle = MinecraftClient.getInstance().particleManager.addParticle(Particles.SPECTRITE_EXPLOSION, posX, posY, posZ, xSpeed, ySpeed, zSpeed);
         if (particle != null)
         {
             final float offsetLevel = 18F * (float) (Double.valueOf(Math.abs(posX + posZ) + posY) % 20D);

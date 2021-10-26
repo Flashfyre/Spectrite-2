@@ -3,6 +3,7 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -34,7 +35,11 @@ public class ProjectileEntityMixin
                 if (hitResult instanceof EntityHitResult entityHitResult)
                 {
                     if (entityHitResult.getEntity() instanceof LivingEntity livingEntity)
+                    {
+                        if (livingEntity.getType() == EntityType.ENDERMAN)
+                            return;
                         livingEntity.hurtTime = 0;
+                    }
                     target = entityHitResult.getEntity();
                 } else
                     target = null;
