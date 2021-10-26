@@ -1,0 +1,16 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "XXX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "spectrite:spectrite_gem"
+    }
+  },
+  "result": {
+    "item": "spectrite:spectrite_chestplate"
+  }
+}

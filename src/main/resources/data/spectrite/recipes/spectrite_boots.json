@@ -1,0 +1,15 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "X X",
+    "X X"
+  ],
+  "key": {
+    "X": {
+      "item": "spectrite:spectrite_gem"
+    }
+  },
+  "result": {
+    "item": "spectrite:spectrite_boots"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XX",
+    " #",
+    " #"
+  ],
+  "key": {
+    "#": {
+      "item": "spectrite:spectrite_rod"
+    },
+    "X": {
+      "item": "spectrite:spectrite_gem"
+    }
+  },
+  "result": {
+    "item": "spectrite:spectrite_hoe"
+  }
+}
