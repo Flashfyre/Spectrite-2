@@ -36,7 +36,7 @@ public class WitherSkullEntityRendererMixin
         final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteChargeableEntityTexture(
                 this.model, cir.getReturnValue(), witherSkullEntity.getType());
 
-        if (((SpectriteCompatibleWeaponEntity) witherSkullEntity).isSpectriteEntity())
+        if (((SpectriteCompatibleWeaponEntity) witherSkullEntity).isSuperchromatic())
         {
             SpectriteClient.CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE.getOrDefault(
                     spectriteTexture, new AbstractMap.SimpleEntry<>(1, 1));
@@ -52,7 +52,7 @@ public class WitherSkullEntityRendererMixin
             VertexConsumerProvider vertexConsumerProvider, int i)
     {
         final SpectriteCompatibleWeaponEntity spectriteCompatibleWeaponEntity = (SpectriteCompatibleWeaponEntity) witherSkullEntity;
-        if (spectriteCompatibleWeaponEntity.isSpectriteEntity())
+        if (spectriteCompatibleWeaponEntity.isSuperchromatic())
             args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0), 0, spectriteCompatibleWeaponEntity.isSpectriteCharged()));
     }
 }

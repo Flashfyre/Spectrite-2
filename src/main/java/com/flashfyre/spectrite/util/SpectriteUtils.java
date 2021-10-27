@@ -3,7 +3,7 @@ package com.flashfyre.spectrite.util;
 import com.flashfyre.spectrite.Spectrite;
 import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.damageSource.DamageSources;
-import com.flashfyre.spectrite.etc.SpectriteExplosion;
+import com.flashfyre.spectrite.etc.ChromaBlast;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.item.SpectriteDamageableItem;
 import com.flashfyre.spectrite.item.SpectriteWeaponItem;
@@ -33,7 +33,7 @@ public final class SpectriteUtils
     private static final MapColor[] MAP_COLORS = new MapColor[]{MapColor.RED, MapColor.TERRACOTTA_ORANGE,
             MapColor.YELLOW, MapColor.LIME, MapColor.BLUE, MapColor.PURPLE, MapColor.PINK};
 
-    public static int getCurrentSpectriteFrame(World worldIn)
+    public static int getCurrentHueFrame(World worldIn)
     {
         if (worldIn == null)
             return Math.round((System.currentTimeMillis() >> 6) % 36);
@@ -45,7 +45,7 @@ public final class SpectriteUtils
         }
     }
 
-    public static float[] getCurrentSpectriteRGBColor(float offsetLevel)
+    public static float[] getCurrentHueRGBColor(float offsetLevel)
     {
         int hueFrame = Math.round((System.currentTimeMillis() >> 5) % 180);
         if (offsetLevel >= 0f)
@@ -64,7 +64,7 @@ public final class SpectriteUtils
         return new float[]{r, g, b};
     }
 
-    public static int getCurrentSpectriteColor(int offsetLevel)
+    public static int getCurrentHueColor(int offsetLevel)
     {
         final int hueFrame = Math.round((System.currentTimeMillis() >> 5) % 180);
         int r = MathHelper.floor(hueFrame >= 120 && hueFrame < 150 ? (255f / 30) * (hueFrame - 120)
@@ -126,11 +126,11 @@ public final class SpectriteUtils
         }
     }
 
-    public static SpectriteExplosion newSpectriteExplosion(World world, @Nullable Entity entity, @Nullable Entity targetEntity,
-                                                           @Nullable ExplosionBehavior behavior, double x, double y, double z, float power, boolean createFire,
-                                                           Explosion.DestructionType destructionType)
+    public static ChromaBlast newChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity,
+                                             @Nullable ExplosionBehavior behavior, double x, double y, double z, float power, boolean createFire,
+                                             Explosion.DestructionType destructionType)
     {
-        final SpectriteExplosion explosion = new SpectriteExplosion(world, entity, targetEntity, DamageSources.SPECTRITE_DAMAGE,
+        final ChromaBlast explosion = new ChromaBlast(world, entity, targetEntity, DamageSources.CHROMA_BLAST,
                 behavior, x, y, z, power, createFire, destructionType);
         explosion.collectBlocksAndDamageEntities();
         explosion.affectWorld(true);

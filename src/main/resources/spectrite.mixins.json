@@ -10,6 +10,7 @@
     "EntityMixin",
     "ExplosionAccessor",
     "ItemEntryAccessor",
+    "ItemStackMixin",
     "LeafEntryAccessor",
     "LeafEntryBuilderAccessor",
     "LivingEntityAccessor",

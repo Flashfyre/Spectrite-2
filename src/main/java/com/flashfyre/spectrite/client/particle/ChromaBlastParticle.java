@@ -7,9 +7,9 @@ import net.minecraft.client.world.ClientWorld;
 import net.minecraft.particle.DefaultParticleType;
 
 @Environment(EnvType.CLIENT)
-public class SpectriteExplosionLargeParticle extends ExplosionLargeParticle
+public class ChromaBlastParticle extends ExplosionLargeParticle
 {
-    public SpectriteExplosionLargeParticle(ClientWorld clientWorld, double d, double e, double f, double g, SpriteProvider spriteProvider)
+    public ChromaBlastParticle(ClientWorld clientWorld, double d, double e, double f, double g, SpriteProvider spriteProvider)
     {
         super(clientWorld, d, e, f, g, spriteProvider);
     }
@@ -32,7 +32,7 @@ public class SpectriteExplosionLargeParticle extends ExplosionLargeParticle
 
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld, double d, double e, double f, double g, double h, double i)
         {
-            return new SpectriteExplosionLargeParticle(clientWorld, d, e, f, g, this.spriteProvider);
+            return new ChromaBlastParticle(clientWorld, d, e, f, g, this.spriteProvider);
         }
     }
 }

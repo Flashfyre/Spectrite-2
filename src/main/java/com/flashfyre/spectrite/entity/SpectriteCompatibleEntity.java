@@ -2,7 +2,7 @@ package com.flashfyre.spectrite.entity;
 
 public interface SpectriteCompatibleEntity
 {
-    boolean isSpectriteEntity();
+    boolean isSuperchromatic();
 
-    void setSpectriteEntity(boolean spectriteEntity);
+    void setSuperchromatic(boolean superchromatic);
 }

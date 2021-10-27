@@ -1,9 +1,9 @@
 package com.flashfyre.spectrite.client.mixin;
 
-import com.flashfyre.spectrite.client.sound.SpectriteEntityTrackingDeathSoundInstance;
-import com.flashfyre.spectrite.client.sound.SpectriteEntityTrackingSoundInstance;
+import com.flashfyre.spectrite.client.sound.SuperchromaticEntityTrackingDeathSoundInstance;
+import com.flashfyre.spectrite.client.sound.SuperchromaticEntityTrackingSoundInstance;
 import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SpectriteEntityComponent;
+import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -38,12 +38,12 @@ public class SpectriteClientWorldMixin
     {
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity)
         {
-            final SpectriteEntityComponent spectriteEntityComponent = Components.SPECTRITE_ENTITY.maybeGet(spectriteCompatibleEntity).orElse(null);
-            if (spectriteEntityComponent != null && spectriteEntityComponent.isSpectrite())
+            final SuperchromaticEntityComponent superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(spectriteCompatibleEntity).orElse(null);
+            if (superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic())
             {
                 final EntityTrackingSoundInstance entitySound = !(entity instanceof MobEntity mobEntity) || sound != mobEntity.getDeathSound()
-                        ? new SpectriteEntityTrackingSoundInstance(sound, category, volume, pitch, entity)
-                        : new SpectriteEntityTrackingDeathSoundInstance(sound, category, volume, pitch, entity);
+                        ? new SuperchromaticEntityTrackingSoundInstance(sound, category, volume, pitch, entity)
+                        : new SuperchromaticEntityTrackingDeathSoundInstance(sound, category, volume, pitch, entity);
                 this.client.getSoundManager().play(entitySound);
                 ci.cancel();
             }

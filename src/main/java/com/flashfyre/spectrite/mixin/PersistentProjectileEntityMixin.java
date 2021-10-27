@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SpectriteEntityComponent;
+import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.item.SpectriteBowItem;
@@ -25,17 +25,17 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeaponEntity
 {
     @Override
-    public boolean isSpectriteEntity()
+    public boolean isSuperchromatic()
     {
-        final SpectriteEntityComponent spectriteEntityComponent = Components.SPECTRITE_ENTITY.maybeGet(this).orElse(null);
-        return spectriteEntityComponent != null && spectriteEntityComponent.isSpectrite();
+        final SuperchromaticEntityComponent superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(this).orElse(null);
+        return superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic();
     }
 
     @Override
-    public void setSpectriteEntity(boolean spectriteEntity)
+    public void setSuperchromatic(boolean superchromatic)
     {
-        Components.SPECTRITE_ENTITY.maybeGet(this).ifPresent(spectriteEntityComponent -> spectriteEntityComponent.setSpectrite(spectriteEntity));
-        if (!spectriteEntity)
+        Components.SUPERCHROMATIC_ENTITY.maybeGet(this).ifPresent(superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
+        if (!superchromatic)
         {
             setSpectriteDamage(0);
             setSpectriteCharged(false);
@@ -86,8 +86,8 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
             if (!spectriteWeaponItem.isDepleted())
             {
                 final boolean spectriteCharged = spectriteWeaponItem.isCharged(spectriteWeaponStack);
-                final int power = spectriteWeaponItem.getSpectriteDamageLevel() + (spectriteCharged ? 1 : 0);
-                ((SpectriteCompatibleEntity) persistentProjectileEntity).setSpectriteEntity(true);
+                final int power = spectriteWeaponItem.getChromaBlastLevel() + (spectriteCharged ? 1 : 0);
+                ((SpectriteCompatibleEntity) persistentProjectileEntity).setSuperchromatic(true);
                 ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
                         SpectriteUtils.getItemStackStDamage(spectriteWeaponStack));
                 ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(spectriteCharged);

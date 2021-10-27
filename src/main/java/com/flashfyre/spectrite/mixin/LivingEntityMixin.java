@@ -18,9 +18,9 @@ public class LivingEntityMixin
         if (cir.getReturnValue())
         {
             final LivingEntity entity = (LivingEntity) ((Object) this);
-            if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar() != null
+            if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar() != null
                     && source.getSource() instanceof ServerPlayerEntity player)
-                ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar().addPlayer(player);
+                ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().addPlayer(player);
         }
     }
 }

@@ -37,7 +37,7 @@ public class SpectriteMobLootCondition implements LootCondition
     {
         final Entity entity = lootContext.get(LootContextParameters.THIS_ENTITY);
         return entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
-                && spectriteCompatibleMobEntity.isSpectriteEntity();
+                && spectriteCompatibleMobEntity.isSuperchromatic();
     }
 
     public static LootCondition.Builder builder()

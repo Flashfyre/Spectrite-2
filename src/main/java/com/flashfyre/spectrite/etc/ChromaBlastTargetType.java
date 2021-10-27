@@ -4,7 +4,7 @@ import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 
-public enum SpectriteDamageTargetType
+public enum ChromaBlastTargetType
 {
     PLAYER(0),
     OTHER_TEAM_PLAYER(1),
@@ -13,22 +13,22 @@ public enum SpectriteDamageTargetType
 
     private int typeIndex;
 
-    SpectriteDamageTargetType(int typeIndex)
+    ChromaBlastTargetType(int typeIndex)
     {
         this.typeIndex = typeIndex;
     }
 
-    public static SpectriteDamageTargetType getEntityTargetType(Entity entity)
+    public static ChromaBlastTargetType getEntityTargetType(Entity entity)
     {
         if (entity instanceof PlayerEntity)
             return PLAYER;
         if (entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
-                && spectriteCompatibleMobEntity.isSpectriteEntity())
+                && spectriteCompatibleMobEntity.isSuperchromatic())
             return SPECTRITE_MOB;
         return OTHER;
     }
 
-    public static SpectriteDamageTargetType getCollateralEntityTargetType(Entity entity, Entity collateralEntity)
+    public static ChromaBlastTargetType getCollateralEntityTargetType(Entity entity, Entity collateralEntity)
     {
         if (collateralEntity instanceof PlayerEntity)
             return collateralEntity.isTeammate(entity)

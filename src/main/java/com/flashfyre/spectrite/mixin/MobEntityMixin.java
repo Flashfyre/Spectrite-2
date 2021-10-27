@@ -33,28 +33,28 @@ import java.util.function.Supplier;
 @Mixin(MobEntity.class)
 public class MobEntityMixin implements SpectriteCompatibleMobEntity
 {
-    private ServerBossBar spectrite$spectriteBossBar;
+    private ServerBossBar superchromaticBossBar;
 
     @Override
-    public boolean isSpectriteEntity()
+    public boolean isSuperchromatic()
     {
-        return SpectriteEntityUtils.isSpectriteEntity((Entity) (Object) this);
+        return SpectriteEntityUtils.isSuperchromatic((Entity) (Object) this);
     }
 
     @Override
-    public void setSpectriteEntity(boolean spectriteEntity)
+    public void setSuperchromatic(boolean superchromatic)
     {
-        SpectriteEntityUtils.setSpectriteEntity((Entity) (Object) this, spectriteEntity);
+        SpectriteEntityUtils.setSuperchromatic((Entity) (Object) this, superchromatic);
     }
 
     @Override
-    public ServerBossBar getSpectriteBossBar()
+    public ServerBossBar getSuperchromaticBossBar()
     {
-        return spectrite$spectriteBossBar;
+        return superchromaticBossBar;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectSpectriteEntity(EntityType<?> type, World world, CallbackInfo ci)
+    private void injectSuperchromaticEntity(EntityType<?> type, World world, CallbackInfo ci)
     {
         if (world instanceof ServerWorld)
         {
@@ -62,14 +62,14 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
             if (entity instanceof EnderDragonEntity)
                 return;
             final boolean isCrystalInRange = false;//SpectriteUtils.isCrystalInRange(e.getWorld(), entity.getPosition());
-            final float spectriteMobSpawnRate = SpectriteConfig.getSpectriteMobSpawnRate();
-            final float spectriteMobCrystalSpawnRate = SpectriteConfig.getSpectriteMobCrystalSpawnRate();
+            final float superchromaticMobSpawnRate = SpectriteConfig.getSuperchromaticMobSpawnRate();
+            final float superchromaticMobCrystalSpawnRate = SpectriteConfig.getSuperchromaticMobCrystalSpawnRate();
             final long leastSignificantBits = Math.abs(entity.getUuid().getLeastSignificantBits());
-            if ((!isCrystalInRange && spectriteMobSpawnRate > 0f
-                    && (int) (leastSignificantBits % (long) (100l / spectriteMobSpawnRate)) == 0)
-                    || (isCrystalInRange && spectriteMobCrystalSpawnRate > 0f
-                    && (int) (leastSignificantBits % (long) (100l / spectriteMobCrystalSpawnRate)) == 0))
-                setSpectriteEntity(true);
+            if ((!isCrystalInRange && superchromaticMobSpawnRate > 0f
+                    && (int) (leastSignificantBits % (long) (100l / superchromaticMobSpawnRate)) == 0)
+                    || (isCrystalInRange && superchromaticMobCrystalSpawnRate > 0f
+                    && (int) (leastSignificantBits % (long) (100l / superchromaticMobCrystalSpawnRate)) == 0))
+                setSuperchromatic(true);
         }
     }
 
@@ -77,8 +77,8 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
     private void injectSpectriteBossBar(EntityType<? extends MobEntity> entityType, World world, CallbackInfo ci)
     {
         final MobEntity entity = (MobEntity) (Object) this;
-        if (((SpectriteCompatibleMobEntity) entity).isSpectriteEntity() && entity instanceof Monster)
-            spectrite$spectriteBossBar = (new ServerBossBar(entity.getDisplayName(),
+        if (((SpectriteCompatibleMobEntity) entity).isSuperchromatic() && entity instanceof Monster)
+            superchromaticBossBar = (new ServerBossBar(entity.getDisplayName(),
                     BossBar.Color.PURPLE, BossBar.Style.PROGRESS));
     }
 
@@ -86,25 +86,25 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
     private void injectReadCustomDataFromNbtSetSpectriteBossBarName(NbtCompound nbt, CallbackInfo ci)
     {
         final MobEntity entity = (MobEntity) (Object) this;
-        if (entity.hasCustomName() && spectrite$spectriteBossBar != null)
-            spectrite$spectriteBossBar.setName(entity.getDisplayName());
+        if (entity.hasCustomName() && superchromaticBossBar != null)
+            superchromaticBossBar.setName(entity.getDisplayName());
     }
 
     @Inject(method = "mobTick", at = @At("TAIL"))
-    private void injectMobTickUpdateSpectriteBossBar(CallbackInfo ci)
+    private void injectMobTickUpdateSuperchromaticBossBar(CallbackInfo ci)
     {
         final MobEntity entity = (MobEntity) (Object) this;
-        if (spectrite$spectriteBossBar != null)
-            spectrite$spectriteBossBar.setPercent(entity.getHealth() / entity.getMaxHealth());
+        if (superchromaticBossBar != null)
+            superchromaticBossBar.setPercent(entity.getHealth() / entity.getMaxHealth());
     }
 
     @Inject(method = "initialize", at = @At("TAIL"))
-    private void injectInitializeSpectriteMob(ServerWorldAccess world, LocalDifficulty difficulty,
-                                              SpawnReason spawnReason, EntityData entityData,
-                                              NbtCompound entityNbt, CallbackInfoReturnable<EntityData> cir)
+    private void injectInitializeSuperchromaticMob(ServerWorldAccess world, LocalDifficulty difficulty,
+                                                   SpawnReason spawnReason, EntityData entityData,
+                                                   NbtCompound entityNbt, CallbackInfoReturnable<EntityData> cir)
     {
         final MobEntity entity = (MobEntity) (Object) this;
-        if (((SpectriteCompatibleMobEntity) entity).isSpectriteEntity())
+        if (((SpectriteCompatibleMobEntity) entity).isSuperchromatic())
         {
             final float initialMaxHealth = entity.getMaxHealth();
             final float healthRatio = entity.getHealth() / initialMaxHealth;
@@ -118,10 +118,10 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
                     final Double multiplier = e.getValue().getValue().get();
                     if (bonus != null && bonus.doubleValue() > 0.0d)
                         entity.getAttributeInstance(attribute).addPersistentModifier(
-                                new EntityAttributeModifier("Spectrite mob bonus", bonus, EntityAttributeModifier.Operation.ADDITION));
+                                new EntityAttributeModifier("Superchromatic mob bonus", bonus, EntityAttributeModifier.Operation.ADDITION));
                     if (multiplier != null && multiplier.doubleValue() != 1.0d)
                         entity.getAttributeInstance(attribute).addPersistentModifier(
-                                new EntityAttributeModifier("Spectrite mob multiplier", multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+                                new EntityAttributeModifier("Superchromatic mob multiplier", multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
                 }
             }
             final float currentMaxHealth = entity.getMaxHealth();
@@ -131,12 +131,12 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
-    private void injectTickMovementSpectriteGlowParticle(CallbackInfo ci)
+    private void injectTickMovementSuperchromaticGlowParticle(CallbackInfo ci)
     {
         final MobEntity mobEntity = (MobEntity) (Object) this;
 
-        if (((SpectriteCompatibleMobEntity) mobEntity).isSpectriteEntity() && mobEntity.world.getTime() % 7 == 0)
-            mobEntity.world.addParticle(Particles.SPECTRITE_GLOW,
+        if (((SpectriteCompatibleMobEntity) mobEntity).isSuperchromatic() && mobEntity.world.getTime() % 7 == 0)
+            mobEntity.world.addParticle(Particles.SUPERCHROMATIC_GLOW,
                     mobEntity.getParticleX(0.6D), mobEntity.getRandomBodyY(), mobEntity.getParticleZ(0.6D),
                     0.0D, 0.0D, 0.0D);
     }

@@ -2,9 +2,9 @@ package com.flashfyre.spectrite.damageSource;
 
 import net.minecraft.entity.damage.DamageSource;
 
-public class SpectriteDamageSource extends DamageSource
+public class ChromaBlastDamageSource extends DamageSource
 {
-    protected SpectriteDamageSource(String name)
+    protected ChromaBlastDamageSource(String name)
     {
         super(name);
     }

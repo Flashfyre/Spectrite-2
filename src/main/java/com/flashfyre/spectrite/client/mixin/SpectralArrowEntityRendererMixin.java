@@ -23,10 +23,10 @@ public class SpectralArrowEntityRendererMixin
     private void spectrite$injectGetTexture(SpectralArrowEntity spectralArrowEntity, CallbackInfoReturnable<Identifier> cir)
     {
         final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(
-                SpectriteEntityRenderUtils.SPECTRITE_ARROW_TEXTURE_OVERLAY_DATA, cir.getReturnValue(),
+                SpectriteEntityRenderUtils.SUPERCHROMATIC_ARROW_TEXTURE_OVERLAY_DATA, cir.getReturnValue(),
                 spectralArrowEntity.getType(), true);
 
-        if (((SpectriteCompatibleEntity) spectralArrowEntity).isSpectriteEntity())
+        if (((SpectriteCompatibleEntity) spectralArrowEntity).isSuperchromatic())
         {
             SpectriteClient.CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE.getOrDefault(
                     spectriteTexture, new AbstractMap.SimpleEntry<>(1, 1));

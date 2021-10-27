@@ -27,7 +27,7 @@ public class FeatureRendererMixin
             VertexConsumerProvider vertexConsumers, int light, T entity)
     {
         final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, texture, entity.getType());
-        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity())
+        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
             return spectriteTexture;
 
         return ret;
@@ -40,7 +40,7 @@ public class FeatureRendererMixin
             Args args, EntityModel<T> model, Identifier texture, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, T entity, float red, float green, float blue)
     {
-        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity())
+        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
             args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0)));
     }
 }

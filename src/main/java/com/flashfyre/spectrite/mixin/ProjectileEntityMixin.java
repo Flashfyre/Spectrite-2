@@ -28,7 +28,7 @@ public class ProjectileEntityMixin
             final ProjectileEntity projectileEntity = (ProjectileEntity) (Object) this;
             if (!projectileEntity.world.isClient && !(projectileEntity instanceof TridentEntity)
                     && projectileEntity instanceof SpectriteCompatibleWeaponEntity spectriteCompatibleWeaponEntity
-                    && spectriteCompatibleWeaponEntity.isSpectriteEntity())
+                    && spectriteCompatibleWeaponEntity.isSuperchromatic())
             {
                 final Entity target;
                 if (hitResult instanceof EntityHitResult entityHitResult)
@@ -52,7 +52,7 @@ public class ProjectileEntityMixin
                     power++;
                 } else
                     destructionType = Explosion.DestructionType.NONE;
-                SpectriteUtils.newSpectriteExplosion(projectileEntity.world, projectileEntity,
+                SpectriteUtils.newChromaBlast(projectileEntity.world, projectileEntity,
                         target != null && target.getType() == EntityType.ENDERMAN ? null : target,
                         null, projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(),
                         power, false, destructionType);

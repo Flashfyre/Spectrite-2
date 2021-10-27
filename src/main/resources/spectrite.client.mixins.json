@@ -13,6 +13,8 @@
     "FramebufferMixin",
     "InGameHudMixin",
     "ItemRendererMixin",
+    "ItemStackClientAccessor",
+    "ItemStackClientMixin",
     "LivingEntityRendererMixin",
     "ModelLoaderMixin",
     "ModelPartAccessor",

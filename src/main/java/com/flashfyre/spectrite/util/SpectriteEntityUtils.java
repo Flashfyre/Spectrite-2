@@ -2,8 +2,8 @@ package com.flashfyre.spectrite.util;
 
 import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SpectriteEntityComponent;
 import com.flashfyre.spectrite.component.SpectriteWeaponEntityAttributesComponent;
+import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
@@ -20,50 +20,50 @@ public class SpectriteEntityUtils
     static
     {
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_MAX_HEALTH, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobHealthBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobHealthMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobHealthBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobHealthMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_ATTACK_DAMAGE, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackDamageBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackDamageMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackDamageBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackDamageMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_ATTACK_KNOCKBACK, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackKnockbackBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackKnockbackMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackKnockbackBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackKnockbackMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_ATTACK_SPEED, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackSpeedBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobAttackSpeedMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackSpeedBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobAttackSpeedMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_ARMOR, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobArmorBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobArmorMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobArmorBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobArmorMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_ARMOR_TOUGHNESS, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobArmorToughnessBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobArmorToughnessMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobArmorToughnessBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobArmorToughnessMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_MOVEMENT_SPEED, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobMovementSpeedBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobMovementSpeedMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobMovementSpeedBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobMovementSpeedMultiplier()
         ));
         ENTITY_ATTRIBUTE_MODIFIERS.put(EntityAttributes.GENERIC_KNOCKBACK_RESISTANCE, new AbstractMap.SimpleEntry<>(
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobKnockbackResistanceBonus(),
-                () -> SpectriteConfig.getSpectriteEntityAttributes().getSpectriteMobKnockbackResistanceMultiplier()
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobKnockbackResistanceBonus(),
+                () -> SpectriteConfig.getSuperchromaticEntityAttributes().getSuperchromaticMobKnockbackResistanceMultiplier()
         ));
     }
 
-    public static boolean isSpectriteEntity(Entity entity)
+    public static boolean isSuperchromatic(Entity entity)
     {
-        final SpectriteEntityComponent spectriteEntityComponent;
-        spectriteEntityComponent = Components.SPECTRITE_ENTITY.maybeGet(entity).orElse(null);
-        return spectriteEntityComponent != null && spectriteEntityComponent.isSpectrite();
+        final SuperchromaticEntityComponent superchromaticEntityComponent;
+        superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(entity).orElse(null);
+        return superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic();
     }
 
-    public static void setSpectriteEntity(Entity entity, boolean spectriteEntity)
+    public static void setSuperchromatic(Entity entity, boolean superchromatic)
     {
-        Components.SPECTRITE_ENTITY.maybeGet(entity).ifPresent(
-                spectriteEntityComponent -> spectriteEntityComponent.setSpectrite(spectriteEntity));
+        Components.SUPERCHROMATIC_ENTITY.maybeGet(entity).ifPresent(
+                superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
     }
 
     public static int getSpectriteDamage(Entity entity)

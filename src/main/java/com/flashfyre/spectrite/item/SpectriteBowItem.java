@@ -30,7 +30,13 @@ public class SpectriteBowItem extends BowItem implements SpectriteWeaponItem
     }
 
     @Override
-    public int getSpectriteDamageLevel()
+    public boolean hasPassiveChromaBlast()
+    {
+        return true;
+    }
+
+    @Override
+    public int getChromaBlastLevel()
     {
         return 1;
     }

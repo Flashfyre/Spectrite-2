@@ -29,7 +29,7 @@ public class LivingEntityRendererMixin
     private Identifier injectGetRenderLayerSubstituteSpectriteTexture(Identifier identifier, LivingEntity e, boolean showBody, boolean translucent, boolean showOutline)
     {
         final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, identifier, e.getType());
-        if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSpectriteEntity())
+        if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSuperchromatic())
             return spectriteTexture;
 
         return identifier;
@@ -38,7 +38,7 @@ public class LivingEntityRendererMixin
     @Inject(method = "getRenderLayer", at = @At("RETURN"), cancellable = true)
     private void injectGetRenderLayerSubstituteHueRenderLayer(LivingEntity e, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<RenderLayer> cir)
     {
-        if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSpectriteEntity())
+        if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSuperchromatic())
             cir.setReturnValue(SpectriteClient.CLIENT_INSTANCE.getHueLayer(cir.getReturnValue()));
     }
 }

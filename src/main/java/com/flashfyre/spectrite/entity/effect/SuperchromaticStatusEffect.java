@@ -4,15 +4,15 @@ import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffectCategory;
 
-public class SpectriteStatusEffect extends StatusEffect
+public class SuperchromaticStatusEffect extends StatusEffect
 {
-    public SpectriteStatusEffect(StatusEffectCategory category)
+    public SuperchromaticStatusEffect(StatusEffectCategory category)
     {
-        super(category, SpectriteUtils.getCurrentSpectriteColor(0));
+        super(category, SpectriteUtils.getCurrentHueColor(0));
     }
 
     public int getColor()
     {
-        return SpectriteUtils.getCurrentSpectriteColor(0);
+        return SpectriteUtils.getCurrentHueColor(0);
     }
 }

@@ -54,7 +54,13 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteWeapon
     }
 
     @Override
-    public int getSpectriteDamageLevel()
+    public boolean hasPassiveChromaBlast()
+    {
+        return false;
+    }
+
+    @Override
+    public int getChromaBlastLevel()
     {
         return 4;
     }

@@ -7,13 +7,13 @@ import net.minecraft.client.particle.NoRenderParticle;
 import net.minecraft.client.world.ClientWorld;
 
 @Environment(EnvType.CLIENT)
-public class SpectriteExplosionEmitterParticle extends NoRenderParticle
+public class ChromaBlastEmitterParticle extends NoRenderParticle
 {
     private int age_;
     private final int maxAge_ = 8;
     private final double power;
 
-    public SpectriteExplosionEmitterParticle(ClientWorld clientWorld, double d, double e, double f, double power)
+    public ChromaBlastEmitterParticle(ClientWorld clientWorld, double d, double e, double f, double power)
     {
         super(clientWorld, d, e, f, 0.0D, 0.0D, 0.0D);
         this.power = power;

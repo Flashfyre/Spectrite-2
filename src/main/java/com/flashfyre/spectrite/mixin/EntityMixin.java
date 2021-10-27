@@ -31,16 +31,16 @@ public abstract class EntityMixin
     private void spectrite$injectGetNameReturn(CallbackInfoReturnable<Text> cir)
     {
         final Entity entity = (Entity) ((Object) this);
-        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity()
+        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic()
                 && !entity.hasCustomName())
-            cir.setReturnValue(new TranslatableText("entity.spectrite.generic", cir.getReturnValue()));
+            cir.setReturnValue(new TranslatableText("entity.spectrite.superchromatic.generic", cir.getReturnValue()));
     }
 
     @Inject(method = "getDisplayName", at = @At(value = "RETURN"), cancellable = true)
     private void spectrite$injectGetDisplayNameReturn(CallbackInfoReturnable<Text> cir)
     {
         final Entity entity = (Entity) ((Object) this);
-        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity())
+        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
         {
             if (entity.getScoreboardTeam() == null || entity.getScoreboardTeam().getColor() == Formatting.RESET)
                 cir.setReturnValue(new SpectriteText(cir.getReturnValue(), false));
@@ -54,7 +54,7 @@ public abstract class EntityMixin
     private void spectrite$injectEntityPlaySound(SoundEvent sound, float volume, float pitch, CallbackInfo ci)
     {
         final Entity entity = (Entity) ((Object) this);
-        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSpectriteEntity())
+        if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
         {
             this.world.playSoundFromEntity(null, entity, sound, this.getSoundCategory(), volume, pitch);
             ci.cancel();
@@ -62,18 +62,18 @@ public abstract class EntityMixin
     }
 
     @Inject(method = "setCustomName", at = @At("TAIL"))
-    private void injectSetCustomNameSetSpectriteBossBarName(Text name, CallbackInfo ci)
+    private void injectSetCustomNameSetSuperchromaticBossBarName(Text name, CallbackInfo ci)
     {
         final Entity entity = (Entity) (Object) this;
-        if (entity instanceof SpectriteCompatibleMobEntity && entity.hasCustomName() && ((SpectriteCompatibleMobEntity) entity).isSpectriteEntity())
-            ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar().setName(entity.getDisplayName());
+        if (entity instanceof SpectriteCompatibleMobEntity && entity.hasCustomName() && ((SpectriteCompatibleMobEntity) entity).isSuperchromatic())
+            ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().setName(entity.getDisplayName());
     }
 
     @Inject(method = "onStoppedTrackingBy", at = @At("TAIL"))
-    private void injectOnStoppedTrackingSpectriteBossBarRemovePlayer(ServerPlayerEntity player, CallbackInfo ci)
+    private void injectOnStoppedTrackingSuperchromaticBossBarRemovePlayer(ServerPlayerEntity player, CallbackInfo ci)
     {
         final Entity entity = (Entity) ((Object) this);
-        if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar() != null)
-            ((SpectriteCompatibleMobEntity) entity).getSpectriteBossBar().removePlayer(player);
+        if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar() != null)
+            ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().removePlayer(player);
     }
 }

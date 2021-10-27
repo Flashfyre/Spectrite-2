@@ -36,6 +36,10 @@
 	"item.spectrite.depleted_spectrite_trident": "Spectrite Trident",
 	
 	"item.spectrite.tooltip.depleted": "Depleted",
+	
+	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",
+	"item.spectrite.modifiers.charged": "When Charged:",
+	"item.spectrite.modifiers.charged.tool_efficiency": "%d%% Efficiency",
 
-	"entity.spectrite.generic": "Spectrite %1$s"
+	"entity.spectrite.superchromatic.generic": "Superchromatic %1$s"
 }

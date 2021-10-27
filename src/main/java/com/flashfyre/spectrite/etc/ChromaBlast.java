@@ -37,7 +37,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.*;
 
-public class SpectriteExplosion extends Explosion
+public class ChromaBlast extends Explosion
 {
     private final boolean createFire;
     private final Explosion.DestructionType destructionType;
@@ -53,8 +53,8 @@ public class SpectriteExplosion extends Explosion
     private final float power;
     private final List<BlockPos> affectedBlocks;
 
-    public SpectriteExplosion(World world, @Nullable Entity entity, @Nullable Entity targetEntity, double x, double y, double z,
-                              float power, List<BlockPos> affectedBlocks)
+    public ChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity, double x, double y, double z,
+                       float power, List<BlockPos> affectedBlocks)
     {
         super(world, entity, x, y, z, power, false, DestructionType.DESTROY, affectedBlocks);
         this.random = ((ExplosionAccessor) this).getRandom();
@@ -70,10 +70,10 @@ public class SpectriteExplosion extends Explosion
         this.affectedBlocks = ((ExplosionAccessor) this).getAffectedBlocks();
     }
 
-    public SpectriteExplosion(World world, @Nullable Entity entity, @Nullable Entity targetEntity,
-                              @Nullable DamageSource damageSource, @Nullable ExplosionBehavior behavior,
-                              double x, double y, double z, float power, boolean createFire,
-                              Explosion.DestructionType destructionType)
+    public ChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity,
+                       @Nullable DamageSource damageSource, @Nullable ExplosionBehavior behavior,
+                       double x, double y, double z, float power, boolean createFire,
+                       Explosion.DestructionType destructionType)
     {
         super(world, entity, damageSource, behavior, x, y, z, power, createFire, destructionType);
         this.random = ((ExplosionAccessor) this).getRandom();
@@ -175,7 +175,7 @@ public class SpectriteExplosion extends Explosion
                         ab /= ac;
                         final double ad = entity == targetEntity ? 1f : getExposure(vec3d, entity);
                         final double ae = (1.0D - y) * ad;
-                        entity.damage(this.getDamageSource(), ((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D * (double) q + 1.0D))) / 2f);
+                        entity.damage(this.getDamageSource(), ((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D * (double) q + 1.0D))) / 4f);
                         double af = ae;
                         if (entity instanceof LivingEntity)
                             af = ProtectionEnchantment.transformExplosionKnockback((LivingEntity) entity, ae);
@@ -207,15 +207,15 @@ public class SpectriteExplosion extends Explosion
 
         if (sourceEntity != null)
         {
-            final SpectriteDamageTargetType sourceEntityTargetType = SpectriteDamageTargetType.getEntityTargetType(sourceEntity);
-            if (sourceEntityTargetType == SpectriteDamageTargetType.OTHER)
+            final ChromaBlastTargetType sourceEntityTargetType = ChromaBlastTargetType.getEntityTargetType(sourceEntity);
+            if (sourceEntityTargetType == ChromaBlastTargetType.OTHER)
                 return;
 
-            if (targetEntity != null && SpectriteDamageTargetType.getEntityTargetType(targetEntity) == sourceEntityTargetType)
+            if (targetEntity != null && ChromaBlastTargetType.getEntityTargetType(targetEntity) == sourceEntityTargetType)
                 return;
 
             list.removeIf(e -> (targetEntity == null || e != targetEntity)
-                    && (SpectriteDamageTargetType.getCollateralEntityTargetType(sourceEntity, e) == sourceEntityTargetType));
+                    && (ChromaBlastTargetType.getCollateralEntityTargetType(sourceEntity, e) == sourceEntityTargetType));
         }
     }
 

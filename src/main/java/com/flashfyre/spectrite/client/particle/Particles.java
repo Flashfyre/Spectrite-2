@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.client.particle;
 
 
+import com.flashfyre.spectrite.Spectrite;
 import com.mojang.blaze3d.platform.GlStateManager;
 import com.mojang.blaze3d.systems.RenderSystem;
 import net.fabricmc.api.EnvType;
@@ -16,7 +17,6 @@ import net.minecraft.client.texture.TextureManager;
 import net.minecraft.particle.DefaultParticleType;
 import net.minecraft.particle.ParticleEffect;
 import net.minecraft.particle.ParticleType;
-import net.minecraft.util.Identifier;
 import net.minecraft.util.registry.Registry;
 
 @Environment(EnvType.CLIENT)
@@ -44,21 +44,21 @@ public class Particles
         }
     };
 
-    public static DefaultParticleType SPECTRITE_GLOW;
+    public static DefaultParticleType SUPERCHROMATIC_GLOW;
 
-    public static DefaultParticleType SPECTRITE_EXPLOSION;
+    public static DefaultParticleType CHROMA_BLAST;
 
     public static void initParticles()
     {
-        SPECTRITE_GLOW = registerParticleType("spectrite_glow", true, SpectriteGlowParticle.Factory::new);
-        SPECTRITE_EXPLOSION = registerParticleType("spectrite_explosion", true, SpectriteExplosionLargeParticle.Factory::new);
+        SUPERCHROMATIC_GLOW = registerParticleType("superchromatic_glow", true, SuperchromaticGlowParticle.Factory::new);
+        CHROMA_BLAST = registerParticleType("chroma_blast", true, ChromaBlastParticle.Factory::new);
     }
 
     private static <T extends ParticleEffect> DefaultParticleType registerParticleType(String name, boolean alwaysShow,
                                                                                        ParticleFactoryRegistry.PendingParticleFactory<T> factory)
 
     {
-        final T ret = (T) Registry.register(Registry.PARTICLE_TYPE, new Identifier("spectrite", name), new DefaultParticleType(alwaysShow));
+        final T ret = (T) Registry.register(Registry.PARTICLE_TYPE, Spectrite.getId(name), new DefaultParticleType(alwaysShow));
         ParticleFactoryRegistry.getInstance().<T>register((ParticleType<T>) ret, factory);
         return (DefaultParticleType) ret;
     }

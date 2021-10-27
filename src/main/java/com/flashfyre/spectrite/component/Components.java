@@ -11,8 +11,8 @@ import net.minecraft.entity.projectile.WitherSkullEntity;
 
 public final class Components implements EntityComponentInitializer
 {
-    public static final ComponentKey<SpectriteEntityComponent> SPECTRITE_ENTITY =
-            ComponentRegistryV3.INSTANCE.getOrCreate(Spectrite.getId("spectrite_entity"), SpectriteEntityComponent.class);
+    public static final ComponentKey<SuperchromaticEntityComponent> SUPERCHROMATIC_ENTITY =
+            ComponentRegistryV3.INSTANCE.getOrCreate(Spectrite.getId("superchromatic_entity"), SuperchromaticEntityComponent.class);
 
     public static final ComponentKey<SpectriteWeaponEntityAttributesComponent> SPECTRITE_WEAPON_ENTITY_ATTRIBUTES =
             ComponentRegistryV3.INSTANCE.getOrCreate(Spectrite.getId("spectrite_weapon_entity_attributes"), SpectriteWeaponEntityAttributesComponent.class);
@@ -20,10 +20,10 @@ public final class Components implements EntityComponentInitializer
     @Override
     public void registerEntityComponentFactories(EntityComponentFactoryRegistry registry)
     {
-        registry.registerFor(MobEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
-        registry.registerFor(PersistentProjectileEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
+        registry.registerFor(MobEntity.class, SUPERCHROMATIC_ENTITY, entity -> new SuperchromaticEntityComponent());
+        registry.registerFor(PersistentProjectileEntity.class, SUPERCHROMATIC_ENTITY, entity -> new SuperchromaticEntityComponent());
         registry.registerFor(PersistentProjectileEntity.class, SPECTRITE_WEAPON_ENTITY_ATTRIBUTES, entity -> new SpectriteWeaponEntityAttributesComponent());
-        registry.registerFor(WitherSkullEntity.class, SPECTRITE_ENTITY, entity -> new SpectriteEntityComponent());
+        registry.registerFor(WitherSkullEntity.class, SUPERCHROMATIC_ENTITY, entity -> new SuperchromaticEntityComponent());
         registry.registerFor(WitherSkullEntity.class, SPECTRITE_WEAPON_ENTITY_ATTRIBUTES, entity -> new SpectriteWeaponEntityAttributesComponent());
     }
 }

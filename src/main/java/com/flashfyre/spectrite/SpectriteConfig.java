@@ -11,125 +11,125 @@ public class SpectriteConfig implements ConfigData
 
     private float spectriteToolCooldown = 10f;
 
-    private float spectriteMobSpawnRate = 0.048828125f;
+    private float superchromaticMobSpawnRate = 0.048828125f;
 
-    private float spectriteMobCrystalSpawnRate = 0.390625f;
+    private float superchromaticMobCrystalSpawnRate = 0.390625f;
 
     @ConfigEntry.Gui.CollapsibleObject
-    private SpectriteEntityAttributes spectriteEntityAttributes = new SpectriteEntityAttributes();
+    private SuperchromaticEntityAttributes superchromaticEntityAttributes = new SuperchromaticEntityAttributes();
 
-    public static class SpectriteEntityAttributes
+    public static class SuperchromaticEntityAttributes
     {
-        private double spectriteMobHealthBonus = 40.0d;
+        private double superchromaticMobHealthBonus = 40.0d;
 
-        private double spectriteMobHealthMultiplier = 2.0d;
+        private double superchromaticMobHealthMultiplier = 2.0d;
 
-        private double spectriteMobAttackDamageBonus = 3.0d;
+        private double superchromaticMobAttackDamageBonus = 3.0d;
 
-        private double spectriteMobAttackDamageMultiplier = 1.5d;
+        private double superchromaticMobAttackDamageMultiplier = 1.5d;
 
-        private double spectriteMobAttackKnockbackBonus = 1.0d;
+        private double superchromaticMobAttackKnockbackBonus = 1.0d;
 
-        private double spectriteMobAttackKnockbackMultiplier = 1.5d;
+        private double superchromaticMobAttackKnockbackMultiplier = 1.5d;
 
-        private double spectriteMobAttackSpeedBonus = 0.0d;
+        private double superchromaticMobAttackSpeedBonus = 0.0d;
 
-        private double spectriteMobAttackSpeedMultiplier = 1.27202d;
+        private double superchromaticMobAttackSpeedMultiplier = 1.27202d;
 
-        private double spectriteMobArmorBonus = 2.0d;
+        private double superchromaticMobArmorBonus = 2.0d;
 
-        private double spectriteMobArmorMultiplier = 1.5d;
+        private double superchromaticMobArmorMultiplier = 1.5d;
 
-        private double spectriteMobArmorToughnessBonus = 0.0d;
+        private double superchromaticMobArmorToughnessBonus = 0.0d;
 
-        private double spectriteMobArmorToughnessMultiplier = 1.0d;
+        private double superchromaticMobArmorToughnessMultiplier = 1.0d;
 
-        private double spectriteMobMovementSpeedBonus = 0.1d;
+        private double superchromaticMobMovementSpeedBonus = 0.1d;
 
-        private double spectriteMobMovementSpeedMultiplier = 1.27202d;
+        private double superchromaticMobMovementSpeedMultiplier = 1.27202d;
 
-        private double spectriteMobKnockbackResistanceBonus = 0.25d;
+        private double superchromaticMobKnockbackResistanceBonus = 0.25d;
 
-        private double spectriteMobKnockbackResistanceMultiplier = 1.27202d;
+        private double superchromaticMobKnockbackResistanceMultiplier = 1.27202d;
 
-        public double getSpectriteMobHealthBonus()
+        public double getSuperchromaticMobHealthBonus()
         {
-            return spectriteMobHealthBonus;
+            return superchromaticMobHealthBonus;
         }
 
-        public double getSpectriteMobHealthMultiplier()
+        public double getSuperchromaticMobHealthMultiplier()
         {
-            return spectriteMobHealthMultiplier;
+            return superchromaticMobHealthMultiplier;
         }
 
-        public double getSpectriteMobAttackDamageBonus()
+        public double getSuperchromaticMobAttackDamageBonus()
         {
-            return spectriteMobAttackDamageBonus;
+            return superchromaticMobAttackDamageBonus;
         }
 
-        public double getSpectriteMobAttackDamageMultiplier()
+        public double getSuperchromaticMobAttackDamageMultiplier()
         {
-            return spectriteMobAttackDamageMultiplier;
+            return superchromaticMobAttackDamageMultiplier;
         }
 
-        public double getSpectriteMobAttackKnockbackBonus()
+        public double getSuperchromaticMobAttackKnockbackBonus()
         {
-            return spectriteMobAttackKnockbackBonus;
+            return superchromaticMobAttackKnockbackBonus;
         }
 
-        public double getSpectriteMobAttackKnockbackMultiplier()
+        public double getSuperchromaticMobAttackKnockbackMultiplier()
         {
-            return spectriteMobAttackKnockbackMultiplier;
+            return superchromaticMobAttackKnockbackMultiplier;
         }
 
-        public double getSpectriteMobAttackSpeedBonus()
+        public double getSuperchromaticMobAttackSpeedBonus()
         {
-            return spectriteMobAttackSpeedBonus;
+            return superchromaticMobAttackSpeedBonus;
         }
 
-        public double getSpectriteMobAttackSpeedMultiplier()
+        public double getSuperchromaticMobAttackSpeedMultiplier()
         {
-            return spectriteMobAttackSpeedMultiplier;
+            return superchromaticMobAttackSpeedMultiplier;
         }
 
-        public double getSpectriteMobArmorBonus()
+        public double getSuperchromaticMobArmorBonus()
         {
-            return spectriteMobArmorBonus;
+            return superchromaticMobArmorBonus;
         }
 
-        public double getSpectriteMobArmorMultiplier()
+        public double getSuperchromaticMobArmorMultiplier()
         {
-            return spectriteMobArmorMultiplier;
+            return superchromaticMobArmorMultiplier;
         }
 
-        public double getSpectriteMobArmorToughnessBonus()
+        public double getSuperchromaticMobArmorToughnessBonus()
         {
-            return spectriteMobArmorToughnessBonus;
+            return superchromaticMobArmorToughnessBonus;
         }
 
-        public double getSpectriteMobArmorToughnessMultiplier()
+        public double getSuperchromaticMobArmorToughnessMultiplier()
         {
-            return spectriteMobArmorToughnessMultiplier;
+            return superchromaticMobArmorToughnessMultiplier;
         }
 
-        public double getSpectriteMobMovementSpeedBonus()
+        public double getSuperchromaticMobMovementSpeedBonus()
         {
-            return spectriteMobMovementSpeedBonus;
+            return superchromaticMobMovementSpeedBonus;
         }
 
-        public double getSpectriteMobMovementSpeedMultiplier()
+        public double getSuperchromaticMobMovementSpeedMultiplier()
         {
-            return spectriteMobMovementSpeedMultiplier;
+            return superchromaticMobMovementSpeedMultiplier;
         }
 
-        public double getSpectriteMobKnockbackResistanceBonus()
+        public double getSuperchromaticMobKnockbackResistanceBonus()
         {
-            return spectriteMobKnockbackResistanceBonus;
+            return superchromaticMobKnockbackResistanceBonus;
         }
 
-        public double getSpectriteMobKnockbackResistanceMultiplier()
+        public double getSuperchromaticMobKnockbackResistanceMultiplier()
         {
-            return spectriteMobKnockbackResistanceMultiplier;
+            return superchromaticMobKnockbackResistanceMultiplier;
         }
     }
 
@@ -138,18 +138,18 @@ public class SpectriteConfig implements ConfigData
         return INSTANCE.spectriteToolCooldown;
     }
 
-    public static float getSpectriteMobSpawnRate()
+    public static float getSuperchromaticMobSpawnRate()
     {
-        return INSTANCE.spectriteMobSpawnRate;
+        return INSTANCE.superchromaticMobSpawnRate;
     }
 
-    public static float getSpectriteMobCrystalSpawnRate()
+    public static float getSuperchromaticMobCrystalSpawnRate()
     {
-        return INSTANCE.spectriteMobCrystalSpawnRate;
+        return INSTANCE.superchromaticMobCrystalSpawnRate;
     }
 
-    public static SpectriteEntityAttributes getSpectriteEntityAttributes()
+    public static SuperchromaticEntityAttributes getSuperchromaticEntityAttributes()
     {
-        return INSTANCE.spectriteEntityAttributes;
+        return INSTANCE.superchromaticEntityAttributes;
     }
 }

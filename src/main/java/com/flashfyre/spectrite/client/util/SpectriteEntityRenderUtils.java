@@ -26,7 +26,7 @@ public class SpectriteEntityRenderUtils
     public static Map<Identifier, Map<String, List<ModelPart>>> ENTITY_MODEL_PART_CACHE = new HashMap<>();
     public static Map<Identifier, Map.Entry<Integer, Integer>> ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE = new HashMap<>();
     public static Map<Identifier, SpectriteTextureOverlayData> SPECTRITE_TEXTURE_OVERLAY_CACHE = new HashMap<>();
-    public static SpectriteTextureOverlayData SPECTRITE_ARROW_TEXTURE_OVERLAY_DATA = new SpectriteTextureOverlayData()
+    public static SpectriteTextureOverlayData SUPERCHROMATIC_ARROW_TEXTURE_OVERLAY_DATA = new SpectriteTextureOverlayData()
             .add(0.5f, 0.0f, 0.0f, 0.15625f, 0f, 1f, false)
             .add(0.0f, 0.15625f, 0.1875f, 0.3125f, 1f, 1f, true);
 
@@ -46,7 +46,7 @@ public class SpectriteEntityRenderUtils
         return getOrGenerateSpectriteEntityTexture(model, null, texture, entityType, null, false, true);
     }
 
-    public static Identifier getOrGenerateSpectriteEntityArmorTexture(Model model, Identifier texture)
+    public static Identifier getOrGenerateSuperchromaticEntityArmorTexture(Model model, Identifier texture)
     {
         return getOrGenerateSpectriteEntityTexture(model, null, new Identifier(texture.getNamespace(),
                 texture.getPath().replace("spectrite", "diamond")), null, null, true, false);

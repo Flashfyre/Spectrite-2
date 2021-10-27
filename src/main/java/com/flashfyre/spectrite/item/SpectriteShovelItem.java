@@ -38,7 +38,19 @@ public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem
     }
 
     @Override
-    public int getSpectriteDamageLevel()
+    public float getChargedEfficiencyMultiplier()
+    {
+        return 1.5f;
+    }
+
+    @Override
+    public boolean hasPassiveChromaBlast()
+    {
+        return false;
+    }
+
+    @Override
+    public int getChromaBlastLevel()
     {
         return 2;
     }
@@ -73,7 +85,7 @@ public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem
         float ret = super.getMiningSpeedMultiplier(stack, state);
 
         if (ret > 1.0f && ((SpectriteToolItem) stack.getItem()).isCharged(stack))
-            ret *= 1.5f;
+            ret *= getChargedEfficiencyMultiplier();
 
         return ret;
     }

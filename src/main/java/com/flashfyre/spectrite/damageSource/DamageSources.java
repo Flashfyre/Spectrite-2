@@ -4,10 +4,10 @@ import net.minecraft.entity.damage.DamageSource;
 
 public class DamageSources
 {
-    public static DamageSource SPECTRITE_DAMAGE;
+    public static DamageSource CHROMA_BLAST;
 
     public static void initDamageSources()
     {
-        SPECTRITE_DAMAGE = new SpectriteDamageSource("spectrite");
+        CHROMA_BLAST = new ChromaBlastDamageSource("chroma_blast");
     }
 }

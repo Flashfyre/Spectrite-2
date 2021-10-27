@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
+import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -34,7 +35,19 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
     }
 
     @Override
-    public int getSpectriteDamageLevel()
+    public float getChargedEfficiencyMultiplier()
+    {
+        return 1.5f;
+    }
+
+    @Override
+    public boolean hasPassiveChromaBlast()
+    {
+        return false;
+    }
+
+    @Override
+    public int getChromaBlastLevel()
     {
         return 3;
     }
@@ -73,6 +86,17 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
         SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
+    }
+
+    @Override
+    public float getMiningSpeedMultiplier(ItemStack stack, BlockState state)
+    {
+        float ret = super.getMiningSpeedMultiplier(stack, state);
+
+        if (ret > 1.0f && ((SpectriteToolItem) stack.getItem()).isCharged(stack))
+            ret *= getChargedEfficiencyMultiplier();
+
+        return ret;
     }
 
     @Override

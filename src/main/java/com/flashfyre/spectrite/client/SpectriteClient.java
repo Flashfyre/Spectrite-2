@@ -1,15 +1,14 @@
 package com.flashfyre.spectrite.client;
 
 import com.flashfyre.spectrite.Spectrite;
+import com.flashfyre.spectrite.client.particle.ChromaBlastEmitterParticle;
 import com.flashfyre.spectrite.client.particle.Particles;
-import com.flashfyre.spectrite.client.particle.SpectriteExplosionEmitterParticle;
 import com.flashfyre.spectrite.client.render.*;
 import com.flashfyre.spectrite.client.resourcePack.SpectriteResourcePack;
 import com.flashfyre.spectrite.client.util.SpectriteClientUtils;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import ladysnake.satin.api.event.EntitiesPostRenderCallback;
-import ladysnake.satin.api.event.EntitiesPreRenderCallback;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ShaderEffectManager;
@@ -102,10 +101,6 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
                 ResourceManagerHelper.registerBuiltinResourcePack(getId("default"), modContainer, ResourcePackActivationType.DEFAULT_ENABLED));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> ticks++);
-        EntitiesPreRenderCallback.EVENT.register((camera, frustum, tickDelta) ->
-        {
-
-        });
         EntitiesPostRenderCallback.EVENT.register((camera, frustum, tickDelta) ->
         {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -252,17 +247,17 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     @Override
     public void spawnSpectriteExplosionEmitterParticle(World world, double posX, double posY, double posZ, double power)
     {
-        MinecraftClient.getInstance().particleManager.addParticle(new SpectriteExplosionEmitterParticle((ClientWorld) world, posX, posY, posZ, power));
+        MinecraftClient.getInstance().particleManager.addParticle(new ChromaBlastEmitterParticle((ClientWorld) world, posX, posY, posZ, power));
     }
 
     @Override
     public void spawnSpectriteExplosionParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
     {
-        final Particle particle = MinecraftClient.getInstance().particleManager.addParticle(Particles.SPECTRITE_EXPLOSION, posX, posY, posZ, xSpeed, ySpeed, zSpeed);
+        final Particle particle = MinecraftClient.getInstance().particleManager.addParticle(Particles.CHROMA_BLAST, posX, posY, posZ, xSpeed, ySpeed, zSpeed);
         if (particle != null)
         {
             final float offsetLevel = 18F * (float) (Double.valueOf(Math.abs(posX + posZ) + posY) % 20D);
-            final float[] c = SpectriteUtils.getCurrentSpectriteRGBColor(offsetLevel);
+            final float[] c = SpectriteUtils.getCurrentHueRGBColor(offsetLevel);
             particle.setColor(c[0], c[1], c[2]);
         }
     }

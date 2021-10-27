@@ -25,7 +25,7 @@ public class ProjectileEntityRendererMixin
             VertexConsumerProvider vertexConsumerProvider, int i)
     {
         final SpectriteCompatibleWeaponEntity spectriteCompatibleWeaponEntity = (SpectriteCompatibleWeaponEntity) projectileEntity;
-        if (spectriteCompatibleWeaponEntity.isSpectriteEntity())
+        if (spectriteCompatibleWeaponEntity.isSuperchromatic())
             args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0),
                     spectriteCompatibleWeaponEntity.getSpectriteDamage(),
                     spectriteCompatibleWeaponEntity.isSpectriteCharged()));

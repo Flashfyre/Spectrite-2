@@ -44,7 +44,7 @@ public class TridentEntityMixin
         final TridentEntity tridentEntity = (TridentEntity) (Object) this;
         if (stack.getItem() instanceof SpectriteTridentItem)
         {
-            ((SpectriteCompatibleEntity) tridentEntity).setSpectriteEntity(true);
+            ((SpectriteCompatibleEntity) tridentEntity).setSuperchromatic(true);
             ((SpectriteCompatibleWeaponEntity) tridentEntity).setSpectriteDamage(
                     SpectriteUtils.getItemStackStDamage(stack));
             ((SpectriteCompatibleWeaponEntity) tridentEntity).setSpectriteCharged(
@@ -56,7 +56,7 @@ public class TridentEntityMixin
     private void injectOnEntityHitSpectrite(EntityHitResult entityHitResult, CallbackInfo ci)
     {
         final TridentEntity tridentEntity = (TridentEntity) (Object) this;
-        if (!((SpectriteCompatibleEntity) tridentEntity).isSpectriteEntity())
+        if (!((SpectriteCompatibleEntity) tridentEntity).isSuperchromatic())
             return;
 
         ci.cancel();
@@ -103,7 +103,7 @@ public class TridentEntityMixin
                         livingEntity.hurtTime = 0;
 
                         final double tridentY = tridentEntity.getBoundingBox().minY + tridentEntity.getHeight() / 2d;
-                        SpectriteUtils.newSpectriteExplosion(tridentEntity.world, tridentEntity, livingEntity,
+                        SpectriteUtils.newChromaBlast(tridentEntity.world, tridentEntity, livingEntity,
                                 null, (tridentEntity.getX() + targetX) / 2d, (tridentY + targetY) / 2d,
                                 (tridentEntity.getZ() + targetZ) / 2d,
                                 power, false, Explosion.DestructionType.NONE);

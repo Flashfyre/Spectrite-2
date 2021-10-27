@@ -32,7 +32,7 @@
   "accessWidener": "spectrite.accessWidener",
   "custom": {
     "cardinal-components": [
-      "spectrite:spectrite_entity",
+      "spectrite:superchromatic_entity",
       "spectrite:spectrite_weapon_entity_attributes"
     ]
   },

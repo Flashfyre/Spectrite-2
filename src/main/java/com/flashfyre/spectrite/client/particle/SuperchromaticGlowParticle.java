@@ -10,12 +10,12 @@ import net.minecraft.particle.DefaultParticleType;
 import java.util.Random;
 
 @Environment(EnvType.CLIENT)
-public class SpectriteGlowParticle extends GlowParticle
+public class SuperchromaticGlowParticle extends GlowParticle
 {
     static final Random RANDOM = new Random();
 
-    public SpectriteGlowParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i,
-                                 SpriteProvider spriteProvider)
+    public SuperchromaticGlowParticle(ClientWorld clientWorld, double d, double e, double f, double g, double h, double i,
+                                      SpriteProvider spriteProvider)
     {
         super(clientWorld, d, e, f, g, h, i, spriteProvider);
     }
@@ -38,12 +38,12 @@ public class SpectriteGlowParticle extends GlowParticle
         public Particle createParticle(DefaultParticleType defaultParticleType, ClientWorld clientWorld,
                                        double d, double e, double f, double g, double h, double i)
         {
-            final SpectriteGlowParticle glowParticle = new SpectriteGlowParticle(clientWorld, d, e, f,
-                    0.5D - SpectriteGlowParticle.RANDOM.nextDouble(), h,
-                    0.5D - SpectriteGlowParticle.RANDOM.nextDouble(), this.spriteProvider);
+            final SuperchromaticGlowParticle glowParticle = new SuperchromaticGlowParticle(clientWorld, d, e, f,
+                    0.5D - SuperchromaticGlowParticle.RANDOM.nextDouble(), h,
+                    0.5D - SuperchromaticGlowParticle.RANDOM.nextDouble(), this.spriteProvider);
 
             final float offsetLevel = 18F * (float) (Double.valueOf(Math.abs(d + f) + e) % 20D);
-            final float[] c = SpectriteUtils.getCurrentSpectriteRGBColor(offsetLevel);
+            final float[] c = SpectriteUtils.getCurrentHueRGBColor(offsetLevel);
             glowParticle.setColor(c[0], c[1], c[2]);
 
             glowParticle.velocityY *= 0.20000000298023224D;

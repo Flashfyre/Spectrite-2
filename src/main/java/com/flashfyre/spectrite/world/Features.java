@@ -30,6 +30,9 @@ public class Features
             OreFeatureConfig.createTarget(OreFeatureConfig.Rules.NETHERRACK, Blocks.NETHER_SPECTRITE_ORE.getDefaultState()),
             OreFeatureConfig.createTarget(new BlockMatchRuleTest(net.minecraft.block.Blocks.BLACKSTONE), Blocks.BLACKSTONE_SPECTRITE_ORE.getDefaultState()));
 
+    private static ImmutableList<OreFeatureConfig.Target> SPECTRITE_ORE_END_TARGETS = ImmutableList.of(
+            OreFeatureConfig.createTarget(new BlockMatchRuleTest(net.minecraft.block.Blocks.END_STONE), Blocks.END_SPECTRITE_ORE.getDefaultState()));
+
     private static ConfiguredFeature<?, ?> ORE_SPECTRITE_OVERWORLD = Feature.ORE
             .configure(new OreFeatureConfig(SPECTRITE_ORE_OVERWORLD_TARGETS, 3))
             .range(new RangeDecoratorConfig(
@@ -63,6 +66,27 @@ public class Features
             .spreadHorizontally()
             .applyChance(14);
 
+    private static ConfiguredFeature<?, ?> ORE_SPECTRITE_END = Feature.ORE
+            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 7))
+            .range(new RangeDecoratorConfig(
+                    UniformHeightProvider.create(YOffset.fixed(4), YOffset.fixed(55))))
+            .spreadHorizontally()
+            .applyChance(21);
+
+    private static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_LARGE = Feature.ORE
+            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 14))
+            .range(new RangeDecoratorConfig(
+                    UniformHeightProvider.create(YOffset.fixed(4), YOffset.fixed(55))))
+            .spreadHorizontally()
+            .applyChance(147);
+
+    private static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_HUGE = Feature.ORE
+            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 21))
+            .range(new RangeDecoratorConfig(
+                    UniformHeightProvider.create(YOffset.fixed(4), YOffset.fixed(55))))
+            .spreadHorizontally()
+            .applyChance(1029);
+
     public static void initFeatures()
     {
         registerOreFeature("ore_spectrite_overworld", ORE_SPECTRITE_OVERWORLD,
@@ -75,6 +99,12 @@ public class Features
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
         registerOreFeature("ore_spectrite_nether_enclosed_small", ORE_SPECTRITE_NETHER_ENCLOSED_SMALL,
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
+        registerOreFeature("ore_spectrite_end", ORE_SPECTRITE_END,
+                BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
+        registerOreFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE,
+                BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
+        registerOreFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE,
+                BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
     }
 
     private static RegistryKey<ConfiguredFeature<?, ?>> registerOreFeature(String name, ConfiguredFeature<?, ?> feature,

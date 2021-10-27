@@ -73,7 +73,7 @@ public class SpectriteItemUtils
             if (playerEntity == null || !(target instanceof PlayerEntity targetPlayer)
                     || playerEntity.shouldDamagePlayer(targetPlayer))
             {
-                final int power = spectriteWeaponItem.getSpectriteDamageLevel();
+                final int power = spectriteWeaponItem.getChromaBlastLevel();
                 stack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), attacker,
                         (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
 
@@ -82,7 +82,7 @@ public class SpectriteItemUtils
                     target.timeUntilRegen = 0;
                     target.hurtTime = 0;
 
-                    SpectriteUtils.newSpectriteExplosion(attacker.world, attacker, target, null,
+                    SpectriteUtils.newChromaBlast(attacker.world, attacker, target, null,
                             target.getX(), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, target.getZ(),
                             power, false, Explosion.DestructionType.NONE);
 
@@ -118,7 +118,6 @@ public class SpectriteItemUtils
                     stack.setDamage(newDamage);
             } else
             {
-
                 if (entity instanceof PlayerEntity playerEntity)
                 {
                     for (DefaultedList<ItemStack> inventory : ((PlayerInventoryAccessor) playerEntity.getInventory()).getCombinedInventory())

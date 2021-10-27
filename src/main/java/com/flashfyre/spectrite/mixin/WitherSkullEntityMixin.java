@@ -14,14 +14,14 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public class WitherSkullEntityMixin implements SpectriteCompatibleWeaponEntity
 {
     @Override
-    public boolean isSpectriteEntity()
+    public boolean isSuperchromatic()
     {
         final Entity owner = ((ProjectileEntityAccessor) this).getOwner();
-        return owner != null && owner instanceof SpectriteCompatibleEntity spectriteEntity && spectriteEntity.isSpectriteEntity();
+        return owner != null && owner instanceof SpectriteCompatibleEntity spectriteEntity && spectriteEntity.isSuperchromatic();
     }
 
     @Override
-    public void setSpectriteEntity(boolean spectriteEntity)
+    public void setSuperchromatic(boolean superchromatic)
     {
     }
 
@@ -53,7 +53,7 @@ public class WitherSkullEntityMixin implements SpectriteCompatibleWeaponEntity
             cancellable = true)
     private void injectOnCollisionWorldIgnoreDefaultExplosion(HitResult hitResult, CallbackInfo ci)
     {
-        if (((SpectriteCompatibleWeaponEntity) this).isSpectriteEntity())
+        if (((SpectriteCompatibleWeaponEntity) this).isSuperchromatic())
             ci.cancel();
     }
 }

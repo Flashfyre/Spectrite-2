@@ -34,6 +34,12 @@ public class SpectriteHoeItem extends HoeItem implements SpectriteToolItem
     }
 
     @Override
+    public float getChargedEfficiencyMultiplier()
+    {
+        return 1f;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;

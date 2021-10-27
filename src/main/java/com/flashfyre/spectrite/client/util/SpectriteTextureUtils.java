@@ -1435,7 +1435,7 @@ public final class SpectriteTextureUtils
                             invertCoords = (direction == Direction.EAST || direction == Direction.SOUTH) == (rollIndex == 1 == (yawIndex == 0));
                         } else
                         {
-                            switchCoords = direction != Direction.UP && direction != Direction.DOWN == (modPitch == 0);
+                            switchCoords = (direction != Direction.UP && direction != Direction.DOWN) == (modPitch == 0);
                             if (modPitch == 0)
                                 invertCoords = (direction == Direction.EAST || direction == Direction.NORTH) == (pitchIndex == 0 == (rollIndex == 1 == (yawIndex == 3)));
                             else

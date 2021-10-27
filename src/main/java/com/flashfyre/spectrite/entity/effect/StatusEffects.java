@@ -7,10 +7,10 @@ import net.minecraft.util.registry.Registry;
 
 public class StatusEffects
 {
-    public static final StatusEffect SPECTRITE = new SpectriteStatusEffect(StatusEffectCategory.NEUTRAL);
+    public static final StatusEffect SUPERCHROMATIC = new SuperchromaticStatusEffect(StatusEffectCategory.NEUTRAL);
 
     public static void initStatusEffects()
     {
-        Registry.register(Registry.STATUS_EFFECT, Spectrite.getId("spectrite"), SPECTRITE);
+        Registry.register(Registry.STATUS_EFFECT, Spectrite.getId("superchromatic"), SUPERCHROMATIC);
     }
 }
