@@ -709,10 +709,10 @@ public final class SpectriteTextureUtils
         {
             for (int x = 0; x < height; x++)
             {
-                final int c1 = diamondOre.getPixelColor(x, y);
+                final int c1 = diamondOre.getColor(x, y);
                 final int a1 = (c1 >> 24) & 0xFF;
 
-                final int c2 = oreBaseBlock.getPixelColor(x, y);
+                final int c2 = oreBaseBlock.getColor(x, y);
                 final int a2 = (c2 >> 24) & 0xFF;
 
                 if (a1 > 0 && a2 > 0)
@@ -776,7 +776,7 @@ public final class SpectriteTextureUtils
                         rgbb = rgb2;
                     else if (a < 1f)
                     {
-                        final int cb = baseBlock.getPixelColor(x, y);
+                        final int cb = baseBlock.getColor(x, y);
                         rgbb = new int[]{(cb >> 16) & 0xFF, (cb >> 8) & 0xFF, (cb) & 0xFF};
                     } else
                         rgbb = null;
@@ -803,13 +803,13 @@ public final class SpectriteTextureUtils
                         final int cb = rgb[2] & 0x000000FF;
                         final int c = ca | cr | cg | cb;
 
-                        ret.setPixelColor(x, y + (height * f), c);
+                        ret.setColor(x, y + (height * f), c);
 
                         overlayHue -= frameHue;
                     }
                 } else
                     for (int f = 0; f < 32; f++)
-                        ret.setPixelColor(x, y + (height * f), a1 > 0 ? c2 : c1);
+                        ret.setColor(x, y + (height * f), a1 > 0 ? c2 : c1);
             }
         }
 
@@ -835,7 +835,7 @@ public final class SpectriteTextureUtils
         {
             for (int x = 0; x < width; x++)
             {
-                final int cs = diamondBlock.getPixelColor(x, y);
+                final int cs = diamondBlock.getColor(x, y);
                 final int as = (cs >> 24) & 0xFF;
 
                 if (as > 0)
@@ -893,13 +893,13 @@ public final class SpectriteTextureUtils
                         final int cb = rgb[2] & 0x000000FF;
                         final int c = ca | cr | cg | cb;
 
-                        ret.setPixelColor(x, y + (height * f), c);
+                        ret.setColor(x, y + (height * f), c);
 
                         overlayHue -= frameHue;
                     }
                 } else
                     for (int f = 0; f < 32; f++)
-                        ret.setPixelColor(x, y + (height * f), cs);
+                        ret.setColor(x, y + (height * f), cs);
             }
         }
 
@@ -932,7 +932,7 @@ public final class SpectriteTextureUtils
             {
                 for (int x = 0; x < width; x++)
                 {
-                    final int cs = baseItem.getPixelColor(x, y + height * f);
+                    final int cs = baseItem.getColor(x, y + height * f);
                     final int as = (cs >> 24) & 0xFF;
 
                     final int c;
@@ -970,7 +970,7 @@ public final class SpectriteTextureUtils
                     } else
                         c = cs;
 
-                    ret.setPixelColor(x, y + (height * f), c);
+                    ret.setColor(x, y + (height * f), c);
                 }
             }
         }
@@ -1044,7 +1044,7 @@ public final class SpectriteTextureUtils
                     for (int x = x1; x < x2; x++)
                     {
                         final int rx = x - x1;
-                        final int cs = baseTexture.getPixelColor(x, y);
+                        final int cs = baseTexture.getColor(x, y);
                         final int as = (cs >> 24) & 0xFF;
 
                         final int c;
@@ -1054,7 +1054,7 @@ public final class SpectriteTextureUtils
                             final int ct;
 
                             if (p < 2)
-                                ct = blockOverlayTexture.getPixelColor(rx, ry);
+                                ct = blockOverlayTexture.getColor(rx, ry);
                             else
                                 ct = cs;
 
@@ -1111,7 +1111,7 @@ public final class SpectriteTextureUtils
                         } else
                             c = cs;
 
-                        ret.setPixelColor(x, y, c);
+                        ret.setColor(x, y, c);
                     }
                 }
             }
@@ -1197,7 +1197,7 @@ public final class SpectriteTextureUtils
                     final int rx = x - x1;
                     final float ratX = rx / (float) sizeX;
                     final float ratXS = relMaxX > 0 ? rx / (float) relMaxX : 0.5f;
-                    final int cs = baseTexture.getPixelColor(x, y);
+                    final int cs = baseTexture.getColor(x, y);
                     final int as = (cs >> 24) & 0xFF;
 
                     final int c;
@@ -1255,15 +1255,15 @@ public final class SpectriteTextureUtils
                         {
                             for (int xs = 0; xs < (int) Math.max(rat, 1f); xs++)
                             {
-                                blockBlendColors.add(baseBlockTexture.getPixelColor(xb + xs, yb + ys));
+                                blockBlendColors.add(baseBlockTexture.getColor(xb + xs, yb + ys));
                                 if (xbb > -1)
                                 {
-                                    blockBlendColors.add(baseBlockTexture.getPixelColor(xbb + xs, yb + ys));
+                                    blockBlendColors.add(baseBlockTexture.getColor(xbb + xs, yb + ys));
                                     if (ybb > -1)
-                                        blockBlendColors.add(baseBlockTexture.getPixelColor(xbb + xs, ybb + ys));
+                                        blockBlendColors.add(baseBlockTexture.getColor(xbb + xs, ybb + ys));
                                 }
                                 if (ybb > -1)
-                                    blockBlendColors.add(baseBlockTexture.getPixelColor(xb + xs, ybb + ys));
+                                    blockBlendColors.add(baseBlockTexture.getColor(xb + xs, ybb + ys));
                             }
                         }
 
@@ -1290,7 +1290,7 @@ public final class SpectriteTextureUtils
                     } else
                         c = cs;
 
-                    ret.setPixelColor(x, y, c);
+                    ret.setColor(x, y, c);
                 }
             }
         }
@@ -1488,7 +1488,7 @@ public final class SpectriteTextureUtils
                         {
                             final int primaryCoord = switchCoords ? y : x;
                             final int secondaryCoord = switchCoords ? x : y;
-                            final int cs = baseTexture.getPixelColor(primaryCoord, secondaryCoord);
+                            final int cs = baseTexture.getColor(primaryCoord, secondaryCoord);
                             final int as = (cs >> 24) & 0xFF;
                             final int c;
 
@@ -1519,7 +1519,7 @@ public final class SpectriteTextureUtils
                             } else
                                 c = cs;
 
-                            ret.setPixelColor(primaryCoord, secondaryCoord, c);
+                            ret.setColor(primaryCoord, secondaryCoord, c);
                         }
                     }
                 }
@@ -1662,7 +1662,7 @@ public final class SpectriteTextureUtils
                 for (int x = 0; x < width; x++)
                 {
                     final float ratX = x / (float) width;
-                    final int cs = blockTexture.getPixelColor(x, y);
+                    final int cs = blockTexture.getColor(x, y);
                     final int as = (cs >> 24) & 0xFF;
 
                     final int c;
@@ -1690,15 +1690,15 @@ public final class SpectriteTextureUtils
                         {
                             for (int xs = 0; xs < ri; xs++)
                             {
-                                blockBlendColors.add(blockTexture.getPixelColor(xb + xs, yb + ys));
+                                blockBlendColors.add(blockTexture.getColor(xb + xs, yb + ys));
                                 if (xbb > -1)
                                 {
-                                    blockBlendColors.add(blockTexture.getPixelColor(xbb + xs, yb + ys));
+                                    blockBlendColors.add(blockTexture.getColor(xbb + xs, yb + ys));
                                     if (ybb > -1)
-                                        blockBlendColors.add(blockTexture.getPixelColor(xbb + xs, ybb + ys));
+                                        blockBlendColors.add(blockTexture.getColor(xbb + xs, ybb + ys));
                                 }
                                 if (ybb > -1)
-                                    blockBlendColors.add(blockTexture.getPixelColor(xb + xs, ybb + ys));
+                                    blockBlendColors.add(blockTexture.getColor(xb + xs, ybb + ys));
                             }
                         }
 
@@ -1725,7 +1725,7 @@ public final class SpectriteTextureUtils
                     } else
                         c = cs;
 
-                    ret.setPixelColor(x, y, c);
+                    ret.setColor(x, y, c);
                 }
             }
         }

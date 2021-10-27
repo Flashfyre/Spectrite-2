@@ -132,8 +132,8 @@ public class SpectriteItemUtils
                             if (originalItem != null)
                             {
                                 final ItemStack restoredStack = new ItemStack(originalItem);
-                                if (stack.hasTag())
-                                    restoredStack.setTag(stack.getTag());
+                                if (stack.hasNbt())
+                                    restoredStack.setNbt(stack.getNbt());
                                 restoredStack.setDamage(1);
                                 inventory.set(slot, restoredStack);
                             }

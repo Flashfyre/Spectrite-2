@@ -2,13 +2,13 @@ package com.flashfyre.spectrite.entity.effect;
 
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectType;
+import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class SpectriteStatusEffect extends StatusEffect
 {
-    public SpectriteStatusEffect(StatusEffectType type)
+    public SpectriteStatusEffect(StatusEffectCategory category)
     {
-        super(type, SpectriteUtils.getCurrentSpectriteColor(0));
+        super(category, SpectriteUtils.getCurrentSpectriteColor(0));
     }
 
     public int getColor()

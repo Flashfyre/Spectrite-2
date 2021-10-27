@@ -9,13 +9,13 @@ public interface SpectriteChargeableItem extends SpectriteDamageableItem
     {
         if (isDepleted())
             return false;
-        final NbtCompound nbtCompound = stack.getTag();
+        final NbtCompound nbtCompound = stack.getNbt();
         return nbtCompound != null && nbtCompound.getBoolean("Charged");
     }
 
     default void setCharged(ItemStack stack, boolean charged)
     {
-        final NbtCompound nbtCompound = stack.getOrCreateTag();
+        final NbtCompound nbtCompound = stack.getOrCreateNbt();
         nbtCompound.putBoolean("Charged", charged);
     }
 }

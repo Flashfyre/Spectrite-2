@@ -25,8 +25,8 @@ public class SpectriteDamageableDamageHandler implements CustomDamageHandler
                 if (depletedItem != null)
                 {
                     final ItemStack depletedStack = new ItemStack(depletedItem);
-                    if (stack.hasTag())
-                        depletedStack.setTag(stack.getTag());
+                    if (stack.hasNbt())
+                        depletedStack.setNbt(stack.getNbt());
                     if (item instanceof SpectriteChargeableItem)
                     {
                         if (entity.getStackInHand(Hand.MAIN_HAND) == stack)

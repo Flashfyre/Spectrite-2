@@ -60,7 +60,7 @@ public class SpectriteTextureOverlay
                 final int primaryCoord = useV ? x : y;
                 final int secondaryCoord = useV ? y : x;
 
-                final int cs = image.getPixelColor(primaryCoord, secondaryCoord);
+                final int cs = image.getColor(primaryCoord, secondaryCoord);
                 final int as = (cs >> 24) & 0xFF;
 
                 if (as > 0)
@@ -87,7 +87,7 @@ public class SpectriteTextureOverlay
                     final int cg = (rgb[1] << 8) & 0x0000FF00;
                     final int cb = rgb[2] & 0x000000FF;
                     final int c = ca | cr | cg | cb;
-                    image.setPixelColor(primaryCoord, secondaryCoord, c);
+                    image.setColor(primaryCoord, secondaryCoord, c);
                 }
             }
         }
