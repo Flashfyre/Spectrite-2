@@ -81,7 +81,9 @@ public class TridentEntityMixin
 
         if (entity.damage(damageSource, f))
         {
-            final boolean isEnderman = entity.getType() == EntityType.ENDERMAN;
+            if (entity.getType() == EntityType.ENDERMAN)
+                return;
+
             if (livingEntity != null && livingEntity2 != null)
             {
                 final SpectriteTridentItem spectriteTridentItem = (SpectriteTridentItem) tridentStack.getItem();
@@ -91,14 +93,17 @@ public class TridentEntityMixin
                         && !spectriteTridentItem.isDepleted())
                 {
                     int power = 4;
-                    tridentStack.damage((int) Math.pow(power, 3f), livingEntity2, (e) ->
+                    tridentStack.damage((int) (Math.pow(power, 3f) * spectriteTridentItem.getStackDamageMultiplier()), livingEntity2, (e) ->
                     {
                     });
 
                     if (!tridentEntity.world.isClient)
                     {
+                        livingEntity.timeUntilRegen = 0;
+                        livingEntity.hurtTime = 0;
+
                         final double tridentY = tridentEntity.getBoundingBox().minY + tridentEntity.getHeight() / 2d;
-                        SpectriteUtils.newSpectriteExplosion(tridentEntity.world, tridentEntity, isEnderman ? null : livingEntity,
+                        SpectriteUtils.newSpectriteExplosion(tridentEntity.world, tridentEntity, livingEntity,
                                 null, (tridentEntity.getX() + targetX) / 2d, (tridentY + targetY) / 2d,
                                 (tridentEntity.getZ() + targetZ) / 2d,
                                 power, false, Explosion.DestructionType.NONE);
@@ -109,9 +114,6 @@ public class TridentEntityMixin
                     spectriteTridentItem.setCharged(tridentStack, false);
                 }
             }
-
-            if (isEnderman)
-                return;
         }
 
         if (livingEntity != null)

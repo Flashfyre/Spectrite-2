@@ -9,7 +9,6 @@
     "ConstantLootNumberProviderAccessor",
     "EntityMixin",
     "ExplosionAccessor",
-    "ExplosionMixin",
     "ItemEntryAccessor",
     "LeafEntryAccessor",
     "LeafEntryBuilderAccessor",

@@ -3,8 +3,8 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.mob.EndermanEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
@@ -35,8 +35,9 @@ public class ProjectileEntityMixin
                 {
                     if (entityHitResult.getEntity() instanceof LivingEntity livingEntity)
                     {
-                        if (livingEntity instanceof EndermanEntity)
+                        if (livingEntity.getType() == EntityType.ENDERMAN)
                             return;
+                        livingEntity.timeUntilRegen = 0;
                         livingEntity.hurtTime = 0;
                     }
                     target = entityHitResult.getEntity();
@@ -52,7 +53,7 @@ public class ProjectileEntityMixin
                 } else
                     destructionType = Explosion.DestructionType.NONE;
                 SpectriteUtils.newSpectriteExplosion(projectileEntity.world, projectileEntity,
-                        target != null && target instanceof EndermanEntity ? null : target,
+                        target != null && target.getType() == EntityType.ENDERMAN ? null : target,
                         null, projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(),
                         power, false, destructionType);
                 if (hitResult.getType() == HitResult.Type.BLOCK || isWitherSkull)

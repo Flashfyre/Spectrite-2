@@ -82,17 +82,23 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
 
         if (spectriteWeaponStack != null)
         {
-            final boolean spectriteCharged = ((SpectriteWeaponItem) spectriteWeaponStack.getItem()).isCharged(spectriteWeaponStack);
-            final int power = ((SpectriteWeaponItem) spectriteWeaponStack.getItem()).getSpectriteDamageLevel() + (spectriteCharged ? 1 : 0);
-            ((SpectriteCompatibleEntity) persistentProjectileEntity).setSpectriteEntity(true);
-            ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
-                    SpectriteUtils.getItemStackStDamage(spectriteWeaponStack));
-            ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(spectriteCharged);
-            if (spectriteCharged)
+            final SpectriteWeaponItem spectriteWeaponItem = (SpectriteWeaponItem) spectriteWeaponStack.getItem();
+            if (!spectriteWeaponItem.isDepleted())
             {
-                spectriteWeaponStack.damage((int) Math.pow(power, 3f), owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
-                if (owner instanceof PlayerEntity playerEntity)
-                    SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, spectriteWeaponStack);
+                final boolean spectriteCharged = spectriteWeaponItem.isCharged(spectriteWeaponStack);
+                final int power = spectriteWeaponItem.getSpectriteDamageLevel() + (spectriteCharged ? 1 : 0);
+                ((SpectriteCompatibleEntity) persistentProjectileEntity).setSpectriteEntity(true);
+                ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
+                        SpectriteUtils.getItemStackStDamage(spectriteWeaponStack));
+                ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(spectriteCharged);
+                if (spectriteCharged)
+                {
+                    spectriteWeaponStack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), owner,
+                            (e) -> e.sendToolBreakStatus(e.getActiveHand()));
+                    if (owner instanceof PlayerEntity playerEntity)
+                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, spectriteWeaponStack);
+                } else if (spectriteWeaponStack.getItem() instanceof SpectriteBowItem)
+                    spectriteWeaponStack.damage(3, owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
             }
         }
     }

@@ -1,12 +1,17 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.item.ArmorItem;
 import net.minecraft.item.ArmorMaterial;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SpectriteArmorItem extends ArmorItem implements SpectriteDamageableItem
 {
@@ -28,6 +33,12 @@ public class SpectriteArmorItem extends ArmorItem implements SpectriteDamageable
     public boolean isFireproof()
     {
         return true;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    {
+        SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
     }
 
     @Override

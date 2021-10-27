@@ -6,6 +6,7 @@ import com.flashfyre.spectrite.damageSource.DamageSources;
 import com.flashfyre.spectrite.etc.SpectriteExplosion;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.item.SpectriteDamageableItem;
+import com.flashfyre.spectrite.item.SpectriteWeaponItem;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.MapColor;
@@ -113,7 +114,10 @@ public final class SpectriteUtils
         if (playerEntity != null && !playerEntity.isCreative())
         {
             final ItemCooldownManager itemCooldownManager = playerEntity.getItemCooldownManager();
-            final float cooldown = SpectriteConfig.getSpectriteToolCooldown() * (2.5f * (float) Math.pow(2, power));
+            final float cooldownMultiplier = spectriteChargeableItemStack.getItem() instanceof SpectriteWeaponItem spectriteWeaponItem
+                    ? spectriteWeaponItem.getCooldownMultiplier()
+                    : 1f;
+            final float cooldown = SpectriteConfig.getSpectriteToolCooldown() * (2.5f * (float) Math.pow(2, power)) * cooldownMultiplier;
             for (Item spectriteChargeableItem : Items.SPECTRITE_CHARGEABLE_ITEMS)
             {
                 final int currentCooldown = Math.round(itemCooldownManager.getCooldownProgress(spectriteChargeableItem, 0f));

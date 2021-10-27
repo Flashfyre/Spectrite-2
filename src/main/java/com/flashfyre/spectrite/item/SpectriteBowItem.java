@@ -1,12 +1,17 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SpectriteBowItem extends BowItem implements SpectriteWeaponItem
 {
@@ -31,9 +36,27 @@ public class SpectriteBowItem extends BowItem implements SpectriteWeaponItem
     }
 
     @Override
+    public float getStackDamageMultiplier()
+    {
+        return 1.5f;
+    }
+
+    @Override
+    public float getCooldownMultiplier()
+    {
+        return 1f;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    {
+        SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
     }
 
     @Override

@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
 import net.minecraft.block.BlockState;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -10,11 +11,15 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShovelItem;
 import net.minecraft.item.ToolMaterial;
+import net.minecraft.text.Text;
 import net.minecraft.util.ActionResult;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
+
+import java.util.List;
 
 public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem, SpectriteWeaponItem
 {
@@ -39,9 +44,27 @@ public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem
     }
 
     @Override
+    public float getStackDamageMultiplier()
+    {
+        return 7f;
+    }
+
+    @Override
+    public float getCooldownMultiplier()
+    {
+        return 1.25f;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    {
+        SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
     }
 
     @Override

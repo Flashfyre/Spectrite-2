@@ -3,6 +3,7 @@ package com.flashfyre.spectrite.item;
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
 import com.google.common.collect.ImmutableMultimap;
 import com.google.common.collect.Multimap;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
@@ -12,8 +13,11 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
+import net.minecraft.text.Text;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
+import java.util.List;
 import java.util.Map;
 
 public class SpectriteTridentItem extends TridentItem implements SpectriteWeaponItem
@@ -56,9 +60,27 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteWeapon
     }
 
     @Override
+    public float getStackDamageMultiplier()
+    {
+        return 1f;
+    }
+
+    @Override
+    public float getCooldownMultiplier()
+    {
+        return 0.75f;
+    }
+
+    @Override
     public boolean isFireproof()
     {
         return true;
+    }
+
+    @Override
+    public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
+    {
+        SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
     }
 
     @Override

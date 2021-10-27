@@ -21,6 +21,21 @@
 	"item.spectrite.spectrite_boots": "Spectrite Boots",
 	"item.spectrite.spectrite_shield": "Spectrite Shield",
 	"item.spectrite.spectrite_trident": "Spectrite Trident",
+	
+	"item.spectrite.depleted_spectrite_bow": "Spectrite Bow",
+	"item.spectrite.depleted_spectrite_sword": "Spectrite Sword",
+	"item.spectrite.depleted_spectrite_shovel": "Spectrite Shovel",
+	"item.spectrite.depleted_spectrite_pickaxe": "Spectrite Pickaxe",
+	"item.spectrite.depleted_spectrite_axe": "Spectrite Axe",
+	"item.spectrite.depleted_spectrite_hoe": "Spectrite Hoe",
+	"item.spectrite.depleted_spectrite_helmet": "Spectrite Helmet",
+	"item.spectrite.depleted_spectrite_chestplate": "Spectrite Chestplate",
+	"item.spectrite.depleted_spectrite_leggings": "Spectrite Leggings",
+	"item.spectrite.depleted_spectrite_boots": "Spectrite Boots",
+	"item.spectrite.depleted_spectrite_shield": "Spectrite Shield",
+	"item.spectrite.depleted_spectrite_trident": "Spectrite Trident",
+	
+	"item.spectrite.tooltip.depleted": "Depleted",
 
 	"entity.spectrite.generic": "Spectrite %1$s"
 }

@@ -6,17 +6,23 @@ import com.flashfyre.spectrite.item.SpectriteDamageableItem;
 import com.flashfyre.spectrite.item.SpectriteWeaponItem;
 import com.flashfyre.spectrite.mixin.PlayerInventoryAccessor;
 import com.flashfyre.spectrite.soundEvent.SoundEvents;
+import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.sound.SoundEvent;
+import net.minecraft.text.Text;
+import net.minecraft.text.TranslatableText;
+import net.minecraft.util.Formatting;
 import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
+
+import java.util.List;
 
 public class SpectriteItemUtils
 {
@@ -68,10 +74,12 @@ public class SpectriteItemUtils
                     || playerEntity.shouldDamagePlayer(targetPlayer))
             {
                 final int power = spectriteWeaponItem.getSpectriteDamageLevel();
-                stack.damage((int) Math.pow(power, 3f), attacker, (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
+                stack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), attacker,
+                        (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
 
                 if (!attacker.world.isClient)
                 {
+                    target.timeUntilRegen = 0;
                     target.hurtTime = 0;
 
                     SpectriteUtils.newSpectriteExplosion(attacker.world, attacker, target, null,
@@ -134,5 +142,11 @@ public class SpectriteItemUtils
                 }
             }
         }
+    }
+
+    public static void appendSpectriteDamageableItemTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context)
+    {
+        if (stack.getItem() instanceof SpectriteDamageableItem spectriteDamageableItem && spectriteDamageableItem.isDepleted())
+            tooltip.add(new TranslatableText("item.spectrite.tooltip.depleted").formatted(Formatting.GRAY));
     }
 }
