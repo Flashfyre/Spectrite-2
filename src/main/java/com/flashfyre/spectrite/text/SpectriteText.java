@@ -70,9 +70,13 @@ public class SpectriteText extends BaseText
         final char[] chars = baseText.getString().toCharArray();
         final int textColorCount = SpectriteUtils.TEXT_COLORS.length;
         final int colorIndex;
-        if (previousColorIndex == null)
-            previousColorIndex = Math.round((System.currentTimeMillis() >> 7) % 7);
-        colorIndex = previousColorIndex.intValue();
+        if (rotateTextColor)
+        {
+            if (previousColorIndex == null)
+                previousColorIndex = Math.round((System.currentTimeMillis() >> 7) % 7);
+            colorIndex = previousColorIndex.intValue();
+        } else
+            colorIndex = 0;
         for (int c = 0; c < chars.length; c++)
         {
             final char currentChar = chars[c];

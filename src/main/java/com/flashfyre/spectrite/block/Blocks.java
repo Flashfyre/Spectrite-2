@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.block;
 
 import com.flashfyre.spectrite.Spectrite;
-import com.flashfyre.spectrite.block.entity.BlockEntities;
 import com.flashfyre.spectrite.item.Items;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
 import net.minecraft.block.AbstractBlock;
@@ -50,14 +49,14 @@ public class Blocks
                 return 10;
             }));
 
-    public static Block SPECTRITE_CHEST = new SpectriteChestBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.PURPLE)
+    /*public static Block SPECTRITE_CHEST = new SpectriteChestBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.PURPLE)
             .requiresTool()
             .strength(50.0F, 9.0F)
             .sounds(BlockSoundGroup.METAL)
             .luminance(state ->
             {
                 return 10;
-            }), () -> BlockEntities.SPECTRITE_CHEST);
+            }), () -> BlockEntities.SPECTRITE_CHEST);*/
 
     public static void initBlocks()
     {
@@ -67,7 +66,7 @@ public class Blocks
         registerBlock("spectrite_ore_blackstone", BLACKSTONE_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_ore_end", END_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_block", SPECTRITE_BLOCK, new FabricItemSettings());
-        registerBlock("spectrite_chest", SPECTRITE_CHEST, new FabricItemSettings().group(ItemGroup.DECORATIONS));
+        //registerBlock("spectrite_chest", SPECTRITE_CHEST, new FabricItemSettings().group(ItemGroup.DECORATIONS));
     }
 
     private static void registerBlock(String name, Block block, FabricItemSettings itemSettings)

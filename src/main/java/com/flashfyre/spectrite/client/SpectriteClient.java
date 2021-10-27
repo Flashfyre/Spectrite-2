@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.client;
 
 import com.flashfyre.spectrite.Spectrite;
-import com.flashfyre.spectrite.block.entity.BlockEntities;
 import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.client.particle.SpectriteExplosionEmitterParticle;
 import com.flashfyre.spectrite.client.render.*;
@@ -21,9 +20,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.fabricmc.fabric.api.client.event.lifecycle.v1.ClientTickEvents;
 import net.fabricmc.fabric.api.client.networking.v1.ClientPlayNetworking;
-import net.fabricmc.fabric.api.client.rendereregistry.v1.BlockEntityRendererRegistry;
 import net.fabricmc.fabric.api.client.rendering.v1.BuiltinItemRendererRegistry;
-import net.fabricmc.fabric.api.event.client.ClientSpriteRegistryCallback;
 import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
@@ -31,8 +28,6 @@ import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.render.RenderLayer;
-import net.minecraft.client.render.TexturedRenderLayers;
-import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
@@ -150,14 +145,14 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             client.getFramebuffer().beginWrite(false);
         });
 
-        BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.SPECTRITE_CHEST, ChestBlockEntityRenderer::new);
+        /*BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.SPECTRITE_CHEST, ChestBlockEntityRenderer::new);
 
         ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
                 registry.register(getId("entity/chest/spectrite")));
         ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
                 registry.register(getId("entity/chest/spectrite_left")));
         ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
-                registry.register(getId("entity/chest/spectrite_right")));
+                registry.register(getId("entity/chest/spectrite_right")));*/
 
         FabricModelPredicateProviderRegistry.register(Items.SPECTRITE_BOW, new Identifier("pulling"),
                 (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);

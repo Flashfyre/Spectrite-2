@@ -75,7 +75,7 @@ public class SpectriteItemUtils
                     target.hurtTime = 0;
 
                     SpectriteUtils.newSpectriteExplosion(attacker.world, attacker, target, null,
-                            (target.getX()), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, (target.getZ()),
+                            target.getX(), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, target.getZ(),
                             power, false, Explosion.DestructionType.NONE);
 
                     if (playerEntity != null)

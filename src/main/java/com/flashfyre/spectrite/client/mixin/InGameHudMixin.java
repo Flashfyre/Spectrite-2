@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.client.mixin;
 
+import com.flashfyre.spectrite.item.SpectriteChargeableItem;
 import com.flashfyre.spectrite.item.SpectriteItem;
 import com.flashfyre.spectrite.text.SpectriteText;
 import net.fabricmc.api.EnvType;
@@ -22,8 +23,12 @@ public class InGameHudMixin
     @ModifyVariable(method = "renderHeldItemTooltip", at = @At(value = "STORE"))
     private MutableText spectrite$modifyVariableRenderHeldItemTooltipMutableText(MutableText mutableText)
     {
-        if (!this.currentStack.isEmpty() && this.currentStack.getItem() instanceof SpectriteItem)
-            return new SpectriteText(mutableText, true);
+        if (!this.currentStack.isEmpty() && this.currentStack.getItem() instanceof SpectriteItem spectriteItem)
+        {
+            final boolean charged = spectriteItem instanceof SpectriteChargeableItem spectriteChargeableItem
+                    && spectriteChargeableItem.isCharged(this.currentStack);
+            return new SpectriteText(mutableText, charged);
+        }
 
         return mutableText;
     }

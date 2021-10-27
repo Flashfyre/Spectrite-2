@@ -1,23 +1,15 @@
 package com.flashfyre.spectrite.client.mixin;
 
-import com.flashfyre.spectrite.Spectrite;
-import com.flashfyre.spectrite.block.entity.SpectriteChestBlockEntity;
-import com.flashfyre.spectrite.client.util.SpectriteEntityRenderUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
-import net.minecraft.block.entity.BlockEntity;
 import net.minecraft.client.render.block.entity.ChestBlockEntityRenderer;
-import net.minecraft.client.util.SpriteIdentifier;
-import net.minecraft.util.Identifier;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.injection.At;
-import org.spongepowered.asm.mixin.injection.ModifyVariable;
 
 @Environment(EnvType.CLIENT)
 @Mixin(ChestBlockEntityRenderer.class)
 public class ChestBlockEntityRendererMixin
 {
-    @ModifyVariable(method = "render(Lnet/minecraft/block/entity/BlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V",
+    /*@ModifyVariable(method = "render(Lnet/minecraft/block/entity/BlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;II)V",
             at = @At(value = "STORE", target = "Lnet/minecraft/client/render/TexturedRenderLayers;getChestTexture(Lnet/minecraft/block/entity/BlockEntity;Lnet/minecraft/block/enums/ChestType;Z)Lnet/minecraft/client/util/SpriteIdentifier;"))
     private SpriteIdentifier spectrite$modifyVariableRenderGetChestTexture(SpriteIdentifier spriteIdentifier, BlockEntity entity)
     {
@@ -32,5 +24,5 @@ public class ChestBlockEntityRendererMixin
             return new SpriteIdentifier(spriteIdentifier.getAtlasId(), Spectrite.getId("entity/chest/spectrite" + variantSuffix));
         }
         return spriteIdentifier;
-    }
+    }*/
 }

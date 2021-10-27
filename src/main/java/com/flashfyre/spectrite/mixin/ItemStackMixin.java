@@ -23,8 +23,12 @@ public class ItemStackMixin
     private MutableText spectrite$modifyVariableGetTooltipMutableText(MutableText mutableText)
     {
         final ItemStack stack = (ItemStack) (Object) this;
-        if (stack.getItem() instanceof SpectriteItem)
-            return new SpectriteText(mutableText, true);
+        if (stack.getItem() instanceof SpectriteItem spectriteItem)
+        {
+            final boolean charged = spectriteItem instanceof SpectriteChargeableItem spectriteChargeableItem
+                    && spectriteChargeableItem.isCharged(stack);
+            return new SpectriteText(mutableText, charged);
+        }
 
         return mutableText;
     }

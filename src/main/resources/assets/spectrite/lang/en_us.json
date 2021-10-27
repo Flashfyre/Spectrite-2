@@ -1,3 +1,26 @@
 {
+	"block.spectrite.spectrite_ore": "Spectrite Ore",
+	"block.spectrite.spectrite_ore_deepslate": "Deepslate Spectrite Ore",
+	"block.spectrite.spectrite_ore_nether": "Nether Spectrite Ore",
+	"block.spectrite.spectrite_ore_blackstone": "Blackstone Spectrite Ore",
+	"block.spectrite.spectrite_ore_end": "End Spectrite Ore",
+	"block.spectrite.spectrite_block": "Block of Spectrite",
+
+	"item.spectrite.spectrite_gem": "Spectrite Gem",
+	"item.spectrite.spectrite_rod": "Spectrite Rod",
+	
+	"item.spectrite.spectrite_bow": "Spectrite Bow",
+	"item.spectrite.spectrite_sword": "Spectrite Sword",
+	"item.spectrite.spectrite_shovel": "Spectrite Shovel",
+	"item.spectrite.spectrite_pickaxe": "Spectrite Pickaxe",
+	"item.spectrite.spectrite_axe": "Spectrite Axe",
+	"item.spectrite.spectrite_hoe": "Spectrite Hoe",
+	"item.spectrite.spectrite_helmet": "Spectrite Helmet",
+	"item.spectrite.spectrite_chestplate": "Spectrite Chestplate",
+	"item.spectrite.spectrite_leggings": "Spectrite Leggings",
+	"item.spectrite.spectrite_boots": "Spectrite Boots",
+	"item.spectrite.spectrite_shield": "Spectrite Shield",
+	"item.spectrite.spectrite_trident": "Spectrite Trident",
+
 	"entity.spectrite.generic": "Spectrite %1$s"
 }
