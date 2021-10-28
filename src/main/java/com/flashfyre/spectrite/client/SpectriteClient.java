@@ -245,13 +245,13 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     }
 
     @Override
-    public void spawnSpectriteExplosionEmitterParticle(World world, double posX, double posY, double posZ, double power)
+    public void spawnChromaBlastEmitterParticle(World world, double posX, double posY, double posZ, double power)
     {
         MinecraftClient.getInstance().particleManager.addParticle(new ChromaBlastEmitterParticle((ClientWorld) world, posX, posY, posZ, power));
     }
 
     @Override
-    public void spawnSpectriteExplosionParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
+    public void spawnChromaBlastParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
     {
         final Particle particle = MinecraftClient.getInstance().particleManager.addParticle(Particles.CHROMA_BLAST, posX, posY, posZ, xSpeed, ySpeed, zSpeed);
         if (particle != null)

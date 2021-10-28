@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
+import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SpectriteTridentItem;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
@@ -99,6 +100,9 @@ public class TridentEntityMixin
 
                     if (!tridentEntity.world.isClient)
                     {
+                        final int superchromaticLevel = livingEntity2.hasStatusEffect(StatusEffects.SUPERCHROMATIC)
+                                ? livingEntity2.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1
+                                : 0;
                         livingEntity.timeUntilRegen = 0;
                         livingEntity.hurtTime = 0;
 
@@ -106,7 +110,7 @@ public class TridentEntityMixin
                         SpectriteUtils.newChromaBlast(tridentEntity.world, tridentEntity, livingEntity,
                                 null, (tridentEntity.getX() + targetX) / 2d, (tridentY + targetY) / 2d,
                                 (tridentEntity.getZ() + targetZ) / 2d,
-                                power, false, Explosion.DestructionType.NONE);
+                                power + superchromaticLevel, false, Explosion.DestructionType.NONE);
                         if (livingEntity2 instanceof PlayerEntity playerEntity)
                             SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, tridentStack);
                     }

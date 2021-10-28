@@ -40,6 +40,12 @@
 	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",
 	"item.spectrite.modifiers.charged": "When Charged:",
 	"item.spectrite.modifiers.charged.tool_efficiency": "%d%% Efficiency",
+	"item.spectrite.modifiers.set_bonus": "Set Bonus:",
+	
+	"effect.spectrite.superchromatic": "Superchromatic",
 
-	"entity.spectrite.superchromatic.generic": "Superchromatic %1$s"
+	"entity.spectrite.superchromatic.generic": "Superchromatic %1$s",
+	
+	"death.attack.chroma_blast": "%1$s was chroma blasted",
+	"death.attack.chroma_blast.player": "%1$s was chroma blasted by %2$s"
 }

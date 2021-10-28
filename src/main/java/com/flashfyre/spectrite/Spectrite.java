@@ -66,11 +66,11 @@ public class Spectrite implements ModInitializer
         return null;
     }
 
-    public void spawnSpectriteExplosionEmitterParticle(World world, double posX, double posY, double posZ, double power)
+    public void spawnChromaBlastEmitterParticle(World world, double posX, double posY, double posZ, double power)
     {
     }
 
-    public void spawnSpectriteExplosionParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
+    public void spawnChromaBlastParticle(double posX, double posY, double posZ, double xSpeed, double ySpeed, double zSpeed)
     {
     }
 }

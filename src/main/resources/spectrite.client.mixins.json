@@ -25,6 +25,7 @@
     "ReloadableResourceManagerImplMixin",
     "SpectralArrowEntityRendererMixin",
     "SpectriteClientWorldMixin",
+    "SpriteAtlasHolderMixin",
     "SpriteAtlasTextureDataAccessor",
     "TridentEntityRendererMixin",
     "WitherSkullEntityRendererMixin"

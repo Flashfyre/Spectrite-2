@@ -10,12 +10,13 @@ import net.minecraft.client.world.ClientWorld;
 public class ChromaBlastEmitterParticle extends NoRenderParticle
 {
     private int age_;
-    private final int maxAge_ = 8;
+    private final int maxAge;
     private final double power;
 
     public ChromaBlastEmitterParticle(ClientWorld clientWorld, double d, double e, double f, double power)
     {
         super(clientWorld, d, e, f, 0.0D, 0.0D, 0.0D);
+        this.maxAge = 8 + ((int) power << 1);
         this.power = power;
     }
 
@@ -28,11 +29,11 @@ public class ChromaBlastEmitterParticle extends NoRenderParticle
             final double f = this.z + (this.random.nextDouble() - this.random.nextDouble()) * power * 2.0D;
 
             SpectriteClientUtils.spawnSpectriteExplosionParticle(d, e, f,
-                    (float) this.age_ / (float) this.maxAge_, 0.0D, 0.0D);
+                    (float) this.age_ / (float) this.maxAge, 0.0D, 0.0D);
         }
 
         ++this.age_;
-        if (this.age_ == this.maxAge_)
+        if (this.age_ == this.maxAge)
             this.markDead();
 
     }

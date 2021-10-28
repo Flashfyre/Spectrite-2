@@ -309,9 +309,7 @@ public final class SpectriteTextureUtils
         final String[] textureNames = getBlockTextureNames(name);
 
         for (String textureName : textureNames)
-        {
             ret.put(textureName, getBlockTextures(resourceManager, name, textureName, baseModelEntries));
-        }
 
         return ret;
     }
@@ -360,9 +358,7 @@ public final class SpectriteTextureUtils
                                                        String textureName, Map.Entry<Identifier, Integer>[] baseModelEntries)
     {
         Arrays.stream(baseModelEntries).forEach(modelEntry ->
-        {
-            textures.add(getSpectriteBlockTexture(resourceManager, textureName, modelEntry.getKey()));
-        });
+                textures.add(getSpectriteBlockTexture(resourceManager, textureName, modelEntry.getKey())));
     }
 
     public static Map.Entry<String, Integer>[] getItemModelOverrides(String name)
@@ -816,8 +812,8 @@ public final class SpectriteTextureUtils
         return ret;
     }
 
-    private static NativeImage getSpectriteBlockTexture(ResourceManager resourceManager,
-                                                        String textureName, Identifier diamondBlockTextureLocation)
+    public static NativeImage getSpectriteBlockTexture(ResourceManager resourceManager,
+                                                       String textureName, Identifier diamondBlockTextureLocation)
     {
         final NativeImage diamondBlock = getNativeImage(resourceManager, new Identifier(diamondBlockTextureLocation.getNamespace(),
                 "textures/" + diamondBlockTextureLocation.getPath() + ".png"));

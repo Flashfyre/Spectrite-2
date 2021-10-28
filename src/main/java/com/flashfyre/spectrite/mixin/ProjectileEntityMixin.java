@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
+import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -44,6 +45,10 @@ public class ProjectileEntityMixin
                 } else
                     target = null;
                 int power = 1 + (spectriteCompatibleWeaponEntity.isSpectriteCharged() ? 1 : 0);
+                final int superchromaticLevel = projectileEntity.getOwner() instanceof LivingEntity ownerEntity
+                        && ownerEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC)
+                        ? ownerEntity.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1
+                        : 0;
                 final boolean isWitherSkull = projectileEntity instanceof WitherSkullEntity;
                 final Explosion.DestructionType destructionType;
                 if (isWitherSkull)
@@ -55,7 +60,7 @@ public class ProjectileEntityMixin
                 SpectriteUtils.newChromaBlast(projectileEntity.world, projectileEntity,
                         target != null && target.getType() == EntityType.ENDERMAN ? null : target,
                         null, projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(),
-                        power, false, destructionType);
+                        power + superchromaticLevel, false, destructionType);
                 if (hitResult.getType() == HitResult.Type.BLOCK || isWitherSkull)
                     projectileEntity.discard();
             }

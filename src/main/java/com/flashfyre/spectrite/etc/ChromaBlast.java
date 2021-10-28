@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.etc;
 
 import com.flashfyre.spectrite.Spectrite;
+import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.mixin.ExplosionAccessor;
 import com.google.common.collect.Sets;
 import com.mojang.datafixers.util.Pair;
@@ -175,7 +176,11 @@ public class ChromaBlast extends Explosion
                         ab /= ac;
                         final double ad = entity == targetEntity ? 1f : getExposure(vec3d, entity);
                         final double ae = (1.0D - y) * ad;
-                        entity.damage(this.getDamageSource(), ((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D * (double) q + 1.0D))) / 4f);
+                        final double baseDamage = entity instanceof LivingEntity livingEntity
+                                && livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC)
+                                ? Math.max(this.power - (livingEntity.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1.0D), 0f) * 2.0D
+                                : q;
+                        entity.damage(this.getDamageSource(), (((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D * baseDamage))) / 4f) + 1.0f);
                         double af = ae;
                         if (entity instanceof LivingEntity)
                             af = ProtectionEnchantment.transformExplosionKnockback((LivingEntity) entity, ae);
@@ -256,9 +261,9 @@ public class ChromaBlast extends Explosion
         boolean bl = this.destructionType != Explosion.DestructionType.NONE;
         if (particles && world.isClient)
         {
-            Spectrite.INSTANCE.spawnSpectriteExplosionParticle(this.x, this.y, this.z, 0, 0, 0);
+            Spectrite.INSTANCE.spawnChromaBlastParticle(this.x, this.y, this.z, 0, 0, 0);
             if (power > 1)
-                Spectrite.INSTANCE.spawnSpectriteExplosionEmitterParticle(this.world, this.x, this.y, this.z, power);
+                Spectrite.INSTANCE.spawnChromaBlastEmitterParticle(this.world, this.x, this.y, this.z, power);
         }
 
         if (bl)

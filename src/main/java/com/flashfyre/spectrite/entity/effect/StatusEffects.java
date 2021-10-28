@@ -7,7 +7,7 @@ import net.minecraft.util.registry.Registry;
 
 public class StatusEffects
 {
-    public static final StatusEffect SUPERCHROMATIC = new SuperchromaticStatusEffect(StatusEffectCategory.NEUTRAL);
+    public static final StatusEffect SUPERCHROMATIC = new SuperchromaticStatusEffect(StatusEffectCategory.BENEFICIAL);
 
     public static void initStatusEffects()
     {

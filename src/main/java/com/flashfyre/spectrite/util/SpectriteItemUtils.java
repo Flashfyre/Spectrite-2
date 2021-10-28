@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.util;
 
+import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.item.SpectriteChargeableItem;
 import com.flashfyre.spectrite.item.SpectriteDamageableItem;
@@ -79,12 +80,15 @@ public class SpectriteItemUtils
 
                 if (!attacker.world.isClient)
                 {
+                    final int superchromaticLevel = attacker.hasStatusEffect(StatusEffects.SUPERCHROMATIC)
+                            ? attacker.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1
+                            : 0;
                     target.timeUntilRegen = 0;
                     target.hurtTime = 0;
 
                     SpectriteUtils.newChromaBlast(attacker.world, attacker, target, null,
                             target.getX(), attacker.getBoundingBox().minY + attacker.getHeight() / 2f, target.getZ(),
-                            power, false, Explosion.DestructionType.NONE);
+                            power + superchromaticLevel, false, Explosion.DestructionType.NONE);
 
                     if (playerEntity != null)
                         SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, stack);

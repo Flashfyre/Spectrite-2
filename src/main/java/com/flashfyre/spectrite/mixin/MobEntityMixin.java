@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.SpectriteConfig;
-import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.Entity;
@@ -131,13 +130,11 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
-    private void injectTickMovementSuperchromaticGlowParticle(CallbackInfo ci)
+    private void injectTickMovementAddSuperchromaticEffect(CallbackInfo ci)
     {
         final MobEntity mobEntity = (MobEntity) (Object) this;
 
-        if (((SpectriteCompatibleMobEntity) mobEntity).isSuperchromatic() && mobEntity.world.getTime() % 7 == 0)
-            mobEntity.world.addParticle(Particles.SUPERCHROMATIC_GLOW,
-                    mobEntity.getParticleX(0.6D), mobEntity.getRandomBodyY(), mobEntity.getParticleZ(0.6D),
-                    0.0D, 0.0D, 0.0D);
+        if (((SpectriteCompatibleMobEntity) mobEntity).isSuperchromatic())
+            SpectriteEntityUtils.addPassiveSuperchromaticEffectIfNotPresent(mobEntity);
     }
 }

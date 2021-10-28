@@ -1,9 +1,6 @@
 package com.flashfyre.spectrite.client.mixin;
 
-import com.flashfyre.spectrite.item.SpectriteChargeableItem;
-import com.flashfyre.spectrite.item.SpectriteItem;
-import com.flashfyre.spectrite.item.SpectriteToolItem;
-import com.flashfyre.spectrite.item.SpectriteWeaponItem;
+import com.flashfyre.spectrite.item.*;
 import com.flashfyre.spectrite.text.SpectriteText;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -62,28 +59,37 @@ public class ItemStackClientMixin
     private void injectGetTooltipInsertSpectriteInfo(PlayerEntity player, TooltipContext context, CallbackInfoReturnable<List<Text>> cir, List<Text> list)
     {
         final ItemStack stack = (ItemStack) (Object) this;
-        if (stack.getItem() instanceof SpectriteChargeableItem spectriteChargeableItem)
+        if (stack.getItem() instanceof SpectriteDamageableItem spectriteItem)
         {
-            final SpectriteToolItem spectriteToolItem = spectriteChargeableItem instanceof SpectriteToolItem
-                    ? (SpectriteToolItem) spectriteChargeableItem
+            final SpectriteToolItem spectriteToolItem = spectriteItem instanceof SpectriteToolItem
+                    ? (SpectriteToolItem) spectriteItem
                     : null;
-            final SpectriteWeaponItem spectriteWeaponItem = spectriteChargeableItem instanceof SpectriteWeaponItem
-                    ? (SpectriteWeaponItem) spectriteChargeableItem
+            final SpectriteWeaponItem spectriteWeaponItem = spectriteItem instanceof SpectriteWeaponItem
+                    ? (SpectriteWeaponItem) spectriteItem
                     : null;
-            if (spectriteWeaponItem != null || (spectriteToolItem != null && spectriteToolItem.getChargedEfficiencyMultiplier() > 1f)
-                    && isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
+            if (isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
             {
-                if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
-                    list.add(LiteralText.EMPTY);
-                list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
-                if (spectriteToolItem != null)
-                    list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) (spectriteToolItem.getChargedEfficiencyMultiplier() * 100f)).formatted(Formatting.BLUE)));
-                if (spectriteWeaponItem != null)
+                if (spectriteWeaponItem != null || (spectriteToolItem != null && spectriteToolItem.getChargedEfficiencyMultiplier() > 1f))
                 {
-                    final int chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel() + (spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0);
-                    final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                    chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
-                    list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                    if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
+                        list.add(LiteralText.EMPTY);
+                    list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
+                    if (spectriteToolItem != null)
+                        list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) (spectriteToolItem.getChargedEfficiencyMultiplier() * 100f)).formatted(Formatting.BLUE)));
+                    if (spectriteWeaponItem != null)
+                    {
+                        final int chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel() + (spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0);
+                        final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
+                        chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
+                        list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                    }
+                } else if (spectriteItem instanceof SpectriteArmorItem spectriteArmorItem)
+                {
+                    if (stack.getAttributeModifiers(spectriteArmorItem.getSlotType()).isEmpty())
+                        list.add(LiteralText.EMPTY);
+                    final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
+                    list.add(new TranslatableText("item.spectrite.modifiers.set_bonus").formatted(Formatting.GRAY));
+                    list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
                 }
             }
         }
