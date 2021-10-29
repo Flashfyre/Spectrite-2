@@ -7,4 +7,6 @@ public interface SpectriteCompatibleMobEntity extends SpectriteCompatibleEntity
     ServerBossBar getSuperchromaticBossBar();
 
     void setSuperchromaticBossBar(ServerBossBar superchromaticBossBar);
+
+    void tryUpgradeEquipmentForSuperchromatic();
 }

@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 import java.util.List;
 import java.util.Map;
 
-public class SpectriteTridentItem extends TridentItem implements SpectriteWeaponItem
+public class SpectriteTridentItem extends TridentItem implements SpectriteMeleeWeaponItem
 {
     private boolean depleted;
 
@@ -93,13 +93,6 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteWeapon
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
     {
         return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
-    {
-        final boolean ret = super.postHit(stack, target, attacker);
-        return SpectriteItemUtils.spectriteWeaponPostHit(ret, stack, target, attacker);
     }
 
     @Override

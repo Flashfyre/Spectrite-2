@@ -21,7 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem, SpectriteWeaponItem
+public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem, SpectriteMeleeWeaponItem
 {
     private boolean depleted;
 
@@ -123,13 +123,6 @@ public class SpectriteShovelItem extends ShovelItem implements SpectriteToolItem
     {
         SpectriteItemUtils.stopUsingSpectriteChargeableItem(user, stack, remainingUseTicks);
         super.onStoppedUsing(stack, world, user, remainingUseTicks);
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
-    {
-        final boolean ret = super.postHit(stack, target, attacker);
-        return SpectriteItemUtils.spectriteWeaponPostHit(ret, stack, target, attacker);
     }
 
     @Override

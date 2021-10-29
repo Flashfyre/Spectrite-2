@@ -4,17 +4,22 @@ import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.component.Components;
 import com.flashfyre.spectrite.component.SpectriteWeaponEntityAttributesComponent;
 import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
+import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
+import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
+import net.minecraft.world.explosion.Explosion;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
@@ -146,5 +151,77 @@ public class SpectriteEntityUtils
     {
         if (!livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC))
             livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SUPERCHROMATIC, 16, 0, true, false, true));
+    }
+
+    public static void tryAddChromaBlast(LivingEntity livingEntity, Entity target)
+    {
+        if (target instanceof LivingEntity livingTarget)
+        {
+            final boolean isSuperchromatic = livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC);
+            final int superchromaticLevel = isSuperchromatic
+                    ? livingEntity.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1
+                    : 0;
+            final int superchromaticMobPowerBonus = livingEntity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
+                    && spectriteCompatibleMobEntity.isSuperchromatic() ? getSuperchromaticMobPowerBonus(((MobEntity) livingEntity)) : 0;
+            final ItemStack stack = livingEntity.getMainHandStack();
+            final SpectriteMeleeWeaponItem spectriteWeaponItem = !stack.isEmpty()
+                    && stack.getItem() instanceof SpectriteMeleeWeaponItem
+                    ? (SpectriteMeleeWeaponItem) stack.getItem()
+                    : null;
+            final PlayerEntity playerEntity = livingEntity instanceof PlayerEntity ? (PlayerEntity) livingEntity : null;
+
+            if (spectriteWeaponItem != null && spectriteWeaponItem.isCharged(stack) && !spectriteWeaponItem.isDepleted())
+            {
+                final int power = spectriteWeaponItem.getChromaBlastLevel();
+                if ((playerEntity == null
+                        || playerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0f) == 0f))
+                {
+                    if (playerEntity == null || !(target instanceof PlayerEntity targetPlayer)
+                            || playerEntity.shouldDamagePlayer(targetPlayer))
+                    {
+                        if (playerEntity != null)
+                            stack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), playerEntity,
+                                    (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
+
+                        if (!livingEntity.world.isClient)
+                        {
+                            newChromaBlast(livingEntity, livingTarget, power + superchromaticLevel + superchromaticMobPowerBonus);
+
+                            if (playerEntity != null)
+                                SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, stack);
+                        }
+
+                        spectriteWeaponItem.setCharged(stack, false);
+                        return;
+                    }
+                }
+            }
+
+            if (isSuperchromatic)
+                newChromaBlast(livingEntity, livingTarget, superchromaticLevel + superchromaticMobPowerBonus);
+        }
+    }
+
+    private static void newChromaBlast(LivingEntity livingEntity, LivingEntity livingTarget, int power)
+    {
+        livingTarget.timeUntilRegen = 0;
+        livingTarget.hurtTime = 0;
+
+        final Vec3d attackerToTarget = livingTarget.getPos().subtract(livingEntity.getPos());
+        final Vec3d chromaBlastPos = livingTarget.getPos().subtract(attackerToTarget.normalize());
+
+        SpectriteUtils.newChromaBlast(livingEntity.world, livingEntity, livingTarget, null,
+                chromaBlastPos.getX(), livingEntity.getBoundingBox().minY + livingEntity.getHeight() / 2f, chromaBlastPos.getZ(),
+                power, false, Explosion.DestructionType.NONE);
+    }
+
+    public static int getSuperchromaticMobPowerBonus(MobEntity mobEntity)
+    {
+        final float maxHealth = mobEntity.getMaxHealth();
+        if (maxHealth < 140f)
+            return 0;
+        if (maxHealth < 220f)
+            return 1;
+        return 2;
     }
 }

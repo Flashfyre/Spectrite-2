@@ -124,9 +124,7 @@ public class ChromaBlast extends Explosion
                             BlockState blockState = this.world.getBlockState(blockPos);
                             FluidState fluidState = this.world.getFluidState(blockPos);
                             if (!this.world.isInBuildLimit(blockPos))
-                            {
                                 break;
-                            }
 
                             final Optional<Float> optional = ((ExplosionAccessor) this).getBehavior().getBlastResistance(this, this.world, blockPos, blockState, fluidState);
                             if (optional.isPresent())

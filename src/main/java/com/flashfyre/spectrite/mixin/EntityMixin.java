@@ -111,7 +111,7 @@ public abstract class EntityMixin
     @Inject(method = "onStoppedTrackingBy", at = @At("TAIL"))
     private void injectOnStoppedTrackingSuperchromaticBossBarRemovePlayer(ServerPlayerEntity player, CallbackInfo ci)
     {
-        final Entity entity = (Entity) ((Object) this);
+        final Entity entity = (Entity) (Object) this;
         if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar() != null)
             ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().removePlayer(player);
     }

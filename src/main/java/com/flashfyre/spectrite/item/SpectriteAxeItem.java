@@ -20,7 +20,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
-public class SpectriteAxeItem extends AxeItem implements SpectriteToolItem, SpectriteWeaponItem
+public class SpectriteAxeItem extends AxeItem implements SpectriteToolItem, SpectriteMeleeWeaponItem
 {
     private boolean depleted;
 
@@ -122,13 +122,6 @@ public class SpectriteAxeItem extends AxeItem implements SpectriteToolItem, Spec
     {
         SpectriteItemUtils.stopUsingSpectriteChargeableItem(user, stack, remainingUseTicks);
         super.onStoppedUsing(stack, world, user, remainingUseTicks);
-    }
-
-    @Override
-    public boolean postHit(ItemStack stack, LivingEntity target, LivingEntity attacker)
-    {
-        final boolean ret = super.postHit(stack, target, attacker);
-        return SpectriteItemUtils.spectriteWeaponPostHit(ret, stack, target, attacker);
     }
 
     @Override

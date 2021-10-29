@@ -1,9 +1,10 @@
 package com.flashfyre.spectrite.item;
 
-import com.flashfyre.spectrite.mixin.LivingEntityAccessor;
+import com.flashfyre.spectrite.mixin.PlayerEntityAccessor;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,9 +39,9 @@ public class SpectriteDamageableDamageHandler implements CustomDamageHandler
                     } else if (item instanceof SpectriteArmorItem armorItem)
                     {
                         final EquipmentSlot armorSlot = armorItem.getSlotType();
-                        if (entity.getEquippedStack(armorSlot) == stack)
+                        if (entity instanceof PlayerEntity playerEntity && playerEntity.getEquippedStack(armorSlot) == stack)
                         {
-                            ((LivingEntityAccessor) entity).invokeSetArmorInSlot(armorSlot, depletedStack);
+                            ((PlayerEntityAccessor) entity).getInventory().armor.set(armorSlot.getEntitySlotId(), depletedStack);
                             return ret;
                         }
                     }

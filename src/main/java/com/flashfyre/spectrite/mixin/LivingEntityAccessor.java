@@ -1,10 +1,8 @@
 package com.flashfyre.spectrite.mixin;
 
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.StatusEffectInstance;
-import net.minecraft.item.ItemStack;
 import org.jetbrains.annotations.Nullable;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Invoker;
@@ -12,9 +10,6 @@ import org.spongepowered.asm.mixin.gen.Invoker;
 @Mixin(LivingEntity.class)
 public interface LivingEntityAccessor
 {
-    @Invoker("setArmorInSlot")
-    void invokeSetArmorInSlot(EquipmentSlot slot, ItemStack armor);
-
     @Invoker("onStatusEffectApplied")
     void invokeOnStatusEffectApplied(StatusEffectInstance effect, @Nullable Entity source);
 

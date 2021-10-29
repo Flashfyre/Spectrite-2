@@ -13,11 +13,16 @@ import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
+import net.minecraft.entity.mob.SkeletonEntity;
+import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
+import net.minecraft.util.Hand;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
+import org.spongepowered.asm.mixin.Shadow;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
@@ -27,8 +32,11 @@ import java.util.Map;
 import java.util.function.Supplier;
 
 @Mixin(MobEntity.class)
-public class MobEntityMixin implements SpectriteCompatibleMobEntity
+public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
 {
+    @Shadow
+    protected abstract void enchantMainHandItem(float power);
+
     private ServerBossBar superchromaticBossBar;
 
     @Override
@@ -53,6 +61,21 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
     public void setSuperchromaticBossBar(ServerBossBar superchromaticBossBar)
     {
         this.superchromaticBossBar = superchromaticBossBar;
+    }
+
+    @Override
+    public void tryUpgradeEquipmentForSuperchromatic()
+    {
+        final MobEntity mobEntity = (MobEntity) (Object) this;
+        if (mobEntity instanceof SkeletonEntity)
+        {
+            final ItemStack mainHandStack = mobEntity.getMainHandStack();
+            if (mainHandStack.getItem() == Items.BOW && mobEntity.world.random.nextInt(7) == 0)
+            {
+                mobEntity.setStackInHand(Hand.MAIN_HAND, new ItemStack(com.flashfyre.spectrite.item.Items.SPECTRITE_BOW));
+                this.enchantMainHandItem(mobEntity.world.getLocalDifficulty(mobEntity.getBlockPos()).getClampedLocalDifficulty());
+            }
+        }
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))
