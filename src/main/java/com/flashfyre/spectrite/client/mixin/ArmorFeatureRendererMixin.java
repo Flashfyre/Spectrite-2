@@ -36,7 +36,7 @@ public class ArmorFeatureRendererMixin
             MatrixStack matrices, VertexConsumerProvider vertexConsumers, LivingEntity entity, EquipmentSlot armorSlot,
             int light, BipedEntityModel model, CallbackInfo ci)
     {
-        ItemStack itemStack = entity.getEquippedStack(armorSlot);
+        final ItemStack itemStack = entity.getEquippedStack(armorSlot);
         if (itemStack.getItem() instanceof SpectriteArmorItem)
             SPECTRITE_ARMOR_DAMAGE.set(SpectriteUtils.getItemStackStDamage(itemStack));
     }

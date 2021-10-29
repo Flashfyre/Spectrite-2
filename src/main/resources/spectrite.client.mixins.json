@@ -11,6 +11,7 @@
     "FeatureRendererMixin",
     "FramebufferAccessor",
     "FramebufferMixin",
+    "HorseArmorFeatureRendererMixin",
     "InGameHudMixin",
     "ItemRendererMixin",
     "ItemStackClientAccessor",

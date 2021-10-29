@@ -1,0 +1,35 @@
+{
+  "display": {
+    "title": {
+      "translate": "advancements.spectrite.root.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.root.description"
+    },
+    "icon": {
+      "item": "spectrite:spectrite_gem"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false,
+    "background": "spectrite:textures/gui/advancements/background.png"
+  },
+  "criteria": {
+    "spectrite_gem": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "item": "spectrite:spectrite_gem"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spectrite_gem"
+    ]
+  ]
+}

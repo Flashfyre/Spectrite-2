@@ -1,0 +1,40 @@
+{
+  "parent": "spectrite:kill_superchromatic_enderman",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_ender_pearl"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromatic_ender_pearl.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromatic_ender_pearl.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "superchromatic_ender_pearl": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:superchromatic_ender_pearl"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_ender_pearl"
+    ]
+  ]
+}

@@ -1,0 +1,38 @@
+{
+  "parent": "spectrite:root",
+  "display": {
+    "icon": {
+      "item": "spectrite:spectrite_pickaxe",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.upgrade_spectrite_tools.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.upgrade_spectrite_tools.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "spectrite_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_pickaxe"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spectrite_pickaxe"
+    ]
+  ]
+}

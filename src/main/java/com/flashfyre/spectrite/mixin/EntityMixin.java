@@ -3,7 +3,14 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.text.SpectriteText;
+import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.boss.BossBar;
+import net.minecraft.entity.boss.ServerBossBar;
+import net.minecraft.entity.boss.dragon.EnderDragonEntity;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.entity.mob.Monster;
+import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
@@ -25,7 +32,25 @@ public abstract class EntityMixin
     public World world;
 
     @Shadow
+    protected boolean firstUpdate;
+
+    @Shadow
     public abstract SoundCategory getSoundCategory();
+
+    @Inject(method = "refreshPositionAndAngles(DDDFF)V", at = @At(value = "INVOKE",
+            target = "Lnet/minecraft/entity/Entity;setPos(DDD)V", shift = At.Shift.AFTER))
+    private void spectrite$injectRefreshPositionAndAnglesAfterSetPos(double x, double y, double z, float yaw, float pitch, CallbackInfo ci)
+    {
+        final Entity entity = (Entity) (Object) this;
+        if (this.firstUpdate && entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity)
+        {
+            if (entity instanceof EnderDragonEntity)
+                return;
+            if (SpectriteEntityUtils.trySetMobSuperchromatic((MobEntity) entity) && entity instanceof Monster)
+                spectriteCompatibleMobEntity.setSuperchromaticBossBar(new ServerBossBar(entity.getDisplayName(),
+                        BossBar.Color.PURPLE, BossBar.Style.PROGRESS));
+        }
+    }
 
     @Inject(method = "getName", at = @At(value = "RETURN"), cancellable = true)
     private void spectrite$injectGetNameReturn(CallbackInfoReturnable<Text> cir)
@@ -58,6 +83,20 @@ public abstract class EntityMixin
         {
             this.world.playSoundFromEntity(null, entity, sound, this.getSoundCategory(), volume, pitch);
             ci.cancel();
+        }
+    }
+
+    @Inject(method = "readNbt", at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/Entity;shouldSetPositionOnLoad()Z"))
+    private void injectReadNbtShouldSetPositionOnLoadSetBossBar(NbtCompound nbt, CallbackInfo ci)
+    {
+        final Entity entity = (Entity) (Object) this;
+        if (entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
+                && spectriteCompatibleMobEntity.isSuperchromatic() && entity instanceof Monster)
+        {
+            if (entity instanceof EnderDragonEntity)
+                return;
+            spectriteCompatibleMobEntity.setSuperchromaticBossBar(new ServerBossBar(entity.getDisplayName(),
+                    BossBar.Color.PURPLE, BossBar.Style.PROGRESS));
         }
     }
 

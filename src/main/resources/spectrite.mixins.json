@@ -5,7 +5,11 @@
   "compatibilityLevel": "JAVA_16",
   "mixins": [
     "AbstractBlockStateMixin",
+    "AnimalEntityMixin",
     "BaseTextAccessor",
+    "BeaconBlockEntityAccessor",
+    "BeaconBlockEntityMixin",
+    "BlockEntityAccessor",
     "ConstantLootNumberProviderAccessor",
     "EntityMixin",
     "ExplosionAccessor",
@@ -24,6 +28,7 @@
     "SetCountLootFunctionAccessor",
     "TridentEntityMixin",
     "UniformLootNumberProviderAccessor",
+    "WitherEntityMixin",
     "WitherSkullEntityMixin"
   ],
   "client": [

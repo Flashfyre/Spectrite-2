@@ -1,6 +1,6 @@
 package com.flashfyre.spectrite.loot;
 
-import com.flashfyre.spectrite.loot.condition.SpectriteMobLootCondition;
+import com.flashfyre.spectrite.loot.condition.SuperchromaticMobLootCondition;
 import com.flashfyre.spectrite.mixin.*;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPool;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
@@ -29,6 +29,7 @@ import static com.flashfyre.spectrite.item.Items.*;
 public class LootTables
 {
     private static Map<Item, Pair<Item, Integer>> SPECTRITE_LOOT_ITEMS = new HashMap<>();
+    private static Set<Item> SPECTRITE_COUNT_OVERRIDE_ITEMS = new HashSet<>();
 
     public static void initLootTables()
     {
@@ -55,6 +56,12 @@ public class LootTables
         addSpectriteLootItem(Items.NETHERITE_LEGGINGS, SPECTRITE_LEGGINGS, 49);
         addSpectriteLootItem(Items.NETHERITE_BOOTS, SPECTRITE_BOOTS, 49);
         addSpectriteLootItem(Items.TRIDENT, SPECTRITE_TRIDENT, 36);
+        addSpectriteLootItem(Items.GOLDEN_APPLE, SUPERCHROMATIC_APPLE, 49);
+        addSpectriteLootItem(Items.GOLDEN_CARROT, SUPERCHROMATIC_CARROT, 49);
+        addSpectriteLootItem(Items.DIAMOND_HORSE_ARMOR, SPECTRITE_HORSE_ARMOR, 21);
+
+        SPECTRITE_COUNT_OVERRIDE_ITEMS.add(SUPERCHROMATIC_APPLE);
+        SPECTRITE_COUNT_OVERRIDE_ITEMS.add(SUPERCHROMATIC_CARROT);
 
         LootTableLoadingCallback.EVENT.register((resourceManager, lootManager, id, supplier, setter) ->
         {
@@ -85,7 +92,8 @@ public class LootTables
                             }
                             if (spectriteItemEntry != null)
                             {
-                                final ItemEntry.Builder spectriteItemEntryBuilder = ItemEntry.builder(spectriteItemEntry.getLeft())
+                                final Item spectriteItem = spectriteItemEntry.getLeft();
+                                final ItemEntry.Builder spectriteItemEntryBuilder = ItemEntry.builder(spectriteItem)
                                         .conditionally(RandomChanceLootCondition.builder(1f / (float) spectriteItemEntry.getRight()))
                                         .weight(weight)
                                         .quality(quality);
@@ -95,23 +103,27 @@ public class LootTables
                                     LootFunction func = function;
                                     if (func instanceof SetCountLootFunction setCountLootFunction)
                                     {
-                                        final LootNumberProvider countRange = ((SetCountLootFunctionAccessor) setCountLootFunction).getCountRange();
-                                        if (countRange instanceof ConstantLootNumberProvider constantLootNumberProvider)
+                                        if (!SPECTRITE_COUNT_OVERRIDE_ITEMS.contains(spectriteItem))
                                         {
-                                            final float value = (float) Math.floor(Math.sqrt(
-                                                    ((ConstantLootNumberProviderAccessor) (Object) constantLootNumberProvider).getValue()));
-                                            func = SetCountLootFunction.builder(ConstantLootNumberProvider.create(value)).build();
-                                        } else if (countRange instanceof UniformLootNumberProvider uniformLootNumberProvider)
-                                        {
-                                            final LootNumberProvider min = ((UniformLootNumberProviderAccessor) uniformLootNumberProvider).getMin();
-                                            final LootNumberProvider max = ((UniformLootNumberProviderAccessor) uniformLootNumberProvider).getMax();
-                                            if (min instanceof ConstantLootNumberProvider && max instanceof ConstantLootNumberProvider)
+                                            final LootNumberProvider countRange = ((SetCountLootFunctionAccessor) setCountLootFunction).getCountRange();
+                                            if (countRange instanceof ConstantLootNumberProvider constantLootNumberProvider)
                                             {
-                                                final float minValue = (float) Math.floor(Math.sqrt(((ConstantLootNumberProviderAccessor) min).getValue()));
-                                                final float maxValue = (float) Math.floor(Math.sqrt(((ConstantLootNumberProviderAccessor) max).getValue()));
-                                                func = SetCountLootFunction.builder(UniformLootNumberProvider.create(minValue, maxValue)).build();
+                                                final float value = (float) Math.floor(Math.sqrt(
+                                                        ((ConstantLootNumberProviderAccessor) (Object) constantLootNumberProvider).getValue()));
+                                                func = SetCountLootFunction.builder(ConstantLootNumberProvider.create(value)).build();
+                                            } else if (countRange instanceof UniformLootNumberProvider uniformLootNumberProvider)
+                                            {
+                                                final LootNumberProvider min = ((UniformLootNumberProviderAccessor) uniformLootNumberProvider).getMin();
+                                                final LootNumberProvider max = ((UniformLootNumberProviderAccessor) uniformLootNumberProvider).getMax();
+                                                if (min instanceof ConstantLootNumberProvider && max instanceof ConstantLootNumberProvider)
+                                                {
+                                                    final float minValue = (float) Math.floor(Math.sqrt(((ConstantLootNumberProviderAccessor) min).getValue()));
+                                                    final float maxValue = (float) Math.floor(Math.sqrt(((ConstantLootNumberProviderAccessor) max).getValue()));
+                                                    func = SetCountLootFunction.builder(UniformLootNumberProvider.create(minValue, maxValue)).build();
+                                                }
                                             }
-                                        }
+                                        } else
+                                            func = SetCountLootFunction.builder(ConstantLootNumberProvider.create(1f)).build();
                                     }
                                     ((LeafEntryBuilderAccessor) spectriteItemEntryBuilder).getFunctions().add(func);
                                 });
@@ -129,12 +141,26 @@ public class LootTables
                     spectritePools.forEach(sp -> supplier.pool(sp));
                 } else if (id.getPath().startsWith("entities/"))
                 {
+                    final String entityName = id.getPath().substring(9);
                     final FabricLootPoolBuilder spectritePool = FabricLootPoolBuilder.builder()
                             .with(ItemEntry.builder(SPECTRITE_GEM)
                                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
-                                    .conditionally(SpectriteMobLootCondition.builder())
+                                    .conditionally(SuperchromaticMobLootCondition.builder())
                                     .conditionally(KilledByPlayerLootCondition.builder()));
                     supplier.pool(spectritePool);
+
+                    switch (entityName)
+                    {
+                        case "enderman":
+                        case "wither":
+                            final boolean isEnderman = "enderman".equals(entityName);
+                            supplier.pool(FabricLootPoolBuilder.builder()
+                                    .with(ItemEntry.builder(isEnderman ? SUPERCHROMATIC_ENDER_PEARL : SUPERCHROMATIC_NETHER_STAR)
+                                            .conditionally(SuperchromaticMobLootCondition.builder())
+                                            .conditionally(KilledByPlayerLootCondition.builder())
+                                            .conditionally(RandomChanceLootCondition.builder(1f / 7f))));
+                            break;
+                    }
                 }
             }
         });

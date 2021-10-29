@@ -1,0 +1,40 @@
+{
+  "parent": "spectrite:root",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_carrot"
+    },
+    "title": {
+      "translate": "advancements.spectrite.tame_superchromatic_animal.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.tame_superchromatic_animal.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "superchromatic_animal": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_animal"
+    ]
+  ]
+}

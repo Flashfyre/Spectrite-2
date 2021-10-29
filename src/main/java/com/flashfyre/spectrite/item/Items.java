@@ -11,10 +11,7 @@ import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.BlockItem;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemGroup;
-import net.minecraft.item.ItemStack;
+import net.minecraft.item.*;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
@@ -109,6 +106,16 @@ public class Items
     public static final Item DEPLETED_SPECTRITE_TRIDENT = new SpectriteTridentItem(true,
             itemSettings().customDamage(spectriteDamageableDamageHandler).maxDamage(462));
 
+    public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
+
+    public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
+
+    public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(16).group(ItemGroup.MISC));
+
+    public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
+
+    public static final Item SPECTRITE_HORSE_ARMOR = new SpectriteHorseArmorItem(17, itemSettings().group(ItemGroup.MISC));
+
     public static void initItems()
     {
         registerItem("spectrite_gem", SPECTRITE_GEM);
@@ -125,6 +132,11 @@ public class Items
         registerDamageableItem("spectrite_boots", SPECTRITE_BOOTS, DEPLETED_SPECTRITE_BOOTS);
         registerDamageableItem("spectrite_shield", SPECTRITE_SHIELD, DEPLETED_SPECTRITE_SHIELD);
         registerDamageableItem("spectrite_trident", SPECTRITE_TRIDENT, DEPLETED_SPECTRITE_TRIDENT);
+        registerItem("superchromatic_apple", SUPERCHROMATIC_APPLE);
+        registerItem("superchromatic_carrot", SUPERCHROMATIC_CARROT);
+        registerItem("superchromatic_ender_pearl", SUPERCHROMATIC_ENDER_PEARL);
+        registerItem("superchromatic_nether_star", SUPERCHROMATIC_NETHER_STAR);
+        registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
     }
 
     private static FabricItemSettings itemSettings()

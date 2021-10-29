@@ -1,0 +1,86 @@
+{
+  "parent": "spectrite:shinier_gear",
+  "display": {
+    "icon": {
+      "item": "spectrite:spectrite_chestplate",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.full_spectrite_armor.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.full_spectrite_armor.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 150
+  },
+  "criteria": {
+    "spectrite_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_helmet"
+            ]
+          }
+        ]
+      }
+    },
+    "spectrite_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_chestplate"
+            ]
+          }
+        ]
+      }
+    },
+    "spectrite_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_leggings"
+            ]
+          }
+        ]
+      }
+    },
+    "spectrite_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_boots"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spectrite_helmet"
+    ],
+    [
+      "spectrite_chestplate"
+    ],
+    [
+      "spectrite_leggings"
+    ],
+    [
+      "spectrite_boots"
+    ]
+  ]
+}

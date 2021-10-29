@@ -35,6 +35,14 @@
 	"item.spectrite.depleted_spectrite_shield": "Spectrite Shield",
 	"item.spectrite.depleted_spectrite_trident": "Spectrite Trident",
 	
+	"item.spectrite.superchromatic_apple": "Superchromatic Apple",
+	"item.spectrite.superchromatic_carrot": "Superchromatic Carrot",
+	
+	"item.spectrite.superchromatic_ender_pearl": "Superchromatic Ender Pearl",
+	"item.spectrite.superchromatic_nether_star": "Superchromatic Nether Star",
+	
+	"item.spectrite.spectrite_horse_armor": "Spectrite Horse Armor",
+	
 	"item.spectrite.tooltip.depleted": "Depleted",
 	
 	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",
@@ -47,5 +55,40 @@
 	"entity.spectrite.superchromatic.generic": "Superchromatic %1$s",
 	
 	"death.attack.chroma_blast": "%1$s was chroma blasted",
-	"death.attack.chroma_blast.player": "%1$s was chroma blasted by %2$s"
+	"death.attack.chroma_blast.player": "%1$s was chroma blasted by %2$s",
+	
+	"advancements.spectrite.root.title": "\u00A7cS\u00A76p\u00A7ee\u00A72c\u00A79t\u00A75r\u00A7di\u00A7ct\u00A76e",
+	"advancements.spectrite.root.description": "Acquire a Spectrite Gem",
+	"advancements.spectrite.upgrade_spectrite_tools.title": "Prismatic Pickaxe",
+	"advancements.spectrite.upgrade_spectrite_tools.description": "Obtain a Spectrite Pickaxe",
+	"advancements.spectrite.obtain_depleted_spectrite_item.title": "Don't Worry, It's Not Broken",
+	"advancements.spectrite.obtain_depleted_spectrite_item.description": "Deplete a piece of Spectrite equipment",
+	"advancements.spectrite.obtain_spectrite_shield.title": "Another Level of Protection",
+	"advancements.spectrite.obtain_spectrite_shield.description": "Obtain a Spectrite Shield",
+	"advancements.spectrite.obtain_spectrite_trident.title": "No Ordinary Trident",
+	"advancements.spectrite.obtain_spectrite_trident.description": "Find a Spectrite Trident",
+	"advancements.spectrite.obtain_spectrite_hoe.title": "Bruh",
+	"advancements.spectrite.obtain_spectrite_hoe.description": "Of all things you could craft",
+	"advancements.spectrite.shinier_gear.title": "Imagine Using Diamond Armor",
+	"advancements.spectrite.shinier_gear.description": "Get a piece of Spectrite Armor",
+	"advancements.spectrite.full_spectrite_armor.title": "Full-Spectrum Dominance",
+	"advancements.spectrite.full_spectrite_armor.description": "Acquire full Spectrite Armor",
+	"advancements.spectrite.kill_superchromatic_mob.title": "It's a Shiny!",
+	"advancements.spectrite.kill_superchromatic_mob.description": "Defeat a Superchromatic mob",
+	"advancements.spectrite.kill_superchromatic_enderman.title": "One of These Isn't Like the Others",
+	"advancements.spectrite.kill_superchromatic_enderman.description": "Defeat a Superchromatic Enderman",
+	"advancements.spectrite.obtain_superchromatic_ender_pearl.title": "Transportation Made Easy",
+	"advancements.spectrite.obtain_superchromatic_ender_pearl.description": "Loot a Superchromatic Ender Pearl",
+	"advancements.spectrite.kill_superchromatic_wither.title": "Superchromatic Warrior",
+	"advancements.spectrite.kill_superchromatic_wither.description": "Defeat a Superchromatic Wither",
+	"advancements.spectrite.obtain_superchromatic_nether_star.title": "Right to Brag",
+	"advancements.spectrite.obtain_superchromatic_nether_star.description": "Loot a Superchromatic Nether Star",
+	"advancements.spectrite.tame_superchromatic_animal.title": "Colorful Companion",
+	"advancements.spectrite.tame_superchromatic_animal.description": "Tame a Superchromatic animal",
+	"advancements.spectrite.tame_superchromatic_horse.title": "Stylish Stallion",
+	"advancements.spectrite.tame_superchromatic_horse.description": "Tame a Superchromatic Horse",
+	"advancements.spectrite.breed_superchromatic_animal.title": "I Can't Believe That Worked!",
+	"advancements.spectrite.breed_superchromatic_animal.description": "Breed a Superchromatic animal",
+	"advancements.spectrite.eat_superchromatic_food.title": "Everlasting Sustenance",
+	"advancements.spectrite.eat_superchromatic_food.description": "Eat some Superchromatic food"
 }

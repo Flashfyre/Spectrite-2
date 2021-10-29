@@ -6,7 +6,7 @@ import net.minecraft.util.registry.Registry;
 
 public class LootConditionTypes
 {
-    public static final LootConditionType SPECTRITE_MOB = new LootConditionType(new SpectriteMobLootCondition.Serializer());
+    public static final LootConditionType SPECTRITE_MOB = new LootConditionType(new SuperchromaticMobLootCondition.Serializer());
 
     public static void initLootConditionTypes()
     {

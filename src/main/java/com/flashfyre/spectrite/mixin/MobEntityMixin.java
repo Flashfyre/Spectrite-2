@@ -1,6 +1,5 @@
 package com.flashfyre.spectrite.mixin;
 
-import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.Entity;
@@ -12,11 +11,9 @@ import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
-import net.minecraft.entity.boss.dragon.EnderDragonEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.nbt.NbtCompound;
-import net.minecraft.server.world.ServerWorld;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -52,24 +49,10 @@ public class MobEntityMixin implements SpectriteCompatibleMobEntity
         return superchromaticBossBar;
     }
 
-    @Inject(method = "<init>", at = @At("TAIL"))
-    private void injectSuperchromaticEntity(EntityType<?> type, World world, CallbackInfo ci)
+    @Override
+    public void setSuperchromaticBossBar(ServerBossBar superchromaticBossBar)
     {
-        if (world instanceof ServerWorld)
-        {
-            final MobEntity entity = (MobEntity) ((Object) this);
-            if (entity instanceof EnderDragonEntity)
-                return;
-            final boolean isCrystalInRange = false;//SpectriteUtils.isCrystalInRange(e.getWorld(), entity.getPosition());
-            final float superchromaticMobSpawnRate = SpectriteConfig.getSuperchromaticMobSpawnRate();
-            final float superchromaticMobCrystalSpawnRate = SpectriteConfig.getSuperchromaticMobCrystalSpawnRate();
-            final long leastSignificantBits = Math.abs(entity.getUuid().getLeastSignificantBits());
-            if ((!isCrystalInRange && superchromaticMobSpawnRate > 0f
-                    && (int) (leastSignificantBits % (long) (100l / superchromaticMobSpawnRate)) == 0)
-                    || (isCrystalInRange && superchromaticMobCrystalSpawnRate > 0f
-                    && (int) (leastSignificantBits % (long) (100l / superchromaticMobCrystalSpawnRate)) == 0))
-                setSuperchromatic(true);
-        }
+        this.superchromaticBossBar = superchromaticBossBar;
     }
 
     @Inject(method = "<init>", at = @At("TAIL"))

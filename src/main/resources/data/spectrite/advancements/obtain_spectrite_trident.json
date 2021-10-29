@@ -1,0 +1,41 @@
+{
+  "parent": "spectrite:obtain_depleted_spectrite_item",
+  "display": {
+    "icon": {
+      "item": "spectrite:spectrite_trident",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_spectrite_trident.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_spectrite_trident.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "spectrite_trident": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:spectrite_trident"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "spectrite_trident"
+    ]
+  ]
+}

@@ -1,0 +1,41 @@
+{
+  "parent": "spectrite:kill_superchromatic_mob",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_ender_pearl"
+    },
+    "title": {
+      "translate": "advancements.spectrite.kill_superchromatic_enderman.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.kill_superchromatic_enderman.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "superchromatic_enderman": {
+      "trigger": "minecraft:player_killed_entity",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:enderman",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_enderman"
+    ]
+  ]
+}

@@ -1,0 +1,40 @@
+{
+  "parent": "spectrite:kill_superchromatic_wither",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_nether_star"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromatic_nether_star.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromatic_nether_star.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 250
+  },
+  "criteria": {
+    "superchromatic_nether_star": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:superchromatic_nether_star"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_nether_star"
+    ]
+  ]
+}

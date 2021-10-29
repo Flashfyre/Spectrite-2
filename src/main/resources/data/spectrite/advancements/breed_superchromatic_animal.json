@@ -1,0 +1,43 @@
+{
+  "parent": "spectrite:tame_superchromatic_animal",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_carrot"
+    },
+    "title": {
+      "translate": "advancements.spectrite.breed_superchromatic_animal.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.breed_superchromatic_animal.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "superchromatic_child": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_child"
+    ]
+  ]
+}

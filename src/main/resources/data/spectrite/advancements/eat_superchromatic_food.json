@@ -1,0 +1,53 @@
+{
+  "parent": "spectrite:root",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_apple"
+    },
+    "title": {
+      "translate": "advancements.spectrite.eat_superchromatic_food.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.eat_superchromatic_food.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "superchromatic_apple": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:superchromatic_apple"
+            ]
+          }
+        ]
+      }
+    },
+    "superchromatic_carrot": {
+      "trigger": "minecraft:consume_item",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:superchromatic_carrot"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_apple",
+      "superchromatic_carrot"
+    ]
+  ]
+}

@@ -350,7 +350,7 @@ public final class SpectriteTextureUtils
     {
         Arrays.stream(baseModelEntries).forEach(modelEntry ->
         {
-            textures.add(getSpectriteOreTexture(resourceManager, baseBlockName, textureName, modelEntry.getKey()));
+            textures.add(getSpectriteOreTexture(resourceManager, baseBlockName, textureName, modelEntry.getKey(), false));
         });
     }
 
@@ -670,14 +670,16 @@ public final class SpectriteTextureUtils
         return texture;
     }
 
-    private static NativeImage getSpectriteOreTexture(ResourceManager resourceManager, String baseBlockName,
-                                                      String textureName, Identifier diamondOreTextureLocation)
+    public static NativeImage getSpectriteOreTexture(ResourceManager resourceManager, String baseBlockName,
+                                                     String textureName, Identifier diamondOreTextureLocation,
+                                                     boolean forGuiBackground)
     {
         final NativeImage diamondOre = getNativeImage(resourceManager, new Identifier(diamondOreTextureLocation.getNamespace(),
                 "textures/" + diamondOreTextureLocation.getPath() + ".png"));
         final NativeImage oreBaseBlock;
         final NativeImage baseBlock;
-        final float frameHue = 1f / 32f;
+        final int frameCount = forGuiBackground ? 1 : 32;
+        final float frameHue = 1f / (float) frameCount;
         final int size = Math.min(diamondOre.getHeight(), diamondOre.getWidth());
         final int height = size;
         final int width = size;
@@ -699,7 +701,7 @@ public final class SpectriteTextureUtils
                 break;
         }
 
-        final NativeImage ret = new NativeImage(width, height * 32, false);
+        final NativeImage ret = new NativeImage(width, height * frameCount, false);
 
         for (int y = 0; y < height; y++)
         {
@@ -777,7 +779,7 @@ public final class SpectriteTextureUtils
                     } else
                         rgbb = null;
 
-                    for (int f = 0; f < 32; f++)
+                    for (int f = 0; f < frameCount; f++)
                     {
                         final int co = MathHelper.hsvToRgb(clampHue(overlayHue), 1f, 1f);
                         final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
@@ -804,7 +806,7 @@ public final class SpectriteTextureUtils
                         overlayHue -= frameHue;
                     }
                 } else
-                    for (int f = 0; f < 32; f++)
+                    for (int f = 0; f < frameCount; f++)
                         ret.setColor(x, y + (height * f), a1 > 0 ? c2 : c1);
             }
         }
@@ -817,15 +819,15 @@ public final class SpectriteTextureUtils
     {
         final NativeImage diamondBlock = getNativeImage(resourceManager, new Identifier(diamondBlockTextureLocation.getNamespace(),
                 "textures/" + diamondBlockTextureLocation.getPath() + ".png"));
+        final int frameCount = 32;
         final float frameHue = 1f / 32f;
-
         final int size = Math.min(diamondBlock.getHeight(), diamondBlock.getWidth());
         final int height = size;
         final int width = size;
         final int halfHeight = height / 2;
         final int halfWidth = width / 2;
 
-        final NativeImage ret = new NativeImage(width, height * 32, false);
+        final NativeImage ret = new NativeImage(width, height * frameCount, false);
 
         for (int y = 0; y < height; y++)
         {
@@ -871,7 +873,7 @@ public final class SpectriteTextureUtils
                             break;
                     }
 
-                    for (int f = 0; f < 32; f++)
+                    for (int f = 0; f < frameCount; f++)
                     {
                         final int co = MathHelper.hsvToRgb(clampHue(overlayHue), 1f, 1f);
                         final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
@@ -894,7 +896,7 @@ public final class SpectriteTextureUtils
                         overlayHue -= frameHue;
                     }
                 } else
-                    for (int f = 0; f < 32; f++)
+                    for (int f = 0; f < frameCount; f++)
                         ret.setColor(x, y + (height * f), cs);
             }
         }

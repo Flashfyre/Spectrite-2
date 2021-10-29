@@ -3,9 +3,14 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
+import com.flashfyre.spectrite.item.SimpleSpectriteItem;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.world.World;
+import net.minecraft.world.event.GameEvent;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
@@ -36,5 +41,17 @@ public class LivingEntityMixin
             livingEntity.world.addParticle(Particles.SUPERCHROMATIC_GLOW,
                     livingEntity.getParticleX(0.6D), livingEntity.getRandomBodyY(), livingEntity.getParticleZ(0.6D),
                     0.0D, 0.0D, 0.0D);
+    }
+
+    @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;decrement(I)V"), cancellable = true)
+    private void injectEatFoodSuperchromaticFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir)
+    {
+        final PlayerEntity playerEntity = (PlayerEntity) (Object) this;
+        if (stack.getItem() instanceof SimpleSpectriteItem)
+        {
+            playerEntity.getItemCooldownManager().set(stack.getItem(), 1500);
+            playerEntity.emitGameEvent(GameEvent.EAT);
+            cir.setReturnValue(stack);
+        }
     }
 }

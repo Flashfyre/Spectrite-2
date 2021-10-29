@@ -1,0 +1,94 @@
+{
+  "parent": "spectrite:tame_superchromatic_animal",
+  "display": {
+    "icon": {
+      "item": "spectrite:spectrite_horse_armor"
+    },
+    "title": {
+      "translate": "advancements.spectrite.tame_superchromatic_horse.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.tame_superchromatic_horse.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 150
+  },
+  "criteria": {
+    "superchromatic_horse": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:horse",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "superchromatic_horse": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:horse",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "superchromatic_zombie_horse": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:zombie_horse",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    },
+    "superchromatic_skeleton_horse": {
+      "trigger": "minecraft:tame_animal",
+      "conditions": {
+        "entity": {
+          "type": "minecraft:skeleton_horse",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_horse",
+      "superchromatic_zombie_horse",
+      "superchromatic_skeleton_horse"
+    ]
+  ]
+}

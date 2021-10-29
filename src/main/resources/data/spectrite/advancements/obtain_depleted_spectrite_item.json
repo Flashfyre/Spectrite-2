@@ -1,0 +1,181 @@
+{
+  "parent": "spectrite:upgrade_spectrite_tools",
+  "display": {
+    "icon": {
+      "item": "spectrite:depleted_spectrite_pickaxe",
+      "nbt": "{Damage:0}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_depleted_spectrite_item.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_depleted_spectrite_item.description"
+    },
+    "frame": "task",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "depleted_spectrite_bow": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_bow"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_sword": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_sword"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_shovel": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_shovel"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_pickaxe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_pickaxe"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_axe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_axe"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_hoe"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_helmet"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_chestplate"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_leggings"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_boots"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_shield": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_shield"
+            ]
+          }
+        ]
+      }
+    },
+    "depleted_spectrite_trident": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:depleted_spectrite_trident"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "depleted_spectrite_bow",
+      "depleted_spectrite_sword",
+      "depleted_spectrite_shovel",
+      "depleted_spectrite_pickaxe",
+      "depleted_spectrite_axe",
+      "depleted_spectrite_hoe",
+      "depleted_spectrite_helmet",
+      "depleted_spectrite_chestplate",
+      "depleted_spectrite_leggings",
+      "depleted_spectrite_boots",
+      "depleted_spectrite_shield",
+      "depleted_spectrite_trident"
+    ]
+  ]
+}

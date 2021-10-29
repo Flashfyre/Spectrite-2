@@ -15,11 +15,11 @@ import net.minecraft.util.JsonSerializer;
 
 import java.util.Set;
 
-public class SpectriteMobLootCondition implements LootCondition
+public class SuperchromaticMobLootCondition implements LootCondition
 {
-    static final SpectriteMobLootCondition INSTANCE = new SpectriteMobLootCondition();
+    static final SuperchromaticMobLootCondition INSTANCE = new SuperchromaticMobLootCondition();
 
-    private SpectriteMobLootCondition()
+    private SuperchromaticMobLootCondition()
     {
     }
 
@@ -45,15 +45,15 @@ public class SpectriteMobLootCondition implements LootCondition
         return () -> INSTANCE;
     }
 
-    public static class Serializer implements JsonSerializer<SpectriteMobLootCondition>
+    public static class Serializer implements JsonSerializer<SuperchromaticMobLootCondition>
     {
-        public void toJson(JsonObject jsonObject, SpectriteMobLootCondition spectriteMobLootCondition, JsonSerializationContext jsonSerializationContext)
+        public void toJson(JsonObject jsonObject, SuperchromaticMobLootCondition superchromaticMobLootCondition, JsonSerializationContext jsonSerializationContext)
         {
         }
 
-        public SpectriteMobLootCondition fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext)
+        public SuperchromaticMobLootCondition fromJson(JsonObject jsonObject, JsonDeserializationContext jsonDeserializationContext)
         {
-            return SpectriteMobLootCondition.INSTANCE;
+            return SuperchromaticMobLootCondition.INSTANCE;
         }
     }
 }

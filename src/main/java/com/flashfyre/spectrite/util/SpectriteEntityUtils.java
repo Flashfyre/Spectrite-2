@@ -10,15 +10,22 @@ import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
+import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.Box;
+import net.minecraft.util.math.Vec3d;
+import net.minecraft.world.World;
 
 import java.util.AbstractMap;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.function.Supplier;
 
 public class SpectriteEntityUtils
 {
     public static final Map<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> ENTITY_ATTRIBUTE_MODIFIERS = new HashMap<>();
+    public static final Map<BlockPos, Map.Entry<Integer, Integer>> BEACON_LOCATIONS = new HashMap<>();
 
     static
     {
@@ -56,6 +63,44 @@ public class SpectriteEntityUtils
         ));
     }
 
+    public static boolean trySetMobSuperchromatic(MobEntity mobEntity)
+    {
+        boolean isSuperchromatic = false;
+        final float bonusRate = (float) getMaxBeaconBaseSpectriteBlocks(mobEntity.world, mobEntity.getPos()) * SpectriteConfig.getSuperchromaticMobSpawnRateBeaconBlockBonus();
+        final float superchromaticMobSpawnRate = Math.min(SpectriteConfig.getSuperchromaticMobSpawnRate() + bonusRate, 100f);
+
+        if (superchromaticMobSpawnRate == 100f)
+            isSuperchromatic = true;
+        else if (superchromaticMobSpawnRate > 0f)
+        {
+            final long leastSignificantBits = Math.abs(mobEntity.getUuid().getLeastSignificantBits());
+            isSuperchromatic = (int) (leastSignificantBits % (long) (100l / superchromaticMobSpawnRate)) == 0;
+        }
+
+        if (isSuperchromatic)
+            setSuperchromatic(mobEntity, true);
+
+        return isSuperchromatic;
+    }
+
+    private static int getMaxBeaconBaseSpectriteBlocks(World world, Vec3d pos)
+    {
+        int maxBeaconBaseSpectriteBlocks = 0;
+
+        final Iterator<Map.Entry<BlockPos, Map.Entry<Integer, Integer>>> beaconLocationsIterator = BEACON_LOCATIONS.entrySet().iterator();
+
+        while (beaconLocationsIterator.hasNext())
+        {
+            final Map.Entry<BlockPos, Map.Entry<Integer, Integer>> entry = beaconLocationsIterator.next();
+            final double d = (entry.getValue().getKey() * 10 + 10);
+            final Box box = new Box(entry.getKey()).expand(d).stretch(0.0D, world.getHeight(), 0.0D);
+            if (box.contains(pos))
+                maxBeaconBaseSpectriteBlocks = entry.getValue().getValue();
+        }
+
+        return maxBeaconBaseSpectriteBlocks;
+    }
+
     public static boolean isSuperchromatic(Entity entity)
     {
         final SuperchromaticEntityComponent superchromaticEntityComponent;
@@ -67,6 +112,8 @@ public class SpectriteEntityUtils
     {
         Components.SUPERCHROMATIC_ENTITY.maybeGet(entity).ifPresent(
                 superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
+        if (superchromatic && entity instanceof LivingEntity livingEntity)
+            addPassiveSuperchromaticEffectIfNotPresent(livingEntity);
     }
 
     public static int getSpectriteDamage(Entity entity)
