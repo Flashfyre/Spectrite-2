@@ -9,7 +9,9 @@ import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.attribute.AttributeContainer;
 import net.minecraft.entity.attribute.EntityAttribute;
+import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
@@ -213,6 +215,31 @@ public class SpectriteEntityUtils
         SpectriteUtils.newChromaBlast(livingEntity.world, livingEntity, livingTarget, null,
                 chromaBlastPos.getX(), livingEntity.getBoundingBox().minY + livingEntity.getHeight() / 2f, chromaBlastPos.getZ(),
                 power, false, Explosion.DestructionType.NONE);
+    }
+
+    public static void initSuperchromaticMobAttributes(MobEntity mobEntity)
+    {
+        final float initialMaxHealth = mobEntity.getMaxHealth();
+        final float healthRatio = mobEntity.getHealth() / initialMaxHealth;
+        final AttributeContainer attributes = mobEntity.getAttributes();
+        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
+        {
+            final EntityAttribute attribute = e.getKey();
+            if (attributes.hasAttribute(attribute))
+            {
+                final Double bonus = e.getValue().getKey().get();
+                final Double multiplier = e.getValue().getValue().get();
+                if (bonus != null && bonus.doubleValue() > 0.0d)
+                    mobEntity.getAttributeInstance(attribute).addPersistentModifier(
+                            new EntityAttributeModifier("Superchromatic mob bonus", bonus, EntityAttributeModifier.Operation.ADDITION));
+                if (multiplier != null && multiplier.doubleValue() != 1.0d)
+                    mobEntity.getAttributeInstance(attribute).addPersistentModifier(
+                            new EntityAttributeModifier("Superchromatic mob multiplier", multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+            }
+        }
+        final float currentMaxHealth = mobEntity.getMaxHealth();
+        if (currentMaxHealth > initialMaxHealth)
+            mobEntity.setHealth(currentMaxHealth * healthRatio);
     }
 
     public static int getSuperchromaticMobPowerBonus(MobEntity mobEntity)

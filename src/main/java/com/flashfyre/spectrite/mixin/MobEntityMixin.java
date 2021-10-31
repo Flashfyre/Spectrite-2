@@ -6,9 +6,6 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
-import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
 import net.minecraft.entity.mob.MobEntity;
@@ -27,9 +24,6 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
-
-import java.util.Map;
-import java.util.function.Supplier;
 
 @Mixin(MobEntity.class)
 public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
@@ -110,29 +104,7 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
     {
         final MobEntity entity = (MobEntity) (Object) this;
         if (((SpectriteCompatibleMobEntity) entity).isSuperchromatic())
-        {
-            final float initialMaxHealth = entity.getMaxHealth();
-            final float healthRatio = entity.getHealth() / initialMaxHealth;
-            final AttributeContainer attributes = entity.getAttributes();
-            for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
-            {
-                final EntityAttribute attribute = e.getKey();
-                if (attributes.hasAttribute(attribute))
-                {
-                    final Double bonus = e.getValue().getKey().get();
-                    final Double multiplier = e.getValue().getValue().get();
-                    if (bonus != null && bonus.doubleValue() > 0.0d)
-                        entity.getAttributeInstance(attribute).addPersistentModifier(
-                                new EntityAttributeModifier("Superchromatic mob bonus", bonus, EntityAttributeModifier.Operation.ADDITION));
-                    if (multiplier != null && multiplier.doubleValue() != 1.0d)
-                        entity.getAttributeInstance(attribute).addPersistentModifier(
-                                new EntityAttributeModifier("Superchromatic mob multiplier", multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
-                }
-            }
-            final float currentMaxHealth = entity.getMaxHealth();
-            if (currentMaxHealth > initialMaxHealth)
-                entity.setHealth(currentMaxHealth * healthRatio);
-        }
+            SpectriteEntityUtils.initSuperchromaticMobAttributes(entity);
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))

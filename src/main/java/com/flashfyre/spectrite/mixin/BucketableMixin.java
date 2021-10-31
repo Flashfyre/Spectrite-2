@@ -25,6 +25,11 @@ public interface BucketableMixin
     private static void injectCopyDataFromNbtSuperchromatic(MobEntity entity, NbtCompound nbt, CallbackInfo ci)
     {
         if (nbt.contains("Superchromatic") && entity instanceof SpectriteCompatibleMobEntity)
-            SpectriteEntityUtils.setSuperchromatic(entity, nbt.getBoolean("Superchromatic"));
+        {
+            final boolean superchromatic = nbt.getBoolean("Superchromatic");
+            SpectriteEntityUtils.setSuperchromatic(entity, superchromatic);
+            if (superchromatic)
+                SpectriteEntityUtils.initSuperchromaticMobAttributes(entity);
+        }
     }
 }
