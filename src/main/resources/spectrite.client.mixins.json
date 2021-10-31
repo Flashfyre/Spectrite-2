@@ -4,6 +4,7 @@
   "package": "com.flashfyre.spectrite.client.mixin",
   "compatibilityLevel": "JAVA_16",
   "client": [
+    "AnimatedGeoModelAccessor",
     "ArmorFeatureRendererMixin",
     "ArrowEntityRendererMixin",
     "ChestBlockEntityRendererMixin",
@@ -11,7 +12,10 @@
     "FeatureRendererMixin",
     "FramebufferAccessor",
     "FramebufferMixin",
+    "GeoCubeMixin",
+    "GeoEntityRendererMixin",
     "HorseArmorFeatureRendererMixin",
+    "IGeoRendererMixin",
     "InGameHudMixin",
     "ItemRendererMixin",
     "ItemStackClientAccessor",

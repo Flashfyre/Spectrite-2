@@ -46,7 +46,7 @@ public class SpectriteEntityRenderUtils
         return getOrGenerateSpectriteEntityTexture(model, null, texture, entityType, null, false, true);
     }
 
-    public static Identifier getOrGenerateSuperchromaticEntityArmorTexture(Model model, Identifier texture)
+    public static Identifier getOrGenerateSpectriteEntityArmorTexture(Model model, Identifier texture)
     {
         return getOrGenerateSpectriteEntityTexture(model, null, new Identifier(texture.getNamespace(),
                 texture.getPath().replace("spectrite", "diamond")), null, null, true, false);

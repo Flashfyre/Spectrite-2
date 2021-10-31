@@ -20,6 +20,7 @@ repositories {
 		}
 	}
 
+	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 	maven { url "https://maven.shedaniel.me/" }
 }
 
@@ -53,6 +54,8 @@ dependencies {
 	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.0.0"
 	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0"
 	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.0.0"
+
+	modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.17:${project.geckolib_version}"
 
 	modApi("me.shedaniel.cloth:cloth-config-fabric:5.0.38") {
 		exclude(group: "net.fabricmc.fabric-api")

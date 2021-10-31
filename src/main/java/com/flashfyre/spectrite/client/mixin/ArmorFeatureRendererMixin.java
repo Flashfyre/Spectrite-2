@@ -51,7 +51,7 @@ public class ArmorFeatureRendererMixin
     {
         if (item instanceof SpectriteArmorItem)
         {
-            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSuperchromaticEntityArmorTexture(model, args.get(0));
+            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityArmorTexture(model, args.get(0));
             args.set(0, spectriteTexture);
         }
     }

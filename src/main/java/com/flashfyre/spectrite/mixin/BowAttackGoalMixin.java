@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.item.Items;
-import net.minecraft.entity.ai.RangedAttackMob;
 import net.minecraft.entity.ai.goal.BowAttackGoal;
 import net.minecraft.entity.mob.HostileEntity;
 import net.minecraft.entity.projectile.ProjectileUtil;
@@ -15,11 +14,11 @@ import org.spongepowered.asm.mixin.injection.ModifyArg;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 
 @Mixin(BowAttackGoal.class)
-public class BowAttackGoalMixin<T extends HostileEntity & RangedAttackMob>
+public class BowAttackGoalMixin
 {
     @Shadow
     @Final
-    private T actor;
+    private HostileEntity actor;
 
     @Inject(method = "isHoldingBow", at = @At("RETURN"), cancellable = true)
     private void injectIsHoldingBowSpectriteBow(CallbackInfoReturnable<Boolean> cir)

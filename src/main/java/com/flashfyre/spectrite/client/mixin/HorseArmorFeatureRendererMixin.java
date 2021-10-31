@@ -38,7 +38,7 @@ public class HorseArmorFeatureRendererMixin
         final ItemStack itemStack = horseEntity.getArmorType();
         if (itemStack.getItem() instanceof SpectriteHorseArmorItem)
         {
-            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSuperchromaticEntityArmorTexture(model, args.get(0));
+            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityArmorTexture(model, args.get(0));
             args.set(0, spectriteTexture);
         }
     }

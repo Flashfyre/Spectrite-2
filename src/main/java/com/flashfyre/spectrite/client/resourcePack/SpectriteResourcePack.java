@@ -37,6 +37,8 @@ public class SpectriteResourcePack implements ResourcePack
     private final Object2ObjectMap<String, byte[]> resources = new Object2ObjectOpenHashMap<>();
     private final Spectrite mod;
 
+    private SpectriteResourcePackExtension geoEntityExtension = null;
+
     public SpectriteResourcePack(Spectrite mod)
     {
         this.mod = mod;
@@ -179,6 +181,9 @@ public class SpectriteResourcePack implements ResourcePack
             }
         }
 
+        if (geoEntityExtension != null)
+            geoEntityExtension.findResources(this, resourceManager);
+
         final String start = "assets/" + namespace + "/" + prefix;
 
         return this.resources.keySet().stream()
@@ -218,5 +223,15 @@ public class SpectriteResourcePack implements ResourcePack
     public void close()
     {
 
+    }
+
+    public boolean hasGeoEntityExtension()
+    {
+        return geoEntityExtension != null;
+    }
+
+    public void setGeoEntityExtension(SpectriteResourcePackExtension geoEntityExtension)
+    {
+        this.geoEntityExtension = geoEntityExtension;
     }
 }
