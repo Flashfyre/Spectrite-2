@@ -111,7 +111,7 @@ public class ItemRendererMixin
             RENDERING_SPECTRITE_TRIDENT.set(null);
     }
 
-    @ModifyVariable(method = "getHeldItemModel", at = @At(value = "STORE"), ordinal = 0)
+    @ModifyVariable(method = "getModel", at = @At(value = "STORE"), ordinal = 0)
     private BakedModel modifyVariableGetHeldItemModelSubstituteSpectriteTridentInventoryModel(BakedModel model, ItemStack stack)
     {
         if (stack.getItem() instanceof SpectriteTridentItem spectriteTridentItem)
