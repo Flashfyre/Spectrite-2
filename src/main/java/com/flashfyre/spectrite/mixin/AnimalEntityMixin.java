@@ -22,11 +22,12 @@ public class AnimalEntityMixin
     {
         final AnimalEntity parent = (AnimalEntity) (Object) this;
         final boolean isParentSuperchromatic = ((SpectriteCompatibleMobEntity) parent).isSuperchromatic();
+        boolean superchromatic;
         if (isParentSuperchromatic != ((SpectriteCompatibleMobEntity) other).isSuperchromatic())
-        {
-            if (world.random.nextFloat() < (1f / 49f))
-                SpectriteEntityUtils.setSuperchromatic(passiveEntity, true);
-        } else if (isParentSuperchromatic && world.random.nextFloat() < (1f / 7f))
-            SpectriteEntityUtils.setSuperchromatic(passiveEntity, true);
+            superchromatic = world.random.nextFloat() < (1f / 49f);
+        else
+            superchromatic = isParentSuperchromatic && world.random.nextFloat() < (1f / 7f);
+        if (superchromatic || SpectriteEntityUtils.trySetMobSuperchromatic(passiveEntity))
+            SpectriteEntityUtils.initSuperchromaticMobAttributes(passiveEntity);
     }
 }

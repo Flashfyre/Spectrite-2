@@ -3,19 +3,17 @@ package com.flashfyre.spectrite.item;
 import com.flashfyre.spectrite.Spectrite;
 import com.flashfyre.spectrite.item.material.ArmorMaterials;
 import com.flashfyre.spectrite.item.material.ToolMaterials;
-import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
-import net.fabricmc.fabric.api.object.builder.v1.client.model.FabricModelPredicateProviderRegistry;
 import net.minecraft.block.Block;
-import net.minecraft.client.item.UnclampedModelPredicateProvider;
-import net.minecraft.client.world.ClientWorld;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.item.*;
+import net.minecraft.fluid.Fluids;
+import net.minecraft.item.BlockItem;
+import net.minecraft.item.FoodComponents;
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemGroup;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -110,6 +108,8 @@ public class Items
 
     public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
 
+    public static final Item SUPERCHROMATIC_AXOLOTL_BUCKET = new SuperchromaticAxolotlBucketItem(Fluids.WATER, itemSettings().maxCount(1).group(ItemGroup.MISC));
+
     public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(16).group(ItemGroup.MISC));
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
@@ -134,6 +134,7 @@ public class Items
         registerDamageableItem("spectrite_trident", SPECTRITE_TRIDENT, DEPLETED_SPECTRITE_TRIDENT);
         registerItem("superchromatic_apple", SUPERCHROMATIC_APPLE);
         registerItem("superchromatic_carrot", SUPERCHROMATIC_CARROT);
+        registerItem("superchromatic_axolotl_bucket", SUPERCHROMATIC_AXOLOTL_BUCKET);
         registerItem("superchromatic_ender_pearl", SUPERCHROMATIC_ENDER_PEARL);
         registerItem("superchromatic_nether_star", SUPERCHROMATIC_NETHER_STAR);
         registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
@@ -158,20 +159,6 @@ public class Items
     {
         registerItem(name, item);
         registerItem("depleted_" + name, depletedItem);
-        FabricModelPredicateProviderRegistry.register(item, new Identifier("stdamage"), new UnclampedModelPredicateProvider()
-        {
-            @Override
-            public float call(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int seed)
-            {
-                return unclampedCall(itemStack, clientWorld, livingEntity, seed);
-            }
-
-            @Override
-            public float unclampedCall(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int i)
-            {
-                return SpectriteUtils.getItemStackStDamage(itemStack);
-            }
-        });
         DEPLETED_DAMAGEABLE_ITEMS_MAP.put(item, depletedItem);
         if (item instanceof SpectriteChargeableItem)
             SPECTRITE_CHARGEABLE_ITEMS.add(item);

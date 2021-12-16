@@ -1,6 +1,6 @@
 package com.flashfyre.spectrite.client.mixin;
 
-import com.flashfyre.spectrite.client.particle.Particles;
+import com.flashfyre.spectrite.client.SpectriteClient;
 import com.google.common.collect.ImmutableList;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -29,6 +29,6 @@ public class ParticleManagerMixin
     private static void spectrite$inject(CallbackInfo callbackInfo)
     {
         PARTICLE_TEXTURE_SHEETS = ImmutableList.<ParticleTextureSheet>builder().addAll(PARTICLE_TEXTURE_SHEETS)
-                .add(Particles.PARTICLE_SHEET_SPECTRITE).build();
+                .add(SpectriteClient.PARTICLE_SHEET_SPECTRITE).build();
     }
 }

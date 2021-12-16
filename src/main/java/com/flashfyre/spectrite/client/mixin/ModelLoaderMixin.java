@@ -89,6 +89,7 @@ public abstract class ModelLoaderMixin
         spectrite$itemDependencyModelsMap.put("ender_pearl", new String[]{"superchromatic_ender_pearl"});
         spectrite$itemDependencyModelsMap.put("nether_star", new String[]{"superchromatic_nether_star"});
         spectrite$itemDependencyModelsMap.put("diamond_horse_armor", new String[]{"spectrite_horse_armor"});
+        spectrite$itemDependencyModelsMap.put("axolotl_bucket", new String[]{"superchromatic_axolotl_bucket"});
     }
 
     @Inject(method = "putModel", at = @At("HEAD"))

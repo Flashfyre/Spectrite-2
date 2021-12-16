@@ -1,9 +1,9 @@
 package com.flashfyre.spectrite.mixin;
 
-import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SimpleSpectriteItem;
+import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;

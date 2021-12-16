@@ -1,12 +1,12 @@
 package com.flashfyre.spectrite;
 
 import com.flashfyre.spectrite.block.Blocks;
-import com.flashfyre.spectrite.block.entity.BlockEntities;
 import com.flashfyre.spectrite.damageSource.DamageSources;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.loot.LootTables;
 import com.flashfyre.spectrite.loot.condition.LootConditionTypes;
+import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.soundEvent.SoundEvents;
 import com.flashfyre.spectrite.world.Features;
 import me.shedaniel.autoconfig.AutoConfig;
@@ -37,13 +37,13 @@ public class Spectrite implements ModInitializer
 
         StatusEffects.initStatusEffects();
         Blocks.initBlocks();
-        BlockEntities.initBlockEntities();
         Items.initItems();
         Features.initFeatures();
         LootConditionTypes.initLootConditionTypes();
         LootTables.initLootTables();
         DamageSources.initDamageSources();
         SoundEvents.initSoundEvents();
+        Particles.initParticles();
     }
 
     public static Identifier getId(String name)

@@ -7,7 +7,6 @@
     "AnimatedGeoModelAccessor",
     "ArmorFeatureRendererMixin",
     "ArrowEntityRendererMixin",
-    "ChestBlockEntityRendererMixin",
     "EntityRenderDispatcherMixin",
     "FeatureRendererMixin",
     "FramebufferAccessor",

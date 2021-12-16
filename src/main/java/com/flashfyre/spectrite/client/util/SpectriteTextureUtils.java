@@ -122,7 +122,6 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
-                //case "spectrite_chest":
                 return new String[]{"odd=false", "odd=true"};
         }
 
@@ -947,7 +946,7 @@ public final class SpectriteTextureUtils
                         for (int cl = 0; cl < 3; cl++)
                             rgbf[cl] = gsf;
 
-                        float overlayHue = (2f / 3f) + ((width - x) + (y + 1)) / (float) (height + width);
+                        final float overlayHue = (2f / 3f) + ((width - x) + (y + 1)) / (float) (height + width);
 
                         final int co = MathHelper.hsvToRgb(clampHue(overlayHue), saturation, 1f);
                         final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
@@ -969,148 +968,6 @@ public final class SpectriteTextureUtils
                         c = cs;
 
                     ret.setColor(x, y + (height * f), c);
-                }
-            }
-        }
-
-        return ret;
-    }
-
-
-    private static NativeImage getSpectriteChestTexture(ResourceManager resourceManager, NativeImage baseTexture,
-                                                        List<ModelPart> modelPartList)
-    {
-        if (modelPartList.size() < 3)
-            return baseTexture;
-
-
-        final Identifier diamondBlockTextureLocation = getBaseModelTextureLocation(resourceManager, new Identifier("block/diamond_block"));
-        final NativeImage baseBlockTexture = getNativeImage(resourceManager, new Identifier(diamondBlockTextureLocation.getNamespace(),
-                "textures/" + diamondBlockTextureLocation.getPath() + ".png"));
-
-        final int height = baseTexture.getHeight();
-        final int width = baseTexture.getWidth();
-        final int baseBlockSize = Math.min(baseBlockTexture.getHeight(), baseBlockTexture.getWidth());
-        final int baseBlockHeight = baseBlockSize;
-        final int baseBlockWidth = baseBlockSize;
-        final float rat = (baseBlockSize << 2) / (float) width;
-        final NativeImage ret = new NativeImage(width, height, true);
-        ret.copyFrom(baseTexture);
-
-        final int blockEntityHeight = (int) (baseBlockHeight - 2 * rat);
-        final int blockEntityWidth = (int) (baseBlockWidth - 2 * rat);
-        final int halfHeight = blockEntityHeight / 2;
-        final int halfWidth = blockEntityWidth / 2;
-
-        final NativeImage blockOverlayTexture = getStretchedBlockTexture(baseBlockTexture, blockEntityWidth, blockEntityHeight, rat);
-
-        for (int p = 0; p < modelPartList.size(); p++)
-        {
-            final ModelPart modelPart = modelPartList.get(p);
-            if (modelPart.cuboids.isEmpty())
-                continue;
-            final ModelPart.Cuboid cuboid = modelPart.cuboids.get(0);
-            for (ModelPart.Quad side : cuboid.sides)
-            {
-                final Direction direction = Direction.fromVector((int) side.direction.getX(), (int) side.direction.getY(), (int) side.direction.getZ());
-                float minU = 1024f;
-                float maxU = 0f;
-                float minV = 1024f;
-                float maxV = 0f;
-
-                for (int v = 0; v < side.vertices.length; v++)
-                {
-                    final ModelPart.Vertex vertex = side.vertices[v];
-                    if (vertex.u < minU)
-                        minU = vertex.u;
-                    if (vertex.u > maxU)
-                        maxU = vertex.u;
-                    if (vertex.v < minV)
-                        minV = vertex.v;
-                    if (vertex.v > maxV)
-                        maxV = vertex.v;
-                }
-
-                final int x1 = MathHelper.clamp((int) Math.floor(minU * width), 0, width);
-                final int x2 = MathHelper.clamp((int) Math.floor(maxU * width), 0, width);
-                final int y1 = MathHelper.clamp((int) Math.floor(minV * height), 0, height);
-                final int y2 = MathHelper.clamp((int) Math.floor(maxV * height), 0, height);
-
-                for (int y = y1; y < y2; y++)
-                {
-                    final int ry = (y - y1) + (direction.getAxis() == Direction.Axis.Y ? 0 : (int) (modelPart.pivotY * rat));
-                    for (int x = x1; x < x2; x++)
-                    {
-                        final int rx = x - x1;
-                        final int cs = baseTexture.getColor(x, y);
-                        final int as = (cs >> 24) & 0xFF;
-
-                        final int c;
-
-                        if (as > 0)
-                        {
-                            final int ct;
-
-                            if (p < 2)
-                                ct = blockOverlayTexture.getColor(rx, ry);
-                            else
-                                ct = cs;
-
-                            final int[] rgbs = new int[]{(ct >> 16) & 0xFF, (ct >> 8) & 0xFF, (ct) & 0xFF};
-                            final int[] rgb = new int[3];
-
-                            float[] rgbf = new float[]{rgbs[0] / 255f, rgbs[1] / 255f, rgbs[2] / 255f};
-
-                            final float gsf = (rgbf[0] + rgbf[1] + rgbf[2]) / 3f;
-
-                            for (int cl = 0; cl < 3; cl++)
-                                rgbf[cl] = gsf;
-
-                            float overlayHue;
-
-                            switch (direction)
-                            {
-                                case UP:
-                                case DOWN:
-                                    boolean isTop = direction == Direction.UP;
-                                    boolean isOdd = false;
-                                    float centerRatY = (halfHeight - Math.abs(ry - halfHeight)) / (float) halfHeight;
-                                    float centerRatX = (halfWidth - Math.abs(rx - halfWidth)) / (float) halfWidth;
-                                    float centerRat = (centerRatX + centerRatY) / 2f;
-                                    overlayHue = ((float) Math.atan2(rx - halfWidth, ry - halfHeight)
-                                            + (((float) Math.PI) * (isTop ? 0.25f : -0.25f) * centerRat)
-                                            + (float) Math.PI) / (float) Math.PI * (isTop ? -1f : 1f)
-                                            + (isTop != isOdd ? 0.5f : 0f);
-                                    break;
-                                case NORTH:
-                                case SOUTH:
-                                    overlayHue = (1f / 6f) + ((blockEntityWidth - rx) + (ry + 1)) / (float) (blockEntityHeight + blockEntityWidth);
-                                    break;
-                                default:
-                                    overlayHue = (2f / 3f) + ((blockEntityWidth - rx) + (ry + 1)) / (float) (blockEntityHeight + blockEntityWidth);
-                                    break;
-                            }
-
-                            final int co = MathHelper.hsvToRgb(clampHue(overlayHue), 1f, 1f);
-                            final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
-
-                            float[] frgbf = new float[]{rgbf[0], rgbf[1], rgbf[2]};
-
-                            frgbf = spectriteBlend(frgbf, overlayRgbf);
-
-                            for (int cl = 0; cl < 3; cl++)
-                                rgb[cl] = Math.round(frgbf[cl] * 255f);
-
-                            final int ca = (as << 24) & 0xFF000000;
-                            final int cr = (rgb[0] << 16) & 0x00FF0000;
-                            final int cg = (rgb[1] << 8) & 0x0000FF00;
-                            final int cb = rgb[2] & 0x000000FF;
-                            c = ca | cr | cg | cb;
-                        } else
-                            c = cs;
-
-                        ret.setColor(x, y, c);
-                    }
                 }
             }
         }
@@ -1305,9 +1162,7 @@ public final class SpectriteTextureUtils
     {
         NativeImage ret = getNativeImage(resourceManager, baseTextureLocation);
 
-        if ("minecraft:chest".equals(entityId))
-            ret = getSpectriteChestTexture(resourceManager, ret, modelPartList);
-        else if (ShieldEntityModel.class.getName().equals(modelClassName))
+        if (ShieldEntityModel.class.getName().equals(modelClassName))
             ret = getSpectriteShieldBaseTexture(resourceManager, ret, modelPartList);
 
         return ret;
@@ -1339,9 +1194,6 @@ public final class SpectriteTextureUtils
             List<ModelPart> rootModelPartList)
     {
         final NativeImage baseTexture = getEntityBaseTexture(resourceManager, entityId, modelClassName, baseTextureLocation, rootModelPartList);
-
-        if ("minecraft:chest".equals(entityId))
-            return baseTexture;
 
         final int height = baseTexture.getHeight();
         final int width = baseTexture.getWidth();

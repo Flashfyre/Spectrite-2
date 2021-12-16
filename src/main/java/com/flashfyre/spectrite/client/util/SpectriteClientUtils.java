@@ -1,8 +1,8 @@
 package com.flashfyre.spectrite.client.util;
 
 import com.flashfyre.spectrite.client.particle.ChromaBlastEmitterParticle;
-import com.flashfyre.spectrite.client.particle.Particles;
 import com.flashfyre.spectrite.etc.ChromaBlast;
+import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;

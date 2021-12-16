@@ -38,6 +38,8 @@
 	"item.spectrite.superchromatic_apple": "Superchromatic Apple",
 	"item.spectrite.superchromatic_carrot": "Superchromatic Carrot",
 	
+	"item.spectrite.superchromatic_axolotl_bucket": "Bucket of Superchromatic Axolotl",
+	
 	"item.spectrite.superchromatic_ender_pearl": "Superchromatic Ender Pearl",
 	"item.spectrite.superchromatic_nether_star": "Superchromatic Nether Star",
 	
@@ -89,6 +91,8 @@
 	"advancements.spectrite.tame_superchromatic_horse.description": "Tame a Superchromatic Horse",
 	"advancements.spectrite.breed_superchromatic_animal.title": "I Can't Believe That Worked!",
 	"advancements.spectrite.breed_superchromatic_animal.description": "Breed a Superchromatic animal",
+	"advancements.spectrite.breed_superchromatic_axolotl.title": "Better Than Blue",
+	"advancements.spectrite.breed_superchromatic_axolotl.description": "Breed a Superchromatic Axolotl",
 	"advancements.spectrite.eat_superchromatic_food.title": "Everlasting Sustenance",
 	"advancements.spectrite.eat_superchromatic_food.description": "Eat some Superchromatic food"
 }

@@ -2,12 +2,15 @@ package com.flashfyre.spectrite.client;
 
 import com.flashfyre.spectrite.Spectrite;
 import com.flashfyre.spectrite.client.particle.ChromaBlastEmitterParticle;
-import com.flashfyre.spectrite.client.particle.Particles;
+import com.flashfyre.spectrite.client.particle.ParticleFactories;
 import com.flashfyre.spectrite.client.render.*;
 import com.flashfyre.spectrite.client.resourcePack.SpectriteResourcePack;
 import com.flashfyre.spectrite.client.util.SpectriteClientUtils;
 import com.flashfyre.spectrite.item.Items;
+import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.util.SpectriteUtils;
+import com.mojang.blaze3d.platform.GlStateManager;
+import com.mojang.blaze3d.systems.RenderSystem;
 import ladysnake.satin.api.event.EntitiesPostRenderCallback;
 import ladysnake.satin.api.event.ShaderEffectRenderCallback;
 import ladysnake.satin.api.managed.ManagedCoreShader;
@@ -25,14 +28,21 @@ import net.fabricmc.fabric.api.resource.ResourceManagerHelper;
 import net.fabricmc.fabric.api.resource.ResourcePackActivationType;
 import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.client.MinecraftClient;
+import net.minecraft.client.item.UnclampedModelPredicateProvider;
 import net.minecraft.client.particle.Particle;
-import net.minecraft.client.render.RenderLayer;
+import net.minecraft.client.particle.ParticleTextureSheet;
+import net.minecraft.client.render.*;
+import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.TextureManager;
 import net.minecraft.client.world.ClientWorld;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
+import net.minecraft.item.ItemStack;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.util.Identifier;
 import net.minecraft.world.World;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.AbstractMap;
 import java.util.Map;
@@ -59,6 +69,27 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
     public static Map.Entry<Integer, Integer> BLOCKS_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
     public static Map.Entry<Integer, Integer> CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
+    public static ParticleTextureSheet PARTICLE_SHEET_SPECTRITE = new ParticleTextureSheet()
+    {
+        public void begin(BufferBuilder bufferBuilder, TextureManager textureManager)
+        {
+            RenderSystem.enableBlend();
+            RenderSystem.blendFunc(GlStateManager.SrcFactor.SRC_ALPHA, GlStateManager.DstFactor.ONE);
+            RenderSystem.depthMask(false);
+            RenderSystem.setShaderTexture(0, SpriteAtlasTexture.PARTICLE_ATLAS_TEXTURE);
+            bufferBuilder.begin(VertexFormat.DrawMode.QUADS, VertexFormats.POSITION_TEXTURE_COLOR_LIGHT);
+        }
+
+        public void draw(Tessellator tessellator)
+        {
+            tessellator.draw();
+        }
+
+        public String toString()
+        {
+            return "PARTICLE_SHEET_SPECTRITE";
+        }
+    };
 
     private static int ticks;
 
@@ -140,15 +171,6 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             client.getFramebuffer().beginWrite(false);
         });
 
-        /*BlockEntityRendererRegistry.INSTANCE.register(BlockEntities.SPECTRITE_CHEST, ChestBlockEntityRenderer::new);
-
-        ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
-                registry.register(getId("entity/chest/spectrite")));
-        ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
-                registry.register(getId("entity/chest/spectrite_left")));
-        ClientSpriteRegistryCallback.event(TexturedRenderLayers.CHEST_ATLAS_TEXTURE).register((texture, registry) ->
-                registry.register(getId("entity/chest/spectrite_right")));*/
-
         FabricModelPredicateProviderRegistry.register(Items.SPECTRITE_BOW, new Identifier("pulling"),
                 (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
         FabricModelPredicateProviderRegistry.register(Items.SPECTRITE_BOW, new Identifier("pull"),
@@ -198,7 +220,25 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
         FabricModelPredicateProviderRegistry.register(depletedSpectriteTridentItem, new Identifier("throwing"),
                 (stack, world, entity, seed) -> entity != null && entity.isUsingItem() && entity.getActiveItem() == stack ? 1.0F : 0.0F);
 
-        Particles.initParticles();
+        for (Item item : Items.DEPLETED_DAMAGEABLE_ITEMS_MAP.keySet())
+        {
+            FabricModelPredicateProviderRegistry.register(item, new Identifier("stdamage"), new UnclampedModelPredicateProvider()
+            {
+                @Override
+                public float call(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int seed)
+                {
+                    return unclampedCall(itemStack, clientWorld, livingEntity, seed);
+                }
+
+                @Override
+                public float unclampedCall(ItemStack itemStack, @Nullable ClientWorld clientWorld, @Nullable LivingEntity livingEntity, int i)
+                {
+                    return SpectriteUtils.getItemStackStDamage(itemStack);
+                }
+            });
+        }
+
+        ParticleFactories.initParticleFactories();
 
         ClientPlayNetworking.registerGlobalReceiver(getId("explosion"), SpectriteClientUtils::explodeOnClient);
     }

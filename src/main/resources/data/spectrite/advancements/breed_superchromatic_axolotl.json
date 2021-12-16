@@ -1,0 +1,44 @@
+{
+  "parent": "spectrite:breed_superchromatic_animal",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_axolotl_bucket"
+    },
+    "title": {
+      "translate": "advancements.spectrite.breed_superchromatic_axolotl.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.breed_superchromatic_axolotl.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "superchromatic_axolotl_child": {
+      "trigger": "minecraft:bred_animals",
+      "conditions": {
+        "child": {
+          "type": "minecraft:axolotl",
+          "effects": {
+            "spectrite:superchromatic": {
+              "amplifier": {
+                "min": 0,
+                "max": 0
+              }
+            }
+          }
+        }
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_axolotl_child"
+    ]
+  ]
+}

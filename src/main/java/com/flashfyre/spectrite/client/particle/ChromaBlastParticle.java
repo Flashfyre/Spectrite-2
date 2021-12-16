@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.client.particle;
 
+import com.flashfyre.spectrite.client.SpectriteClient;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.particle.*;
@@ -17,7 +18,7 @@ public class ChromaBlastParticle extends ExplosionLargeParticle
     @Override
     public ParticleTextureSheet getType()
     {
-        return Particles.PARTICLE_SHEET_SPECTRITE;
+        return SpectriteClient.PARTICLE_SHEET_SPECTRITE;
     }
 
     @Environment(EnvType.CLIENT)
