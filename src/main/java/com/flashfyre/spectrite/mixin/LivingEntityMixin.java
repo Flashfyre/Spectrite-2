@@ -55,11 +55,12 @@ public class LivingEntityMixin
     @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;decrement(I)V"), cancellable = true)
     private void injectEatFoodSuperchromaticFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir)
     {
-        final PlayerEntity playerEntity = (PlayerEntity) (Object) this;
+        final LivingEntity livingEntity = (LivingEntity) (Object) this;
         if (stack.getItem() instanceof SimpleSpectriteItem)
         {
-            playerEntity.getItemCooldownManager().set(stack.getItem(), 1500);
-            playerEntity.emitGameEvent(GameEvent.EAT);
+            if (livingEntity instanceof PlayerEntity playerEntity)
+                playerEntity.getItemCooldownManager().set(stack.getItem(), 1500);
+            livingEntity.emitGameEvent(GameEvent.EAT);
             cir.setReturnValue(stack);
         }
     }

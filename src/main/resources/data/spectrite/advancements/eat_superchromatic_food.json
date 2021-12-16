@@ -22,25 +22,21 @@
     "superchromatic_apple": {
       "trigger": "minecraft:consume_item",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "spectrite:superchromatic_apple"
-            ]
-          }
-        ]
+        "item": {
+          "items": [
+            "spectrite:superchromatic_apple"
+          ]
+        }
       }
     },
     "superchromatic_carrot": {
       "trigger": "minecraft:consume_item",
       "conditions": {
-        "items": [
-          {
-            "items": [
-              "spectrite:superchromatic_carrot"
-            ]
-          }
-        ]
+        "item": {
+          "items": [
+            "spectrite:superchromatic_carrot"
+          ]
+        }
       }
     }
   },
