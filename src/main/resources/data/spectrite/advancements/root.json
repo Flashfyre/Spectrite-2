@@ -21,7 +21,9 @@
       "conditions": {
         "items": [
           {
-            "item": "spectrite:spectrite_gem"
+            "items": [
+              "spectrite:spectrite_gem"
+            ]
           }
         ]
       }
