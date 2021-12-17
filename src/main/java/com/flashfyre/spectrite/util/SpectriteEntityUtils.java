@@ -5,14 +5,13 @@ import com.flashfyre.spectrite.component.Components;
 import com.flashfyre.spectrite.component.SpectriteWeaponEntityAttributesComponent;
 import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
+import com.flashfyre.spectrite.entity.SpectriteGolemEntity;
+import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.AttributeContainer;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -23,16 +22,17 @@ import net.minecraft.util.math.Vec3d;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
-import java.util.AbstractMap;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
+import java.util.*;
 import java.util.function.Supplier;
+import java.util.stream.Collectors;
 
 public class SpectriteEntityUtils
 {
     public static final Map<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> ENTITY_ATTRIBUTE_MODIFIERS = new HashMap<>();
     public static final Map<BlockPos, Map.Entry<Integer, Integer>> BEACON_LOCATIONS = new HashMap<>();
+
+    private static final String SUPERCHROMATIC_MOB_BONUS = "Superchromatic mob bonus";
+    private static final String SUPERCHROMATIC_MOB_MULTIPLIER = "Superchromatic mob multiplier";
 
     static
     {
@@ -72,7 +72,14 @@ public class SpectriteEntityUtils
 
     public static boolean trySetMobSuperchromatic(MobEntity mobEntity)
     {
+        if (mobEntity instanceof SuperchromaticEntity)
+        {
+            setSuperchromatic(mobEntity, true);
+            return true;
+        }
+
         boolean isSuperchromatic = false;
+
         final float bonusRate = (float) getMaxBeaconBaseSpectriteBlocks(mobEntity.world, mobEntity.getPos()) * SpectriteConfig.getSuperchromaticMobSpawnRateBeaconBlockBonus();
         final float superchromaticMobSpawnRate = Math.min(SpectriteConfig.getSuperchromaticMobSpawnRate() + bonusRate, 100f);
 
@@ -159,6 +166,8 @@ public class SpectriteEntityUtils
     {
         if (target instanceof LivingEntity livingTarget)
         {
+            if (livingEntity instanceof SpectriteGolemEntity spectriteGolemEntity && spectriteGolemEntity.isDepleted())
+                return;
             final boolean isSuperchromatic = livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC);
             final int superchromaticLevel = isSuperchromatic
                     ? livingEntity.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1
@@ -217,7 +226,7 @@ public class SpectriteEntityUtils
                 power, false, Explosion.DestructionType.NONE);
     }
 
-    public static void initSuperchromaticMobAttributes(MobEntity mobEntity)
+    private static void initSuperchromaticMobAttributes(MobEntity mobEntity, boolean ignoreHealth)
     {
         final float initialMaxHealth = mobEntity.getMaxHealth();
         final float healthRatio = mobEntity.getHealth() / initialMaxHealth;
@@ -225,21 +234,58 @@ public class SpectriteEntityUtils
         for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
         {
             final EntityAttribute attribute = e.getKey();
-            if (attributes.hasAttribute(attribute))
+            if (attributes.hasAttribute(attribute) && (!ignoreHealth || attribute != EntityAttributes.GENERIC_MAX_HEALTH))
             {
                 final Double bonus = e.getValue().getKey().get();
                 final Double multiplier = e.getValue().getValue().get();
+                final EntityAttributeInstance entityAttributeInstance = mobEntity.getAttributeInstance(attribute);
                 if (bonus != null && bonus.doubleValue() > 0.0d)
-                    mobEntity.getAttributeInstance(attribute).addPersistentModifier(
-                            new EntityAttributeModifier("Superchromatic mob bonus", bonus, EntityAttributeModifier.Operation.ADDITION));
+                {
+                    if (!entityAttributeInstance.getModifiers().stream().anyMatch(m -> SUPERCHROMATIC_MOB_BONUS.equals(m.getName())))
+                        entityAttributeInstance.addPersistentModifier(
+                                new EntityAttributeModifier(SUPERCHROMATIC_MOB_BONUS, bonus, EntityAttributeModifier.Operation.ADDITION));
+                }
                 if (multiplier != null && multiplier.doubleValue() != 1.0d)
-                    mobEntity.getAttributeInstance(attribute).addPersistentModifier(
-                            new EntityAttributeModifier("Superchromatic mob multiplier", multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+                {
+                    if (!entityAttributeInstance.getModifiers().stream().anyMatch(m -> SUPERCHROMATIC_MOB_MULTIPLIER.equals(m.getName())))
+                        entityAttributeInstance.addPersistentModifier(
+                                new EntityAttributeModifier(SUPERCHROMATIC_MOB_MULTIPLIER, multiplier - 1.0d, EntityAttributeModifier.Operation.MULTIPLY_TOTAL));
+                }
             }
         }
-        final float currentMaxHealth = mobEntity.getMaxHealth();
-        if (currentMaxHealth > initialMaxHealth)
-            mobEntity.setHealth(currentMaxHealth * healthRatio);
+        if (!ignoreHealth)
+        {
+            final float currentMaxHealth = mobEntity.getMaxHealth();
+            if (currentMaxHealth > initialMaxHealth)
+                mobEntity.setHealth(currentMaxHealth * healthRatio);
+        }
+    }
+
+    public static void initSuperchromaticMobAttributes(MobEntity mobEntity)
+    {
+        initSuperchromaticMobAttributes(mobEntity, false);
+    }
+
+    public static void enableSuperchromaticMobAttributes(MobEntity mobEntity)
+    {
+        initSuperchromaticMobAttributes(mobEntity, true);
+    }
+
+    public static void disableSuperchromaticMobAttributes(MobEntity mobEntity)
+    {
+        final AttributeContainer attributes = mobEntity.getAttributes();
+        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
+        {
+            final EntityAttribute attribute = e.getKey();
+            if (attributes.hasAttribute(attribute) && attribute != EntityAttributes.GENERIC_MAX_HEALTH)
+            {
+                final EntityAttributeInstance entityAttributeInstance = mobEntity.getAttributeInstance(attribute);
+                final List<EntityAttributeModifier> spectriteMobModifiers = entityAttributeInstance.getModifiers()
+                        .stream().filter(m -> SUPERCHROMATIC_MOB_BONUS.equals(m.getName()) || SUPERCHROMATIC_MOB_MULTIPLIER.equals(m.getName())).collect(Collectors.toList());
+                for (EntityAttributeModifier modifier : spectriteMobModifiers)
+                    entityAttributeInstance.removeModifier(modifier);
+            }
+        }
     }
 
     public static int getSuperchromaticMobPowerBonus(MobEntity mobEntity)

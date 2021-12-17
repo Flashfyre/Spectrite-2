@@ -3,6 +3,7 @@ package com.flashfyre.spectrite.client.mixin;
 import com.flashfyre.spectrite.client.SpectriteClient;
 import com.flashfyre.spectrite.client.util.SpectriteEntityRenderUtils;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
+import com.flashfyre.spectrite.entity.SpectriteGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.RenderLayer;
@@ -39,6 +40,12 @@ public class LivingEntityRendererMixin
     private void injectGetRenderLayerSubstituteHueRenderLayer(LivingEntity e, boolean showBody, boolean translucent, boolean showOutline, CallbackInfoReturnable<RenderLayer> cir)
     {
         if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSuperchromatic())
-            cir.setReturnValue(SpectriteClient.CLIENT_INSTANCE.getHueLayer(cir.getReturnValue()));
+        {
+            if (e instanceof SpectriteGolemEntity spectriteGolemEntity)
+                cir.setReturnValue(SpectriteClient.CLIENT_INSTANCE.getHueLayer(cir.getReturnValue(),
+                        spectriteGolemEntity.isDepleted() ? 4 : spectriteGolemEntity.getCrack().ordinal(), false));
+            else
+                cir.setReturnValue(SpectriteClient.CLIENT_INSTANCE.getHueLayer(cir.getReturnValue()));
+        }
     }
 }

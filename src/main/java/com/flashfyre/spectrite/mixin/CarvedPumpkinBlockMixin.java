@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.block.Blocks;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.entity.EntityTypes;
 import net.minecraft.advancement.criterion.Criteria;
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockState;
@@ -10,7 +10,6 @@ import net.minecraft.block.Material;
 import net.minecraft.block.pattern.BlockPattern;
 import net.minecraft.block.pattern.BlockPatternBuilder;
 import net.minecraft.block.pattern.CachedBlockPosition;
-import net.minecraft.entity.EntityType;
 import net.minecraft.entity.passive.IronGolemEntity;
 import net.minecraft.predicate.block.BlockStatePredicate;
 import net.minecraft.server.network.ServerPlayerEntity;
@@ -38,27 +37,27 @@ public class CarvedPumpkinBlockMixin
     private static Predicate<BlockState> IS_GOLEM_HEAD_PREDICATE;
 
     @Nullable
-    private BlockPattern superchromaticGolemDispenserPattern;
+    private BlockPattern spectriteGolemDispenserPattern;
 
     @Nullable
-    private BlockPattern superchromaticGolemPattern;
+    private BlockPattern spectriteGolemPattern;
 
     @Inject(method = "canDispense", at = @At("RETURN"))
-    private void injectCanDispenseCheckSuperchromaticGolem(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir)
+    private void injectCanDispenseCheckSpectriteGolem(WorldView world, BlockPos pos, CallbackInfoReturnable<Boolean> cir)
     {
         if (!cir.getReturnValue())
-            cir.setReturnValue(this.getSuperchromaticGolemDispenserPattern().searchAround(world, pos) != null);
+            cir.setReturnValue(this.getSpectriteGolemDispenserPattern().searchAround(world, pos) != null);
     }
 
     @Inject(method = "trySpawnEntity", at = @At("RETURN"))
-    private void injectTrySpawnEntityCheckSuperchromaticGolem(World world, BlockPos pos, CallbackInfo ci)
+    private void injectTrySpawnEntityCheckSpectriteGolem(World world, BlockPos pos, CallbackInfo ci)
     {
-        final BlockPattern.Result result = this.getSuperchromaticGolemPattern().searchAround(world, pos);
+        final BlockPattern.Result result = this.getSpectriteGolemPattern().searchAround(world, pos);
         if (result == null)
             return;
-        for (int i = 0; i < this.getSuperchromaticGolemPattern().getWidth(); ++i)
+        for (int i = 0; i < this.getSpectriteGolemPattern().getWidth(); ++i)
         {
-            for (int cachedBlockPosition = 0; cachedBlockPosition < this.getSuperchromaticGolemPattern().getHeight(); ++cachedBlockPosition)
+            for (int cachedBlockPosition = 0; cachedBlockPosition < this.getSpectriteGolemPattern().getHeight(); ++cachedBlockPosition)
             {
                 final CachedBlockPosition j = result.translate(i, cachedBlockPosition, 0);
                 world.setBlockState(j.getBlockPos(), net.minecraft.block.Blocks.AIR.getDefaultState(), Block.NOTIFY_LISTENERS);
@@ -66,19 +65,18 @@ public class CarvedPumpkinBlockMixin
             }
         }
         final BlockPos i = result.translate(1, 2, 0).getBlockPos();
-        final IronGolemEntity golemEntity = EntityType.IRON_GOLEM.create(world);
+        final IronGolemEntity golemEntity = EntityTypes.SPECTRITE_GOLEM.create(world);
         golemEntity.setPlayerCreated(true);
         golemEntity.refreshPositionAndAngles((double) i.getX() + 0.5, (double) i.getY() + 0.05, (double) i.getZ() + 0.5, 0.0f, 0.0f);
-        SpectriteEntityUtils.trySetMobSuperchromatic(golemEntity);
         world.spawnEntity(golemEntity);
         for (ServerPlayerEntity serverPlayerEntity : world.getNonSpectatingEntities(ServerPlayerEntity.class, golemEntity.getBoundingBox().expand(5.0)))
         {
             Criteria.SUMMONED_ENTITY.trigger(serverPlayerEntity, golemEntity);
         }
-        for (int j = 0; j < this.getSuperchromaticGolemPattern().getWidth(); ++j)
+        for (int j = 0; j < this.getSpectriteGolemPattern().getWidth(); ++j)
         {
             int var7_20 = 0;
-            while (var7_20 < this.getSuperchromaticGolemPattern().getHeight())
+            while (var7_20 < this.getSpectriteGolemPattern().getHeight())
             {
                 final CachedBlockPosition cachedBlockPosition = result.translate(j, var7_20, 0);
                 world.updateNeighbors(cachedBlockPosition.getBlockPos(), net.minecraft.block.Blocks.AIR);
@@ -87,26 +85,26 @@ public class CarvedPumpkinBlockMixin
         }
     }
 
-    private BlockPattern getSuperchromaticGolemDispenserPattern()
+    private BlockPattern getSpectriteGolemDispenserPattern()
     {
-        if (this.superchromaticGolemDispenserPattern == null)
+        if (this.spectriteGolemDispenserPattern == null)
         {
-            this.superchromaticGolemDispenserPattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~")
+            this.spectriteGolemDispenserPattern = BlockPatternBuilder.start().aisle("~ ~", "###", "~#~")
                     .where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.SPECTRITE_BLOCK)))
                     .where('~', CachedBlockPosition.matchesBlockState(MaterialPredicate.create(Material.AIR))).build();
         }
-        return this.superchromaticGolemDispenserPattern;
+        return this.spectriteGolemDispenserPattern;
     }
 
-    private BlockPattern getSuperchromaticGolemPattern()
+    private BlockPattern getSpectriteGolemPattern()
     {
-        if (this.superchromaticGolemPattern == null)
+        if (this.spectriteGolemPattern == null)
         {
-            this.superchromaticGolemPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~")
+            this.spectriteGolemPattern = BlockPatternBuilder.start().aisle("~^~", "###", "~#~")
                     .where('^', CachedBlockPosition.matchesBlockState(IS_GOLEM_HEAD_PREDICATE))
                     .where('#', CachedBlockPosition.matchesBlockState(BlockStatePredicate.forBlock(Blocks.SPECTRITE_BLOCK)))
                     .where('~', CachedBlockPosition.matchesBlockState(MaterialPredicate.create(Material.AIR))).build();
         }
-        return this.superchromaticGolemPattern;
+        return this.spectriteGolemPattern;
     }
 }

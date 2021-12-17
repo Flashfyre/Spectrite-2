@@ -3,6 +3,7 @@ package com.flashfyre.spectrite.client.mixin;
 import com.flashfyre.spectrite.client.SpectriteClient;
 import com.flashfyre.spectrite.client.util.SpectriteEntityRenderUtils;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
+import com.flashfyre.spectrite.entity.SpectriteGolemEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.render.VertexConsumerProvider;
@@ -41,6 +42,12 @@ public class FeatureRendererMixin
             VertexConsumerProvider vertexConsumers, int light, T entity, float red, float green, float blue)
     {
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
-            args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0)));
+        {
+            if (spectriteCompatibleEntity instanceof SpectriteGolemEntity spectriteGolemEntity)
+                args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0),
+                        spectriteGolemEntity.isDepleted() ? 4 : spectriteGolemEntity.getCrack().ordinal(), false));
+            else
+                args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0)));
+        }
     }
 }
