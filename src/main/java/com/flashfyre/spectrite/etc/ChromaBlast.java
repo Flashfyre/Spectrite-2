@@ -208,17 +208,35 @@ public class ChromaBlast extends Explosion
         final Entity sourceEntity = entity;
         final Entity targetEntity = getTargetEntity();
 
-        if (sourceEntity != null)
+        if (sourceEntity != null && targetEntity != null)
+            list.removeIf(e -> canDamageEntity(sourceEntity, targetEntity, e));
+    }
+
+    private boolean canDamageEntity(Entity sourceEntity, Entity targetEntity, Entity damagedEntity)
+    {
+        if (targetEntity == damagedEntity)
+            return true;
+
+        final ChromaBlastTargetType sourceEntityTargetType = ChromaBlastTargetType.getEntityTargetType(sourceEntity);
+        final ChromaBlastTargetType targetEntityTargetType = ChromaBlastTargetType.getEntityTargetType(targetEntity);
+        if (targetEntityTargetType == sourceEntityTargetType)
+            return true;
+
+        final ChromaBlastTargetType damagedEntityTargetType = ChromaBlastTargetType.getEntityTargetType(damagedEntity);
+        if (damagedEntityTargetType == ChromaBlastTargetType.OTHER_LIVING
+                || (sourceEntityTargetType != ChromaBlastTargetType.PLAYER && damagedEntityTargetType == ChromaBlastTargetType.OTHER))
+            return true;
+
+        switch (sourceEntityTargetType)
         {
-            final ChromaBlastTargetType sourceEntityTargetType = ChromaBlastTargetType.getEntityTargetType(sourceEntity);
-            if (sourceEntityTargetType == ChromaBlastTargetType.OTHER)
-                return;
-
-            if (targetEntity != null && ChromaBlastTargetType.getEntityTargetType(targetEntity) == sourceEntityTargetType)
-                return;
-
-            list.removeIf(e -> (targetEntity == null || e != targetEntity)
-                    && (ChromaBlastTargetType.getCollateralEntityTargetType(sourceEntity, e) == sourceEntityTargetType));
+            case PLAYER:
+                if (targetEntityTargetType == ChromaBlastTargetType.PLAYER)
+                    return sourceEntity.isTeammate(targetEntity) || !sourceEntity.isTeammate(damagedEntity);
+                return damagedEntityTargetType != ChromaBlastTargetType.PLAYER;
+            case SUPERCHROMATIC_MOB:
+                return targetEntityTargetType == damagedEntityTargetType;
+            default:
+                return true;
         }
     }
 
