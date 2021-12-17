@@ -1,10 +1,13 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
+import com.flashfyre.spectrite.item.SpectriteItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.SpawnReason;
+import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.text.Text;
@@ -19,6 +22,18 @@ import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 @Mixin(EntityType.class)
 public class EntityTypeMixin
 {
+    @Inject(method = "spawnFromItemStack", at = @At("RETURN"))
+    private void injectSpawnFromItemStackSpawnSuperchromaticEntity(
+            ServerWorld world, ItemStack stack, PlayerEntity player, BlockPos pos, SpawnReason spawnReason, boolean alignPosition, boolean invertY, CallbackInfoReturnable<Entity> cir)
+    {
+        if (cir.getReturnValue() instanceof MobEntity && stack != null && stack.getItem() instanceof SpectriteItem)
+        {
+            final NbtCompound nbt = stack.getOrCreateNbt();
+            if (!nbt.contains("Superchromatic"))
+                nbt.putBoolean("Superchromatic", true);
+        }
+    }
+
     @Inject(method = "create(Lnet/minecraft/server/world/ServerWorld;Lnet/minecraft/nbt/NbtCompound;Lnet/minecraft/text/Text;Lnet/minecraft/entity/player/PlayerEntity;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/entity/SpawnReason;ZZ)Lnet/minecraft/entity/Entity;",
             at = @At(value = "INVOKE", target = "Lnet/minecraft/entity/mob/MobEntity;initialize(Lnet/minecraft/world/ServerWorldAccess;Lnet/minecraft/world/LocalDifficulty;Lnet/minecraft/entity/SpawnReason;Lnet/minecraft/entity/EntityData;Lnet/minecraft/nbt/NbtCompound;)Lnet/minecraft/entity/EntityData;"),
             locals = LocalCapture.CAPTURE_FAILHARD)
