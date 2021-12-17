@@ -4,6 +4,7 @@ import com.flashfyre.spectrite.Spectrite;
 import com.flashfyre.spectrite.client.particle.ChromaBlastEmitterParticle;
 import com.flashfyre.spectrite.client.particle.ParticleFactories;
 import com.flashfyre.spectrite.client.render.*;
+import com.flashfyre.spectrite.client.render.entity.EntityRenderers;
 import com.flashfyre.spectrite.client.resourcePack.SpectriteResourcePack;
 import com.flashfyre.spectrite.client.util.SpectriteClientUtils;
 import com.flashfyre.spectrite.item.Items;
@@ -238,6 +239,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             });
         }
 
+        EntityRenderers.initEntityRenderers();
         ParticleFactories.initParticleFactories();
 
         ClientPlayNetworking.registerGlobalReceiver(getId("explosion"), SpectriteClientUtils::explodeOnClient);

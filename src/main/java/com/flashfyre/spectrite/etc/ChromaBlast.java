@@ -209,7 +209,7 @@ public class ChromaBlast extends Explosion
         final Entity targetEntity = getTargetEntity();
 
         if (sourceEntity != null && targetEntity != null)
-            list.removeIf(e -> canDamageEntity(sourceEntity, targetEntity, e));
+            list.removeIf(e -> !canDamageEntity(sourceEntity, targetEntity, e));
     }
 
     private boolean canDamageEntity(Entity sourceEntity, Entity targetEntity, Entity damagedEntity)

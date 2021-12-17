@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
+import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.text.SpectriteText;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.Entity;
@@ -57,7 +58,7 @@ public abstract class EntityMixin
     {
         final Entity entity = (Entity) ((Object) this);
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic()
-                && !entity.hasCustomName())
+                && !entity.hasCustomName() && !(entity instanceof SuperchromaticEntity))
             cir.setReturnValue(new TranslatableText("entity.spectrite.superchromatic.generic", cir.getReturnValue()));
     }
 

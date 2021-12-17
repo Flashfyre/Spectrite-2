@@ -2,6 +2,7 @@ package com.flashfyre.spectrite;
 
 import com.flashfyre.spectrite.block.Blocks;
 import com.flashfyre.spectrite.damageSource.DamageSources;
+import com.flashfyre.spectrite.entity.EntityTypes;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.loot.LootTables;
@@ -39,6 +40,7 @@ public class Spectrite implements ModInitializer
         StatusEffects.initStatusEffects();
         Blocks.initBlocks();
         Items.initItems();
+        EntityTypes.initEntityTypes();
         ConfiguredFeatures.initConfiguredFeatures();
         PlacedFeatures.initPlacedFeatures();
         LootConditionTypes.initLootConditionTypes();

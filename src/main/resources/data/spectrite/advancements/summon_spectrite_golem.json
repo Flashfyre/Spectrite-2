@@ -5,10 +5,10 @@
       "item": "spectrite:spectrite_block"
     },
     "title": {
-      "translate": "advancements.spectrite.summon_superchromatic_golem.title"
+      "translate": "advancements.spectrite.summon_spectrite_golem.title"
     },
     "description": {
-      "translate": "advancements.spectrite.summon_superchromatic_golem.description"
+      "translate": "advancements.spectrite.summon_spectrite_golem.description"
     },
     "frame": "challenge",
     "show_toast": true,
@@ -16,22 +16,14 @@
     "hidden": false
   },
   "criteria": {
-    "summoned_superchromatic_golem": {
+    "summoned_spectrite_golem": {
       "trigger": "minecraft:summoned_entity",
       "conditions": {
         "entity": [
           {
             "condition": "minecraft:entity_properties",
             "predicate": {
-              "type": "minecraft:iron_golem",
-              "effects": {
-                "spectrite:superchromatic": {
-                  "amplifier": {
-                    "min": 0,
-                    "max": 0
-                  }
-                }
-              }
+              "type": "spectrite:spectrite_golem"
             },
             "entity": "this"
           }
@@ -41,7 +33,7 @@
   },
   "requirements": [
     [
-      "summoned_superchromatic_golem"
+      "summoned_spectrite_golem"
     ]
   ]
 }
