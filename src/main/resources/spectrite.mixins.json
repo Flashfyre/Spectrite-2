@@ -14,6 +14,7 @@
     "BlockEntityAccessor",
     "BowAttackGoalMixin",
     "BucketableMixin",
+    "CarvedPumpkinBlockMixin",
     "ConstantLootNumberProviderAccessor",
     "EntityMixin",
     "EntityTypeMixin",

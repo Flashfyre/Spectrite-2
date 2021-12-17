@@ -1,0 +1,47 @@
+{
+  "parent": "spectrite:tame_superchromatic_animal",
+  "display": {
+    "icon": {
+      "item": "spectrite:spectrite_block"
+    },
+    "title": {
+      "translate": "advancements.spectrite.summon_superchromatic_golem.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.summon_superchromatic_golem.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "summoned_superchromatic_golem": {
+      "trigger": "minecraft:summoned_entity",
+      "conditions": {
+        "entity": [
+          {
+            "condition": "minecraft:entity_properties",
+            "predicate": {
+              "type": "minecraft:iron_golem",
+              "effects": {
+                "spectrite:superchromatic": {
+                  "amplifier": {
+                    "min": 0,
+                    "max": 0
+                  }
+                }
+              }
+            },
+            "entity": "this"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "summoned_superchromatic_golem"
+    ]
+  ]
+}
