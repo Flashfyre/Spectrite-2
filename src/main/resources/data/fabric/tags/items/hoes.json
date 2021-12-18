@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spectrite:spectrite_hoe"
+    "spectrite:spectrite_hoe",
+    "spectrite:depleted_spectrite_hoe"
   ]
 }

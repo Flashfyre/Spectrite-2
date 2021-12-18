@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spectrite:spectrite_pickaxe"
+    "spectrite:spectrite_pickaxe",
+    "spectrite:depleted_spectrite_pickaxe"
   ]
 }

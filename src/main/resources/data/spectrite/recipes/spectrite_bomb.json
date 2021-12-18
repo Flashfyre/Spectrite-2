@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shapeless",
+  "ingredients": [
+    {
+      "item": "minecraft:fire_charge"
+    },
+    {
+      "item": "minecraft:gunpowder"
+    },
+    {
+      "item": "spectrite:spectrite_gem"
+    }
+  ],
+  "result": {
+    "item": "spectrite:spectrite_bomb"
+  }
+}

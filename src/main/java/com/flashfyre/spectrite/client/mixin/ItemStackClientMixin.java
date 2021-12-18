@@ -92,6 +92,12 @@ public class ItemStackClientMixin
                     list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
                 }
             }
+        } else if (stack.getItem() instanceof SpectriteBombItem)
+        {
+            list.add(new TranslatableText("item.spectrite.modifiers.on_impact").formatted(Formatting.GRAY));
+            final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
+            chromaBlastText.append(" ").append(new TranslatableText("enchantment.level.5"));
+            list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
         }
     }
 

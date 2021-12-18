@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spectrite:spectrite_shovel"
+    "spectrite:spectrite_shovel",
+    "spectrite:depleted_spectrite_shovel"
   ]
 }

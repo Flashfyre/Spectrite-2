@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spectrite:spectrite_sword"
+    "spectrite:spectrite_sword",
+    "spectrite:depleted_spectrite_sword"
   ]
 }

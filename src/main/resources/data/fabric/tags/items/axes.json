@@ -1,6 +1,7 @@
 {
   "replace": false,
   "values": [
-    "spectrite:spectrite_axe"
+    "spectrite:spectrite_axe",
+    "spectrite:depleted_spectrite_axe"
   ]
 }
