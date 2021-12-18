@@ -1,10 +1,7 @@
 package com.flashfyre.spectrite.client.mixin;
 
 import com.flashfyre.spectrite.client.SpectriteClient;
-import com.flashfyre.spectrite.item.SpectriteChargeableItem;
-import com.flashfyre.spectrite.item.SpectriteDamageableItem;
-import com.flashfyre.spectrite.item.SpectriteItem;
-import com.flashfyre.spectrite.item.SpectriteTridentItem;
+import com.flashfyre.spectrite.item.*;
 import com.flashfyre.spectrite.util.SpectriteUtils;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -47,7 +44,7 @@ public class ItemRendererMixin
     @ModifyVariable(method = "renderItem(Lnet/minecraft/item/ItemStack;Lnet/minecraft/client/render/model/json/ModelTransformation$Mode;ZLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;IILnet/minecraft/client/render/model/BakedModel;)V",
             at = @At(value = "STORE", target = "Lnet/minecraft/client/render/RenderLayers;getItemLayer(Lnet/minecraft/item/ItemStack;Z)Lnet/minecraft/client/render/RenderLayer;"),
             ordinal = 0)
-    private RenderLayer modifyVariableRenderItemRenderLayersGetItemLayerChargedSpectriteTool(
+    private RenderLayer modifyVariableRenderItemRenderLayersGetItemLayerChargedSpectriteItem(
             RenderLayer layer, ItemStack stack)
     {
         final Item item = stack.getItem();
@@ -56,8 +53,8 @@ public class ItemRendererMixin
             final int damage = item instanceof SpectriteDamageableItem
                     ? SpectriteUtils.getItemStackStDamage(stack)
                     : 0;
-            final boolean charged = item instanceof SpectriteChargeableItem spectriteChargeableItem
-                    && spectriteChargeableItem.isCharged(stack);
+            final boolean charged = (item instanceof SpectriteChargeableItem spectriteChargeableItem
+                    && spectriteChargeableItem.isCharged(stack)) || item instanceof SpectriteBombItem;
             return SpectriteClient.CLIENT_INSTANCE.getSpectriteItemLayer(layer, damage, charged);
         }
         return layer;

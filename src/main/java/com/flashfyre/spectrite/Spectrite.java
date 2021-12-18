@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite;
 
 import com.flashfyre.spectrite.block.Blocks;
+import com.flashfyre.spectrite.block.dispensor.DispensorBehaviors;
 import com.flashfyre.spectrite.damageSource.DamageSources;
 import com.flashfyre.spectrite.entity.EntityTypes;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
@@ -41,6 +42,7 @@ public class Spectrite implements ModInitializer
         Items.initItems();
         Features.initFeatures();
         EntityTypes.initEntityTypes();
+        DispensorBehaviors.initDispenserBehaviors();
         LootConditionTypes.initLootConditionTypes();
         LootTables.initLootTables();
         DamageSources.initDamageSources();

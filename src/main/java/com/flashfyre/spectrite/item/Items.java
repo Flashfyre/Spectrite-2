@@ -114,6 +114,8 @@ public class Items
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
 
+    public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.MISC));
+
     public static final Item SPECTRITE_HORSE_ARMOR = new SpectriteHorseArmorItem(17, itemSettings().group(ItemGroup.MISC));
 
     public static void initItems()
@@ -137,6 +139,7 @@ public class Items
         registerItem("superchromatic_axolotl_bucket", SUPERCHROMATIC_AXOLOTL_BUCKET);
         registerItem("superchromatic_ender_pearl", SUPERCHROMATIC_ENDER_PEARL);
         registerItem("superchromatic_nether_star", SUPERCHROMATIC_NETHER_STAR);
+        registerItem("spectrite_bomb", SPECTRITE_BOMB);
         registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
     }
 

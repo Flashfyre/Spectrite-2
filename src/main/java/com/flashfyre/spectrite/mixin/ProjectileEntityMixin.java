@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
+import com.flashfyre.spectrite.entity.SpectriteBombEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
@@ -72,6 +73,8 @@ public class ProjectileEntityMixin
                     destructionType = Explosion.DestructionType.NONE;
                     if (isTrident && isSuperchromatic && spectriteCompatibleWeaponEntity.isSpectriteCharged())
                         power--;
+                    else if (projectileEntity instanceof SpectriteBombEntity)
+                        power = 5;
                 }
 
                 if (power + superchromaticLevel == 0)

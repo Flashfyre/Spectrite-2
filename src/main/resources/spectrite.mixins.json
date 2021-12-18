@@ -16,6 +16,7 @@
     "BucketableMixin",
     "CarvedPumpkinBlockMixin",
     "ConstantLootNumberProviderAccessor",
+    "EnderPearlEntityMixin",
     "EntityMixin",
     "EntityTypeMixin",
     "ExplosionAccessor",

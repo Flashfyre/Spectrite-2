@@ -43,6 +43,7 @@
 	"item.spectrite.superchromatic_ender_pearl": "Superchromatic Ender Pearl",
 	"item.spectrite.superchromatic_nether_star": "Superchromatic Nether Star",
 	
+	"item.spectrite.spectrite_bomb": "Spectrite Bomb",
 	"item.spectrite.spectrite_horse_armor": "Spectrite Horse Armor",
 	
 	"item.spectrite.tooltip.depleted": "Depleted",
@@ -51,6 +52,7 @@
 	"item.spectrite.modifiers.charged": "When Charged:",
 	"item.spectrite.modifiers.charged.tool_efficiency": "%d%% Efficiency",
 	"item.spectrite.modifiers.set_bonus": "Set Bonus:",
+	"item.spectrite.modifiers.on_impact": "On Impact:",
 	
 	"effect.spectrite.superchromatic": "Superchromatic",
 	
