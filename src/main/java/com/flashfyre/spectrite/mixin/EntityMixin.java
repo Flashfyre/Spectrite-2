@@ -3,7 +3,6 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SuperchromaticEntity;
-import com.flashfyre.spectrite.text.SpectriteText;
 import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.BossBar;
@@ -69,7 +68,8 @@ public abstract class EntityMixin
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
         {
             if (entity.getScoreboardTeam() == null || entity.getScoreboardTeam().getColor() == Formatting.RESET)
-                cir.setReturnValue(new SpectriteText(cir.getReturnValue(), false));
+                //cir.setReturnValue(new SpectriteText(cir.getReturnValue(), false));
+                cir.setReturnValue(cir.getReturnValue());
         }
     }
 
