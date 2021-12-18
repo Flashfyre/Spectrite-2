@@ -5,6 +5,7 @@
     "spectrite:spectrite_ore_deepslate",
     "spectrite:spectrite_ore_nether",
     "spectrite:spectrite_ore_blackstone",
-    "spectrite:spectrite_ore_end"
+    "spectrite:spectrite_ore_end",
+    "spectrite:spectrite_block"
   ]
 }
