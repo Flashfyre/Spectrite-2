@@ -10,7 +10,7 @@ import net.minecraft.util.Hand;
 import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 
-public class SpectriteBombItem extends SimpleSpectriteItem
+public class SpectriteBombItem extends SimpleSpectriteItem implements PassiveChargedSpectriteItem
 {
     public SpectriteBombItem(Settings settings)
     {

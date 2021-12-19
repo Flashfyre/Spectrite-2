@@ -104,6 +104,8 @@ public class Items
     public static final Item DEPLETED_SPECTRITE_TRIDENT = new SpectriteTridentItem(true,
             itemSettings().customDamage(spectriteDamageableDamageHandler).maxDamage(462));
 
+    public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.COMBAT));
+
     public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
 
     public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
@@ -114,7 +116,9 @@ public class Items
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
 
-    public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.MISC));
+    public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
+
+    public static final Item SUPERCHROMATIC_ELIXIR = new SuperchromaticElixirItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
 
     public static final Item SPECTRITE_HORSE_ARMOR = new SpectriteHorseArmorItem(17, itemSettings().group(ItemGroup.MISC));
 
@@ -134,12 +138,14 @@ public class Items
         registerDamageableItem("spectrite_boots", SPECTRITE_BOOTS, DEPLETED_SPECTRITE_BOOTS);
         registerDamageableItem("spectrite_shield", SPECTRITE_SHIELD, DEPLETED_SPECTRITE_SHIELD);
         registerDamageableItem("spectrite_trident", SPECTRITE_TRIDENT, DEPLETED_SPECTRITE_TRIDENT);
+        registerItem("spectrite_bomb", SPECTRITE_BOMB);
         registerItem("superchromatic_apple", SUPERCHROMATIC_APPLE);
         registerItem("superchromatic_carrot", SUPERCHROMATIC_CARROT);
         registerItem("superchromatic_axolotl_bucket", SUPERCHROMATIC_AXOLOTL_BUCKET);
         registerItem("superchromatic_ender_pearl", SUPERCHROMATIC_ENDER_PEARL);
         registerItem("superchromatic_nether_star", SUPERCHROMATIC_NETHER_STAR);
-        registerItem("spectrite_bomb", SPECTRITE_BOMB);
+        registerItem("superchromatic_chorus_fruit", SUPERCHROMATIC_CHORUS_FRUIT);
+        registerItem("superchromatic_elixir", SUPERCHROMATIC_ELIXIR);
         registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
     }
 

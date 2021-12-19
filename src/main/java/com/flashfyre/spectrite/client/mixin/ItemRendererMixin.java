@@ -54,7 +54,7 @@ public class ItemRendererMixin
                     ? SpectriteUtils.getItemStackStDamage(stack)
                     : 0;
             final boolean charged = (item instanceof SpectriteChargeableItem spectriteChargeableItem
-                    && spectriteChargeableItem.isCharged(stack)) || item instanceof SpectriteBombItem;
+                    && spectriteChargeableItem.isCharged(stack)) || item instanceof PassiveChargedSpectriteItem;
             return SpectriteClient.CLIENT_INSTANCE.getSpectriteItemLayer(layer, damage, charged);
         }
         return layer;

@@ -34,6 +34,7 @@
 	"item.spectrite.depleted_spectrite_boots": "Spectrite Boots",
 	"item.spectrite.depleted_spectrite_shield": "Spectrite Shield",
 	"item.spectrite.depleted_spectrite_trident": "Spectrite Trident",
+	"item.spectrite.spectrite_bomb": "Spectrite Bomb",
 	
 	"item.spectrite.superchromatic_apple": "Superchromatic Apple",
 	"item.spectrite.superchromatic_carrot": "Superchromatic Carrot",
@@ -43,7 +44,8 @@
 	"item.spectrite.superchromatic_ender_pearl": "Superchromatic Ender Pearl",
 	"item.spectrite.superchromatic_nether_star": "Superchromatic Nether Star",
 	
-	"item.spectrite.spectrite_bomb": "Spectrite Bomb",
+	"item.spectrite.superchromatic_chorus_fruit": "Superchromatic Chorus Fruit",
+	"item.spectrite.superchromatic_elixir": "Superchromatic Elixir",
 	"item.spectrite.spectrite_horse_armor": "Spectrite Horse Armor",
 	
 	"item.spectrite.tooltip.depleted": "Depleted",
