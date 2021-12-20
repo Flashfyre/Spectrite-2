@@ -15,7 +15,6 @@ import net.minecraft.loot.condition.RandomChanceLootCondition;
 import net.minecraft.loot.entry.ItemEntry;
 import net.minecraft.loot.entry.LeafEntry;
 import net.minecraft.loot.entry.LootPoolEntry;
-import net.minecraft.loot.function.ExplosionDecayLootFunction;
 import net.minecraft.loot.function.LootFunction;
 import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
@@ -162,13 +161,6 @@ public class LootTables
                                             .conditionally(RandomChanceLootCondition.builder(1f / 7f))));
                             break;
                     }
-                } else if ("blocks/chorus_plant".equals(id.getPath()))
-                {
-                    final FabricLootPoolBuilder spectritePool = FabricLootPoolBuilder.builder()
-                            .with(ItemEntry.builder(SUPERCHROMATIC_CHORUS_FRUIT)
-                                    .apply(ExplosionDecayLootFunction.builder())
-                                    .conditionally(RandomChanceLootCondition.builder(1f / 4900f)));
-                    supplier.pool(spectritePool);
                 }
             }
         });

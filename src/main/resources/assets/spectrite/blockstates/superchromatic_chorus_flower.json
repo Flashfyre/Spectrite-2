@@ -1,0 +1,40 @@
+{
+  "variants": {
+    "age=0,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower"
+    },
+	"age=0,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_odd"
+    },
+    "age=1,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower"
+    },
+	"age=1,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_odd"
+    },
+    "age=2,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower"
+    },
+	"age=2,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_odd"
+    },
+    "age=3,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower"
+    },
+	"age=3,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_odd"
+    },
+    "age=4,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower"
+    },
+	"age=4,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_odd"
+    },
+    "age=5,odd=false": {
+      "model": "spectrite:block/superchromatic_chorus_flower_dead"
+    },
+	"age=5,odd=true": {
+      "model": "spectrite:block/superchromatic_chorus_flower_dead_odd"
+    }
+  }
+}

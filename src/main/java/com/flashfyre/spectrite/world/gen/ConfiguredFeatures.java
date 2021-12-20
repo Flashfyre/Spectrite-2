@@ -1,4 +1,4 @@
-package com.flashfyre.spectrite.world;
+package com.flashfyre.spectrite.world.gen;
 
 import com.flashfyre.spectrite.Spectrite;
 import com.flashfyre.spectrite.block.Blocks;
@@ -7,10 +7,7 @@ import net.minecraft.structure.rule.BlockMatchRuleTest;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
 import net.minecraft.util.registry.RegistryKey;
-import net.minecraft.world.gen.feature.ConfiguredFeature;
-import net.minecraft.world.gen.feature.Feature;
-import net.minecraft.world.gen.feature.OreConfiguredFeatures;
-import net.minecraft.world.gen.feature.OreFeatureConfig;
+import net.minecraft.world.gen.feature.*;
 
 public class ConfiguredFeatures
 {
@@ -49,19 +46,23 @@ public class ConfiguredFeatures
     public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_HUGE = Feature.ORE
             .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 21));
 
+    public static ConfiguredFeature<?, ?> SUPERCHROMATIC_CHORUS_PLANT = Features.SUPERCHROMATIC_CHORUS_PLANT
+            .configure(FeatureConfig.DEFAULT);
+
     public static void initConfiguredFeatures()
     {
-        registerFeature("ore_spectrite_overworld", ORE_SPECTRITE_OVERWORLD);
-        registerFeature("ore_spectrite_overworld_large", ORE_SPECTRITE_OVERWORLD_LARGE);
-        registerFeature("ore_spectrite_nether", ORE_SPECTRITE_NETHER);
-        registerFeature("ore_spectrite_nether_enclosed_large", ORE_SPECTRITE_NETHER_ENCLOSED_LARGE);
-        registerFeature("ore_spectrite_nether_enclosed_small", ORE_SPECTRITE_NETHER_ENCLOSED_SMALL);
-        registerFeature("ore_spectrite_end", ORE_SPECTRITE_END);
-        registerFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE);
-        registerFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE);
+        registerConfiguredFeature("ore_spectrite_overworld", ORE_SPECTRITE_OVERWORLD);
+        registerConfiguredFeature("ore_spectrite_overworld_large", ORE_SPECTRITE_OVERWORLD_LARGE);
+        registerConfiguredFeature("ore_spectrite_nether", ORE_SPECTRITE_NETHER);
+        registerConfiguredFeature("ore_spectrite_nether_enclosed_large", ORE_SPECTRITE_NETHER_ENCLOSED_LARGE);
+        registerConfiguredFeature("ore_spectrite_nether_enclosed_small", ORE_SPECTRITE_NETHER_ENCLOSED_SMALL);
+        registerConfiguredFeature("ore_spectrite_end", ORE_SPECTRITE_END);
+        registerConfiguredFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE);
+        registerConfiguredFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE);
+        registerConfiguredFeature("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT);
     }
 
-    private static RegistryKey<ConfiguredFeature<?, ?>> registerFeature(String name, ConfiguredFeature<?, ?> feature)
+    private static RegistryKey<ConfiguredFeature<?, ?>> registerConfiguredFeature(String name, ConfiguredFeature<?, ?> feature)
     {
         final RegistryKey<ConfiguredFeature<?, ?>> key = RegistryKey.of(Registry.CONFIGURED_FEATURE_KEY,
                 Spectrite.getId(name));

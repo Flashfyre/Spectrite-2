@@ -29,7 +29,7 @@ public class SpectriteOreBlock extends OreBlock
     @Override
     public BlockState getPlacementState(ItemPlacementContext ctx)
     {
-        BlockPos pos = ctx.getBlockPos();
+        final BlockPos pos = ctx.getBlockPos();
         return super.getPlacementState(ctx).with(ODD, (pos.getX() + pos.getY() + pos.getZ()) % 2 != 0);
     }
 }

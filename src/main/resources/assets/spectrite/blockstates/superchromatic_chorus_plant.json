@@ -1,0 +1,364 @@
+{
+  "multipart": [
+    {
+      "when": {
+        "north": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side"
+      }
+    },
+	{
+      "when": {
+        "north": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_odd"
+      }
+    },
+    {
+      "when": {
+        "east": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y90"
+      }
+    },
+	{
+      "when": {
+        "east": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y90_odd"
+      }
+    },
+    {
+      "when": {
+        "south": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y180"
+      }
+    },
+	{
+      "when": {
+        "south": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y180_odd"
+      }
+    },
+    {
+      "when": {
+        "west": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y270"
+      }
+    },
+	{
+      "when": {
+        "west": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_y270_odd"
+      }
+    },
+    {
+      "when": {
+        "up": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_x270"
+      }
+    },
+	{
+      "when": {
+        "up": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_x270_odd"
+      }
+    },
+    {
+      "when": {
+        "down": "true",
+		"odd": "false"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_x90"
+      }
+    },
+	{
+      "when": {
+        "down": "true",
+		"odd": "true"
+      },
+      "apply": {
+        "model": "spectrite:block/superchromatic_chorus_plant_side_x90_odd"
+      }
+    },
+    {
+      "when": {
+        "north": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3"
+        }
+      ]
+    },
+	{
+      "when": {
+        "north": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_odd",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_odd"
+        }
+      ]
+    },
+    {
+      "when": {
+        "east": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y90",
+          "weight": 2
+        }
+      ]
+    },
+	{
+      "when": {
+        "east": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y90_odd",
+          "weight": 2
+        }
+      ]
+    },
+    {
+      "when": {
+        "south": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y180"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y180"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y180",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y180"
+        }
+      ]
+    },
+	{
+      "when": {
+        "south": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y180_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y180_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y180_odd",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y180_odd"
+        }
+      ]
+    },
+    {
+      "when": {
+        "west": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y270"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y270",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y270"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y270"
+        }
+      ]
+    },
+	{
+      "when": {
+        "west": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_y270_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_y270_odd",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_y270_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_y270_odd"
+        }
+      ]
+    },
+    {
+      "when": {
+        "up": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_x270",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_x270"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_x270"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_x270"
+        }
+      ]
+    },
+	{
+      "when": {
+        "up": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_x270_odd",
+          "weight": 2
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_x270_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_x270_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_x270_odd"
+        }
+      ]
+    },
+    {
+      "when": {
+        "down": "false",
+		"odd": "false"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_x90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_x90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_x90"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_x90",
+          "weight": 2
+        }
+      ]
+    },
+	{
+      "when": {
+        "down": "false",
+		"odd": "true"
+      },
+      "apply": [
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside3_x90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside2_x90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside1_x90_odd"
+        },
+        {
+          "model": "spectrite:block/superchromatic_chorus_plant_noside_x90_odd",
+          "weight": 2
+        }
+      ]
+    }
+  ]
+}

@@ -49,6 +49,12 @@ public class Blocks
                 return 10;
             }));
 
+    public static Block SUPERCHROMATIC_CHORUS_PLANT = new SuperchromaticChorusPlantBlock(
+            AbstractBlock.Settings.of(Material.PLANT, MapColor.PURPLE).strength(0.4f).sounds(BlockSoundGroup.WOOD).nonOpaque());
+
+    public static Block SUPERCHROMATIC_CHORUS_FLOWER = new SuperchromaticChorusFlowerBlock((SuperchromaticChorusPlantBlock) SUPERCHROMATIC_CHORUS_PLANT,
+            AbstractBlock.Settings.of(Material.PLANT, MapColor.PURPLE).ticksRandomly().strength(0.4f).sounds(BlockSoundGroup.WOOD).nonOpaque());
+
     /*public static Block SPECTRITE_CHEST = new SpectriteChestBlock(AbstractBlock.Settings.of(Material.METAL, MapColor.PURPLE)
             .requiresTool()
             .strength(50.0F, 9.0F)
@@ -67,6 +73,8 @@ public class Blocks
         registerBlock("spectrite_ore_end", END_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_block", SPECTRITE_BLOCK, new FabricItemSettings());
         //registerBlock("spectrite_chest", SPECTRITE_CHEST, new FabricItemSettings().group(ItemGroup.DECORATIONS));
+        registerBlock("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT, new FabricItemSettings());
+        registerBlock("superchromatic_chorus_flower", SUPERCHROMATIC_CHORUS_FLOWER, new FabricItemSettings());
     }
 
     private static void registerBlock(String name, Block block, FabricItemSettings itemSettings)

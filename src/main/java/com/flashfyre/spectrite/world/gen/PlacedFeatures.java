@@ -1,4 +1,4 @@
-package com.flashfyre.spectrite.world;
+package com.flashfyre.spectrite.world.gen;
 
 import com.flashfyre.spectrite.Spectrite;
 import net.fabricmc.fabric.api.biome.v1.BiomeModifications;
@@ -41,40 +41,40 @@ public class PlacedFeatures
     private static PlacedFeature ORE_SPECTRITE_END_HUGE = ConfiguredFeatures.ORE_SPECTRITE_END_HUGE
             .withPlacement(modifiersWithRarity(1029, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
 
+    private static PlacedFeature SUPERCHROMATIC_CHORUS_PLANT = ConfiguredFeatures.SUPERCHROMATIC_CHORUS_PLANT
+            .withPlacement(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(4900), SquarePlacementModifier.of(),
+                    net.minecraft.world.gen.feature.PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of());
+
     public static void initPlacedFeatures()
     {
-        registerOrePlacedFeature("ore_spectrite_overworld", ORE_SPECTRITE_OVERWORLD,
+        registerPlacedFeature("ore_spectrite_overworld", ORE_SPECTRITE_OVERWORLD,
                 BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_overworld_large", ORE_SPECTRITE_OVERWORLD_LARGE,
+        registerPlacedFeature("ore_spectrite_overworld_large", ORE_SPECTRITE_OVERWORLD_LARGE,
                 BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_nether", ORE_SPECTRITE_NETHER,
+        registerPlacedFeature("ore_spectrite_nether", ORE_SPECTRITE_NETHER,
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_nether_enclosed_large", ORE_SPECTRITE_NETHER_ENCLOSED_LARGE,
+        registerPlacedFeature("ore_spectrite_nether_enclosed_large", ORE_SPECTRITE_NETHER_ENCLOSED_LARGE,
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_nether_enclosed_small", ORE_SPECTRITE_NETHER_ENCLOSED_SMALL,
+        registerPlacedFeature("ore_spectrite_nether_enclosed_small", ORE_SPECTRITE_NETHER_ENCLOSED_SMALL,
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_end", ORE_SPECTRITE_END,
+        registerPlacedFeature("ore_spectrite_end", ORE_SPECTRITE_END,
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE,
+        registerPlacedFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE,
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
-        registerOrePlacedFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE,
+        registerPlacedFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE,
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
+        registerPlacedFeature("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT,
+                BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.VEGETAL_DECORATION);
     }
 
-    private static RegistryKey<PlacedFeature> registerOrePlacedFeature(String name, PlacedFeature feature,
-                                                                       Predicate<BiomeSelectionContext> biomeSelector,
-                                                                       GenerationStep.Feature step)
-    {
-        final RegistryKey<PlacedFeature> key = registerPlacedFeature(name, feature);
-        BiomeModifications.addFeature(biomeSelector, step, key);
-        return key;
-    }
-
-    private static RegistryKey<PlacedFeature> registerPlacedFeature(String name, PlacedFeature feature)
+    private static RegistryKey<PlacedFeature> registerPlacedFeature(String name, PlacedFeature feature,
+                                                                    Predicate<BiomeSelectionContext> biomeSelector,
+                                                                    GenerationStep.Feature step)
     {
         final RegistryKey<PlacedFeature> key = RegistryKey.of(Registry.PLACED_FEATURE_KEY,
                 Spectrite.getId(name));
         Registry.register(BuiltinRegistries.PLACED_FEATURE, key.getValue(), feature);
+        BiomeModifications.addFeature(biomeSelector, step, key);
         return key;
     }
 

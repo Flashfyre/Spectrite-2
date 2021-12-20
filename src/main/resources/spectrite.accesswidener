@@ -1,4 +1,6 @@
 accessWidener v1 named
+extendable method net/minecraft/block/ChorusFlowerBlock grow (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;I)V
+extendable method net/minecraft/block/ChorusFlowerBlock die (Lnet/minecraft/world/World;Lnet/minecraft/util/math/BlockPos;)V
 accessible method net/minecraft/entity/LivingEntity getDeathSound ()Lnet/minecraft/sound/SoundEvent;
 accessible method net/minecraft/particle/DefaultParticleType <init> (Z)V
 accessible method net/minecraft/client/particle/ExplosionLargeParticle <init> (Lnet/minecraft/client/world/ClientWorld;DDDDLnet/minecraft/client/particle/SpriteProvider;)V

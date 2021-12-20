@@ -123,6 +123,23 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_end":
             case "spectrite_block":
                 return new String[]{"odd=false", "odd=true"};
+            case "superchromatic_chorus_plant":
+                final List<String> variants = new ArrayList<>();
+                variants.add("");
+                final String[] angleVariants = new String[]{"", "y90", "y180", "y270", "x90", "x270"};
+                for (int o = 0; o < 2; o++)
+                {
+                    for (String av : angleVariants)
+                    {
+                        final String angleVariantSuffix = !av.isEmpty() ? "_" + av : "";
+                        variants.add("side" + angleVariantSuffix + (o == 1 ? "_odd" : ""));
+                        for (int ns = 0; ns < 4; ns++)
+                            variants.add("noside" + (ns > 0 ? String.valueOf(ns) : "") + angleVariantSuffix + (o == 1 ? "_odd" : ""));
+                    }
+                }
+                return variants.toArray(new String[0]);
+            case "superchromatic_chorus_flower":
+                return new String[]{"", "dead", "odd", "dead_odd", "template"};
         }
 
         return new String[]{""};
@@ -139,6 +156,10 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_end":
             case "spectrite_block":
                 return new String[]{"ew", "ns", "top", "bottom", "top_odd", "bottom_odd"};
+            case "superchromatic_chorus_plant":
+                return new String[]{"side", "top", "bottom", "side_odd", "top_odd", "bottom_odd"};
+            case "superchromatic_chorus_flower":
+                return new String[]{"side", "top", "side_odd", "top_odd", "side_dead", "top_dead", "side_dead_odd", "top_dead_odd"};
         }
 
         return new String[]{""};
@@ -221,6 +242,12 @@ public final class SpectriteTextureUtils
             case "spectrite_block":
                 populateSpectriteSimpleBlockModelObj(modelObj, name, variant, variantIndex);
                 break;
+            case "superchromatic_chorus_plant":
+                populateSuperchromaticChorusPlantBlockModelObj(modelObj, name, variant);
+                break;
+            case "superchromatic_chorus_flower":
+                populateSuperchromaticChorusFlowerBlockModelObj(modelObj, name, variant);
+                break;
         }
 
         return modelObj;
@@ -301,7 +328,522 @@ public final class SpectriteTextureUtils
 
     }
 
-    public static HashMap<String, NativeImage[]> getAllBlockTextures(ResourceManager resourceManager, String name, Map.Entry<Identifier, Integer>[] baseModelEntries)
+    private static void populateSuperchromaticChorusPlantBlockModelObj(JsonObject modelObj, String name, String variant)
+    {
+        final boolean isOdd = variant.endsWith("_odd");
+        String chorusVariant = variant.replace("_odd", "");
+        String angleVariant = "";
+        final int underscoreIndex = chorusVariant.indexOf('_');
+        if (underscoreIndex > -1)
+        {
+            angleVariant = chorusVariant.substring(underscoreIndex + 1);
+            chorusVariant = chorusVariant.substring(0, underscoreIndex);
+        }
+
+        if ("".equals(chorusVariant))
+            modelObj.addProperty("parent", "minecraft:block/block");
+
+        modelObj.addProperty("ambientocclusion", false);
+
+        final JsonObject texturesObj = new JsonObject();
+
+        texturesObj.addProperty("side", blockModelPrefix + name + "_side" + (isOdd ? "_odd" : ""));
+        texturesObj.addProperty("top", blockModelPrefix + name + "_top" + (isOdd ? "_odd" : ""));
+        texturesObj.addProperty("bottom", blockModelPrefix + name + "_bottom" + (isOdd ? "_odd" : ""));
+        texturesObj.addProperty("particle", blockModelPrefix + name + "_side" + (isOdd ? "_odd" : ""));
+
+        modelObj.add("textures", texturesObj);
+
+        final JsonArray elementsArray = new JsonArray();
+
+        if ("".equals(chorusVariant))
+        {
+            final String[] faces = new String[]{"down", "up", "north", "south", "west", "east"};
+            final int[] cullfaces = new int[]{1, 4, 2, 3, 5, 0, -1};
+            final int[] ignoreFaces = new int[]{0, 5, 3, 2, 4, 1, -1};
+            final int[][] from = new int[][]{
+                    new int[]{2, 14, 2}, new int[]{0, 2, 2}, new int[]{2, 2, 0}, new int[]{2, 2, 14}, new int[]{14, 2, 2}, new int[]{2, 0, 2}, new int[]{2, 2, 2}
+            };
+            final int[][] to = new int[][]{
+                    new int[]{14, 16, 14}, new int[]{2, 14, 14}, new int[]{14, 14, 2}, new int[]{14, 14, 16}, new int[]{16, 14, 14}, new int[]{14, 2, 14}, new int[]{14, 14, 14}
+            };
+            final int[][][] faceUvs = new int[][][]{
+                    new int[][]{
+                            new int[]{2, 2, 14, 14}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}
+                    },
+                    new int[][]{
+                            new int[]{16, 14, 14, 2}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}, new int[]{2, 2, 14, 14}
+                    },
+                    new int[][]{
+                            new int[]{14, 2, 2, 0}, new int[]{2, 0, 14, 2}, new int[]{2, 2, 14, 14}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}
+                    },
+                    new int[][]{
+                            new int[]{14, 16, 2, 14}, new int[]{2, 14, 14, 16}, new int[]{2, 2, 14, 14}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}
+                    },
+                    new int[][]{
+                            new int[]{2, 14, 0, 2}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}, new int[]{2, 2, 14, 14}
+                    },
+                    new int[][]{
+                            new int[]{14, 14, 2, 2}, new int[]{2, 14, 14, 16}, new int[]{2, 14, 14, 16}, new int[]{2, 14, 14, 16}, new int[]{2, 14, 14, 16}
+                    },
+                    new int[][]{
+                            new int[]{14, 14, 2, 2}, new int[]{2, 2, 14, 14}, new int[]{2, 2, 14, 14}, new int[]{2, 2, 14, 14}, new int[]{2, 2, 14, 14}, new int[]{2, 2, 14, 14}
+                    }
+            };
+            for (int e = 0; e < 7; e++)
+            {
+                final JsonObject elementObj = new JsonObject();
+
+                final JsonArray fromArray = new JsonArray();
+                final JsonArray toArray = new JsonArray();
+
+                for (int c = 0; c < 3; c++)
+                {
+                    fromArray.add(from[e][c]);
+                    toArray.add(to[e][c]);
+                }
+
+                elementObj.add("from", fromArray);
+                elementObj.add("to", toArray);
+
+                final JsonObject facesObj = new JsonObject();
+
+                final String cullface = cullfaces[e] > -1 ? faces[cullfaces[e]] : null;
+                final String ignoreFace = ignoreFaces[e] > -1 ? faces[ignoreFaces[e]] : null;
+
+                boolean ignoreFaceFlag = false;
+
+                for (int f = 0; f < faces.length; f++)
+                {
+                    final String face = faces[f];
+
+                    if (face.equals(ignoreFace))
+                    {
+                        ignoreFaceFlag = true;
+                        continue;
+                    }
+
+                    final JsonObject faceObj = new JsonObject();
+
+                    final JsonArray uvArray = new JsonArray();
+
+                    for (int uv : faceUvs[e][f - (ignoreFaceFlag ? 1 : 0)])
+                        uvArray.add(uv);
+
+                    faceObj.add("uv", uvArray);
+
+                    final String texture;
+
+                    switch (face)
+                    {
+                        case "up":
+                            texture = "#top";
+                            break;
+                        case "down":
+                            texture = "#bottom";
+                            break;
+                        default:
+                            texture = "#side";
+                            break;
+                    }
+
+                    faceObj.addProperty("texture", texture);
+
+                    if (cullface != null)
+                        faceObj.addProperty("cullface", cullface);
+
+                    facesObj.add(face, faceObj);
+                }
+
+                elementObj.add("faces", facesObj);
+
+                elementsArray.add(elementObj);
+            }
+        } else
+        {
+            if (!"side".equals(chorusVariant))
+            {
+                final JsonObject noSideElementObj = new JsonObject();
+
+                int[] from = new int[]{4, 4, 4};
+                int[] to = new int[]{12, 12, 12};
+
+                switch (angleVariant)
+                {
+                    case "y90":
+                    case "y180":
+                        from[0] = 16 - from[0];
+                        from[2] = from[0];
+                        to[0] = 16 - to[0];
+                        to[2] = to[0];
+                        break;
+                    case "x270":
+                        from[1] = 16 - from[1];
+                        from[2] = from[1];
+                        to[1] = 16 - to[1];
+                        to[2] = to[1];
+                        break;
+                }
+
+                int temp;
+
+                for (int c = 0; c < 3; c++)
+                {
+                    if (from[c] > to[c])
+                    {
+                        temp = from[c];
+                        from[c] = to[c];
+                        to[c] = temp;
+                    }
+                }
+
+                final JsonArray fromArray = new JsonArray();
+                for (int f : from)
+                    fromArray.add(f);
+
+                noSideElementObj.add("from", fromArray);
+
+                final JsonArray toArray = new JsonArray();
+                for (int t : to)
+                    toArray.add(t);
+
+                noSideElementObj.add("to", toArray);
+
+                final JsonObject facesObj = new JsonObject();
+
+                final JsonObject faceObj = new JsonObject();
+
+                final String face;
+
+                switch (angleVariant)
+                {
+                    case "y90":
+                        face = "east";
+                        break;
+                    case "y180":
+                        face = "south";
+                        break;
+                    case "y270":
+                        face = "west";
+                        break;
+                    case "x90":
+                        face = "down";
+                        break;
+                    case "x270":
+                        face = "up";
+                        break;
+                    default:
+                        face = "north";
+                        break;
+                }
+
+                final String texture;
+
+                switch (face)
+                {
+                    case "up":
+                        texture = "#top";
+                        break;
+                    case "down":
+                        texture = "#bottom";
+                        break;
+                    default:
+                        texture = "#side";
+                        break;
+                }
+
+                faceObj.addProperty("texture", texture);
+
+                facesObj.add(face, faceObj);
+
+                noSideElementObj.add("faces", facesObj);
+
+                elementsArray.add(noSideElementObj);
+            }
+
+            if (!"noside".equals(chorusVariant))
+            {
+                final JsonObject sideElementObj = new JsonObject();
+
+                int[] from;
+                int[] to;
+                int temp;
+
+                switch (chorusVariant)
+                {
+                    case "noside1":
+                    case "noside3":
+                        from = new int[]{4, 4, 3};
+                        to = new int[]{12, 12, 4};
+                        break;
+                    case "noside2":
+                        from = new int[]{5, 5, 2};
+                        to = new int[]{11, 11, 4};
+                        break;
+                    default:
+                        from = new int[]{4, 4, 0};
+                        to = new int[]{12, 12, 4};
+                        break;
+                }
+
+                switch (angleVariant)
+                {
+                    case "y90":
+                        temp = from[0];
+                        from[0] = 16 - from[2];
+                        from[2] = 16 - temp;
+                        temp = to[0];
+                        to[0] = 16 - to[2];
+                        to[2] = 16 - temp;
+                        break;
+                    case "y180":
+                        from[0] = 16 - from[0];
+                        from[2] = 16 - from[2];
+                        to[0] = 16 - to[0];
+                        to[2] = 16 - to[2];
+                        break;
+                    case "y270":
+                        temp = from[0];
+                        from[0] = from[2];
+                        from[2] = temp;
+                        temp = to[0];
+                        to[0] = to[2];
+                        to[2] = temp;
+                        break;
+                    case "x90":
+                        temp = from[1];
+                        from[1] = from[2];
+                        from[2] = temp;
+                        temp = to[1];
+                        to[1] = to[2];
+                        to[2] = temp;
+                        break;
+                    case "x270":
+                        temp = from[1];
+                        from[1] = 16 - from[2];
+                        from[2] = 16 - temp;
+                        temp = to[1];
+                        to[1] = 16 - to[2];
+                        to[2] = 16 - temp;
+                        break;
+                }
+
+                for (int c = 0; c < 3; c++)
+                {
+                    if (from[c] > to[c])
+                    {
+                        temp = from[c];
+                        from[c] = to[c];
+                        to[c] = temp;
+                    }
+                }
+
+                final JsonArray fromArray = new JsonArray();
+                for (int f : from)
+                    fromArray.add(f);
+
+                sideElementObj.add("from", fromArray);
+
+                final JsonArray toArray = new JsonArray();
+                for (int t : to)
+                    toArray.add(t);
+
+                sideElementObj.add("to", toArray);
+
+                final JsonObject facesObj = new JsonObject();
+                final String[] faces = new String[]{"down", "up", "north", "south", "west", "east"};
+
+                for (String face : faces)
+                {
+                    final JsonObject faceObj = new JsonObject();
+
+                    final String texture;
+
+                    switch (face)
+                    {
+                        case "up":
+                            texture = "#top";
+                            break;
+                        case "down":
+                            texture = "#bottom";
+                            break;
+                        default:
+                            texture = "#side";
+                            break;
+                    }
+
+                    faceObj.addProperty("texture", texture);
+                    if ("side".equals(chorusVariant))
+                    {
+                        String cullface;
+                        switch (angleVariant)
+                        {
+                            case "y90":
+                                cullface = "east";
+                                break;
+                            case "y180":
+                                cullface = "south";
+                                break;
+                            case "y270":
+                                cullface = "west";
+                                break;
+                            case "x90":
+                                cullface = "down";
+                                break;
+                            case "x270":
+                                cullface = "up";
+                                break;
+                            default:
+                                cullface = "north";
+                                break;
+                        }
+                        if (face.equals(cullface))
+                            faceObj.addProperty("cullface", face);
+                    }
+
+                    facesObj.add(face, faceObj);
+                }
+
+                sideElementObj.add("faces", facesObj);
+
+                elementsArray.add(sideElementObj);
+            }
+        }
+
+        modelObj.add("elements", elementsArray);
+    }
+
+    private static void populateSuperchromaticChorusFlowerBlockModelObj(JsonObject modelObj, String name, String variant)
+    {
+        final boolean isOdd = variant.endsWith("odd");
+        final String chorusVariant = !isOdd ? variant : !"odd".equals(variant) ? variant.replace("_odd", "") : "";
+
+        modelObj.addProperty("parent", "template".equals(chorusVariant) ? "minecraft:block/block" : "spectrite:block/superchromatic_chorus_flower_template");
+
+        if ("template".equals(chorusVariant))
+        {
+            final JsonArray elementsArray = new JsonArray();
+
+            final String[] faces = new String[]{"down", "up", "north", "south", "west", "east"};
+            final int[] flowerFaces = new int[]{1, 4, 2, 3, 5, -1};
+            final int[] ignoreFaces = new int[]{0, 5, 3, 2, 4, -1};
+            final int[][] from = new int[][]{
+                    new int[]{2, 14, 2}, new int[]{0, 2, 2}, new int[]{2, 2, 0}, new int[]{2, 2, 14}, new int[]{14, 2, 2}, new int[]{2, 0, 2}
+            };
+            final int[][] to = new int[][]{
+                    new int[]{14, 16, 14}, new int[]{2, 14, 14}, new int[]{14, 14, 2}, new int[]{14, 14, 16}, new int[]{16, 14, 14}, new int[]{14, 14, 14}
+            };
+            final int[][][] faceUvs = new int[][][]{
+                    new int[][]{
+                            new int[]{2, 2, 14, 14}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}, new int[]{2, 0, 14, 2}
+                    },
+                    new int[][]{
+                            new int[]{16, 14, 14, 2}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}, new int[]{2, 2, 14, 14}
+                    },
+                    new int[][]{
+                            new int[]{14, 2, 2, 0}, new int[]{2, 0, 14, 2}, new int[]{2, 2, 14, 14}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}
+                    },
+                    new int[][]{
+                            new int[]{14, 16, 2, 14}, new int[]{2, 14, 14, 16}, new int[]{2, 2, 14, 14}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}
+                    },
+                    new int[][]{
+                            new int[]{2, 14, 0, 2}, new int[]{14, 2, 16, 14}, new int[]{0, 2, 2, 14}, new int[]{14, 2, 16, 14}, new int[]{2, 2, 14, 14}
+                    },
+                    new int[][]{
+                            new int[]{2, 2, 14, 14}, new int[]{14, 14, 2, 2}, new int[]{2, 2, 14, 16}, new int[]{2, 2, 14, 16}, new int[]{2, 2, 14, 16}, new int[]{2, 2, 14, 16}
+                    }
+            };
+
+            for (int e = 0; e < 6; e++)
+            {
+                final JsonObject elementObj = new JsonObject();
+
+                final JsonArray fromArray = new JsonArray();
+                final JsonArray toArray = new JsonArray();
+
+                for (int c = 0; c < 3; c++)
+                {
+                    fromArray.add(from[e][c]);
+                    toArray.add(to[e][c]);
+                }
+
+                elementObj.add("from", fromArray);
+                elementObj.add("to", toArray);
+
+                final JsonObject facesObj = new JsonObject();
+
+                final String flowerFace = flowerFaces[e] > -1 ? faces[flowerFaces[e]] : null;
+                final String ignoreFace = ignoreFaces[e] > -1 ? faces[ignoreFaces[e]] : null;
+
+                boolean ignoreFaceFlag = false;
+
+                for (int f = 0; f < faces.length; f++)
+                {
+                    final String face = faces[f];
+
+                    if (face.equals(ignoreFace))
+                    {
+                        ignoreFaceFlag = true;
+                        continue;
+                    }
+
+                    final JsonObject faceObj = new JsonObject();
+
+                    final JsonArray uvArray = new JsonArray();
+
+                    for (int uv : faceUvs[e][f - (ignoreFaceFlag ? 1 : 0)])
+                        uvArray.add(uv);
+
+                    faceObj.add("uv", uvArray);
+
+                    String texture;
+
+                    switch (face)
+                    {
+                        case "up":
+                            texture = "#top";
+                            break;
+                        case "down":
+                            texture = "#bottom";
+                            break;
+                        default:
+                            texture = "#side";
+                            break;
+                    }
+
+                    if (face.equals(flowerFace))
+                        texture += "_flower";
+
+                    faceObj.addProperty("texture", texture);
+
+                    facesObj.add(face, faceObj);
+                }
+
+                elementObj.add("faces", facesObj);
+
+                elementsArray.add(elementObj);
+            }
+
+            modelObj.add("elements", elementsArray);
+        } else
+        {
+            final boolean isDead = variant.contains("dead");
+
+            final JsonObject texturesObj = new JsonObject();
+
+            texturesObj.addProperty("side", blockModelPrefix + "superchromatic_chorus_plant_side" + (isOdd ? "_odd" : ""));
+            texturesObj.addProperty("top", blockModelPrefix + "superchromatic_chorus_plant_top" + (isOdd ? "_odd" : ""));
+            texturesObj.addProperty("bottom", blockModelPrefix + "superchromatic_chorus_plant_bottom" + (isOdd ? "_odd" : ""));
+            texturesObj.addProperty("side_flower", blockModelPrefix + name + "_side" + (isDead ? "_dead" : "") + (isOdd ? "_odd" : ""));
+            texturesObj.addProperty("top_flower", blockModelPrefix + name + "_top" + (isDead ? "_dead" : "") + (isOdd ? "_odd" : ""));
+            texturesObj.addProperty("particle", blockModelPrefix + name + "_side" + (isDead ? "_dead" : "") + (isOdd ? "_odd" : ""));
+
+            modelObj.add("textures", texturesObj);
+        }
+    }
+
+    public static HashMap<String, NativeImage[]> getAllBlockTextures(ResourceManager resourceManager, String
+            name, Map.Entry<Identifier, Integer>[] baseModelEntries)
     {
         final HashMap<String, NativeImage[]> ret = new HashMap<>();
 
@@ -339,6 +881,10 @@ public final class SpectriteTextureUtils
             case "spectrite_block":
                 populateSpectriteBlockTextures(textures, resourceManager, textureName, baseModelEntries);
                 break;
+            case "superchromatic_chorus_plant":
+            case "superchromatic_chorus_flower":
+                populateSuperchromaticChorusBlockTextures(textures, resourceManager, name, textureName);
+                break;
         }
 
         return textures.size() > 0 ? textures.stream().toArray(size -> new NativeImage[size]) : null;
@@ -353,11 +899,23 @@ public final class SpectriteTextureUtils
         });
     }
 
-    private static void populateSpectriteBlockTextures(ArrayList<NativeImage> textures, ResourceManager resourceManager,
+    private static void populateSpectriteBlockTextures(ArrayList<NativeImage> textures, ResourceManager
+            resourceManager,
                                                        String textureName, Map.Entry<Identifier, Integer>[] baseModelEntries)
     {
         Arrays.stream(baseModelEntries).forEach(modelEntry ->
                 textures.add(getSpectriteBlockTexture(resourceManager, textureName, modelEntry.getKey())));
+    }
+
+    private static void populateSuperchromaticChorusBlockTextures
+            (ArrayList<NativeImage> textures, ResourceManager resourceManager, String blockName,
+             String textureName)
+    {
+        final Identifier baseBlockLocation = !"superchromatic_chorus_flower".equals(blockName) || textureName.startsWith("bottom")
+                ? new Identifier("textures/block/chorus_plant.png")
+                : textureName.contains("_dead") ? new Identifier("textures/block/chorus_flower_dead.png")
+                : new Identifier("textures/block/chorus_flower.png");
+        textures.add(getSuperchromaticChorusBlockTexture(resourceManager, textureName, baseBlockLocation));
     }
 
     public static Map.Entry<String, Integer>[] getItemModelOverrides(String name)
@@ -869,6 +1427,90 @@ public final class SpectriteTextureUtils
                             break;
                         default:
                             overlayHue = (2f / 3f) + ((width - x) + (y + 1)) / (float) (height + width);
+                            break;
+                    }
+
+                    for (int f = 0; f < frameCount; f++)
+                    {
+                        final int co = MathHelper.hsvToRgb(clampHue(overlayHue), 1f, 1f);
+                        final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
+
+                        float[] frgbf = new float[]{rgbf[0], rgbf[1], rgbf[2]};
+
+                        frgbf = spectriteBlend(frgbf, overlayRgbf);
+
+                        for (int c = 0; c < 3; c++)
+                            rgb[c] = Math.round(frgbf[c] * 255f);
+
+                        final int ca = (as << 24) & 0xFF000000;
+                        final int cr = (rgb[0] << 16) & 0x00FF0000;
+                        final int cg = (rgb[1] << 8) & 0x0000FF00;
+                        final int cb = rgb[2] & 0x000000FF;
+                        final int c = ca | cr | cg | cb;
+
+                        ret.setColor(x, y + (height * f), c);
+
+                        overlayHue -= frameHue;
+                    }
+                } else
+                    for (int f = 0; f < frameCount; f++)
+                        ret.setColor(x, y + (height * f), cs);
+            }
+        }
+
+        return ret;
+    }
+
+    public static NativeImage getSuperchromaticChorusBlockTexture(ResourceManager resourceManager, String textureName,
+                                                                  Identifier chorusBlockTextureLocation)
+    {
+        final NativeImage chorusBlockTexture = getNativeImage(resourceManager, chorusBlockTextureLocation);
+        final int frameCount = 32;
+        final float frameHue = 1f / 32f;
+        final int size = Math.min(chorusBlockTexture.getHeight(), chorusBlockTexture.getWidth());
+        final int height = size;
+        final int width = size;
+
+        final NativeImage ret = new NativeImage(width, height * frameCount, false);
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < width; x++)
+            {
+                final int cs = chorusBlockTexture.getColor(x, y);
+                final int as = (cs >> 24) & 0xFF;
+
+                if (as > 0)
+                {
+                    final int[] rgbs = new int[]{(cs >> 16) & 0xFF, (cs >> 8) & 0xFF, (cs) & 0xFF};
+                    int[] rgb = new int[3];
+
+                    float[] rgbf = new float[]{rgbs[0] / 255f, rgbs[1] / 255f, rgbs[2] / 255f};
+
+                    final float gsf = (rgbf[0] + rgbf[1] + rgbf[2]) / 3f;
+
+                    for (int c = 0; c < 3; c++)
+                        rgbf[c] = gsf;
+
+                    float overlayHue;
+                    switch (textureName)
+                    {
+                        case "top":
+                        case "bottom":
+                        case "top_odd":
+                        case "bottom_odd":
+                        case "top_dead":
+                        case "top_dead_odd":
+                            boolean isTop = textureName.startsWith("top");
+                            boolean isOdd = textureName.endsWith("_odd");
+                            overlayHue = (isTop ? 0.25f : 0f) + (isTop != isOdd ? 0.5f : 0f);
+                            break;
+                        case "side_odd":
+                        case "side_dead_odd":
+                            overlayHue = (1f / 6f) + (y + 1) / (height * 2f);
+                            break;
+                        default:
+                            overlayHue = (2f / 3f) + (y + 1) / (height * 2f);
                             break;
                     }
 

@@ -11,6 +11,7 @@ import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.client.color.block.BlockColors;
 import net.minecraft.client.render.model.ModelLoader;
+import net.minecraft.client.render.model.MultipartUnbakedModel;
 import net.minecraft.client.render.model.UnbakedModel;
 import net.minecraft.client.render.model.json.JsonUnbakedModel;
 import net.minecraft.client.render.model.json.ModelOverride;
@@ -52,11 +53,15 @@ public abstract class ModelLoaderMixin
 
     private static Identifier spectrite$blocksAtlasId = new Identifier("textures/atlas/blocks.png");
 
+    private static String[] spectrite$existingBlockStateBlockDependencyModels;
     private static HashMap<String, String[]> spectrite$blockDependencyModelsMap = new HashMap<>();
+    private static HashMap<String, String> spectrite$blockDependencyModelVariantMatchMap = new HashMap<>();
     private static HashMap<String, String[]> spectrite$itemDependencyModelsMap = new HashMap<>();
+
 
     static
     {
+        spectrite$existingBlockStateBlockDependencyModels = new String[]{"chorus_plant", "chorus_flower"};
         spectrite$blockDependencyModelsMap.put("diamond_ore", new String[]{
                 "spectrite_ore",
                 "spectrite_ore_nether",
@@ -67,6 +72,9 @@ public abstract class ModelLoaderMixin
                 "spectrite_ore_blackstone"
         });
         spectrite$blockDependencyModelsMap.put("diamond_block", new String[]{"spectrite_block"});
+        spectrite$blockDependencyModelsMap.put("chorus_plant", new String[]{"superchromatic_chorus_plant"});
+        spectrite$blockDependencyModelVariantMatchMap.put("chorus_plant", "down=false,east=false,north=false,south=false,up=false,west=false");
+        spectrite$blockDependencyModelsMap.put("chorus_flower", new String[]{"superchromatic_chorus_flower"});
         spectrite$itemDependencyModelsMap.put("diamond", new String[]{"spectrite_gem"});
         spectrite$itemDependencyModelsMap.put("blaze_rod", new String[]{"spectrite_rod"});
         spectrite$itemDependencyModelsMap.put("bow", new String[]{"spectrite_bow", "depleted_spectrite_bow"});
@@ -102,62 +110,17 @@ public abstract class ModelLoaderMixin
         {
             final String namespace = modelId.getNamespace();
             final String path = modelId.getPath();
+            final String variant = modelId.getVariant();
             if ("minecraft".equals(namespace))
             {
                 if (spectrite$blockDependencyModelsMap.containsKey(path))
                 {
+                    if (spectrite$blockDependencyModelVariantMatchMap.containsKey(path) && !variant.equals(spectrite$blockDependencyModelVariantMatchMap.get(path)))
+                        return;
                     if (unbakedModel instanceof WeightedUnbakedModel weightedUnbakedModel)
-                    {
-                        final SpectriteResourcePack resourcePack = SpectriteClient.CLIENT_INSTANCE.resourcePack;
-
-                        try
-                        {
-                            final Map.Entry<Identifier, Integer>[] baseModelEntries = weightedUnbakedModel.getVariants().stream()
-                                    .map(v -> new AbstractMap.SimpleEntry<>(
-                                            SpectriteTextureUtils.getBaseModelTextureLocation(resourceManager, v.getLocation()), v.getWeight()))
-                                    .toArray((IntFunction<Map.Entry<Identifier, Integer>[]>) Map.Entry[]::new);
-
-                            final String[] modPaths = spectrite$blockDependencyModelsMap.get(path);
-                            for (String modPath : modPaths)
-                            {
-                                final Map<String, NativeImage[]> texturesByName = SpectriteTextureUtils.getAllBlockTextures(resourceManager, modPath, baseModelEntries);
-
-                                if (texturesByName != null)
-                                {
-                                    final String[] variants = SpectriteTextureUtils.getBlockVariants(modPath);
-                                    final JsonObject blockStateObj = SpectriteTextureUtils.getBlockStateObj(modPath, baseModelEntries);
-                                    resourcePack.putBlockState(modPath, blockStateObj.toString().getBytes());
-                                    for (String variant : variants)
-                                    {
-                                        for (int v = 0; v < baseModelEntries.length; v++)
-                                        {
-                                            final JsonObject modelObj = SpectriteTextureUtils.getBlockModelObj(modPath, variant, v);
-                                            final String modelName = SpectriteTextureUtils.getBlockModelName(modPath, variant, v);
-                                            resourcePack.putBlockModel(modelName, modelObj.toString().getBytes());
-                                        }
-                                    }
-
-                                    for (Map.Entry<String, NativeImage[]> entry : texturesByName.entrySet())
-                                    {
-                                        final String textureName = entry.getKey();
-                                        final NativeImage[] textures = entry.getValue();
-                                        for (int t = 0; t < textures.length; t++)
-                                        {
-                                            final String texturePath = modPath
-                                                    + (textureName.length() > 0 ? "_" + textureName : "") + (t > 0 ? t : "");
-                                            final NativeImage texture = textures[t];
-                                            final byte[] mcMetaBytes = SpectriteTextureUtils.getMcMetaBytes(resourceManager, null);
-                                            resourcePack.putImageDynamic(texturePath, "block", texture);
-                                            resourcePack.putMcMeta(texturePath, "block", mcMetaBytes);
-                                        }
-                                    }
-                                }
-                            }
-                        } catch (Exception e)
-                        {
-                            e.printStackTrace();
-                        }
-                    }
+                        generateSpectriteBlockModelsAndTextures(weightedUnbakedModel, path);
+                    else if (unbakedModel instanceof MultipartUnbakedModel multipartUnbakedModel)
+                        generateSpectriteBlockModelsAndTextures(multipartUnbakedModel.getModels().stream().findFirst().orElse(null), path);
                 } else if (spectrite$itemDependencyModelsMap.containsKey(path) && unbakedModel instanceof JsonUnbakedModel jsonUnbakedModel)
                 {
                     final String[] modPaths = spectrite$itemDependencyModelsMap.get(path);
@@ -186,6 +149,65 @@ public abstract class ModelLoaderMixin
                     }
                 }
             }
+        }
+    }
+
+    private void generateSpectriteBlockModelsAndTextures(WeightedUnbakedModel weightedUnbakedModel, String path)
+    {
+        final SpectriteResourcePack resourcePack = SpectriteClient.CLIENT_INSTANCE.resourcePack;
+
+        try
+        {
+            final boolean useExistingBlockState = Arrays.stream(spectrite$existingBlockStateBlockDependencyModels).anyMatch(m -> m.equals(path));
+            final Map.Entry<Identifier, Integer>[] baseModelEntries = weightedUnbakedModel.getVariants().stream()
+                    .map(v -> new AbstractMap.SimpleEntry<>(
+                            SpectriteTextureUtils.getBaseModelTextureLocation(resourceManager, v.getLocation()), v.getWeight()))
+                    .toArray((IntFunction<Map.Entry<Identifier, Integer>[]>) Map.Entry[]::new);
+
+            final String[] modPaths = spectrite$blockDependencyModelsMap.get(path);
+            for (String modPath : modPaths)
+            {
+                final Map<String, NativeImage[]> texturesByName = SpectriteTextureUtils.getAllBlockTextures(resourceManager, modPath, baseModelEntries);
+
+                if (texturesByName != null)
+                {
+                    final String[] variants = SpectriteTextureUtils.getBlockVariants(modPath);
+                    if (!useExistingBlockState)
+                    {
+                        final JsonObject blockStateObj = SpectriteTextureUtils.getBlockStateObj(modPath, baseModelEntries);
+                        resourcePack.putBlockState(modPath, blockStateObj.toString().getBytes());
+                    }
+                    for (String variant : variants)
+                    {
+                        for (int v = 0; v < (useExistingBlockState ? 1 : baseModelEntries.length); v++)
+                        {
+                            final JsonObject modelObj = SpectriteTextureUtils.getBlockModelObj(modPath, variant, v);
+                            final String modelName = useExistingBlockState
+                                    ? modPath + (!variant.isEmpty() ? "_" + variant : "")
+                                    : SpectriteTextureUtils.getBlockModelName(modPath, variant, v);
+                            resourcePack.putBlockModel(modelName, modelObj.toString().getBytes());
+                        }
+                    }
+
+                    for (Map.Entry<String, NativeImage[]> entry : texturesByName.entrySet())
+                    {
+                        final String textureName = entry.getKey();
+                        final NativeImage[] textures = entry.getValue();
+                        for (int t = 0; t < textures.length; t++)
+                        {
+                            final String texturePath = modPath
+                                    + (textureName.length() > 0 ? "_" + textureName : "") + (t > 0 ? t : "");
+                            final NativeImage texture = textures[t];
+                            final byte[] mcMetaBytes = SpectriteTextureUtils.getMcMetaBytes(resourceManager, null);
+                            resourcePack.putImageDynamic(texturePath, "block", texture);
+                            resourcePack.putMcMeta(texturePath, "block", mcMetaBytes);
+                        }
+                    }
+                }
+            }
+        } catch (Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
