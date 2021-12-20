@@ -106,17 +106,17 @@ public class Items
 
     public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.COMBAT));
 
-    public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
+    public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().maxCount(1).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
 
-    public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
+    public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().maxCount(1).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
 
     public static final Item SUPERCHROMATIC_AXOLOTL_BUCKET = new SuperchromaticAxolotlBucketItem(Fluids.WATER, itemSettings().maxCount(1).group(ItemGroup.MISC));
 
-    public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(16).group(ItemGroup.MISC));
+    public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
 
-    public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
+    public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().maxCount(1).group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
 
     public static final Item SUPERCHROMATIC_ELIXIR = new SuperchromaticElixirItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
 
