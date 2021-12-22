@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.item;
 
+import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.mixin.PlayerEntityAccessor;
 import net.fabricmc.fabric.api.item.v1.CustomDamageHandler;
 import net.minecraft.entity.EquipmentSlot;
@@ -21,28 +22,31 @@ public class SpectriteDamageableDamageHandler implements CustomDamageHandler
             final int ret = (stack.getMaxDamage() - 1) - stack.getDamage();
             if (!((SpectriteDamageableItem) stack.getItem()).isDepleted() && (!(entity instanceof ServerPlayerEntity player) || !player.isCreative()))
             {
-                final Item item = stack.getItem();
-                final Item depletedItem = Items.DEPLETED_DAMAGEABLE_ITEMS_MAP.get(stack.getItem());
-                if (depletedItem != null)
+                if (!SpectriteConfig.getSpectriteToolsBreakPermanently())
                 {
-                    final ItemStack depletedStack = new ItemStack(depletedItem);
-                    if (stack.hasNbt())
-                        depletedStack.setNbt(stack.getNbt());
-                    if (item instanceof SpectriteChargeableItem)
+                    final Item item = stack.getItem();
+                    final Item depletedItem = Items.DEPLETED_DAMAGEABLE_ITEMS_MAP.get(stack.getItem());
+                    if (depletedItem != null)
                     {
-                        if (entity.getStackInHand(Hand.MAIN_HAND) == stack)
+                        final ItemStack depletedStack = new ItemStack(depletedItem);
+                        if (stack.hasNbt())
+                            depletedStack.setNbt(stack.getNbt());
+                        if (item instanceof SpectriteChargeableItem)
                         {
-                            entity.setStackInHand(Hand.MAIN_HAND, depletedStack);
-                            return ret;
-                        } else if (item instanceof SpectriteTridentItem)
-                            return ret;
-                    } else if (item instanceof SpectriteArmorItem armorItem)
-                    {
-                        final EquipmentSlot armorSlot = armorItem.getSlotType();
-                        if (entity instanceof PlayerEntity playerEntity && playerEntity.getEquippedStack(armorSlot) == stack)
+                            if (entity.getStackInHand(Hand.MAIN_HAND) == stack)
+                            {
+                                entity.setStackInHand(Hand.MAIN_HAND, depletedStack);
+                                return ret;
+                            } else if (item instanceof SpectriteTridentItem)
+                                return ret;
+                        } else if (item instanceof SpectriteArmorItem armorItem)
                         {
-                            ((PlayerEntityAccessor) entity).getInventory().armor.set(armorSlot.getEntitySlotId(), depletedStack);
-                            return ret;
+                            final EquipmentSlot armorSlot = armorItem.getSlotType();
+                            if (entity instanceof PlayerEntity playerEntity && playerEntity.getEquippedStack(armorSlot) == stack)
+                            {
+                                ((PlayerEntityAccessor) entity).getInventory().armor.set(armorSlot.getEntitySlotId(), depletedStack);
+                                return ret;
+                            }
                         }
                     }
                 }

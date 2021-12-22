@@ -28,6 +28,8 @@ public class Spectrite implements ModInitializer
 
     public static Spectrite INSTANCE;
 
+    public static final boolean DEBUG = true;
+
     public final Logger logger = LogManager.getLogger(MODID);
 
     @Override

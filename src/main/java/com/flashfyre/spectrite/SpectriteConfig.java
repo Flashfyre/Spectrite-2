@@ -9,6 +9,8 @@ public class SpectriteConfig implements ConfigData
 {
     public static SpectriteConfig INSTANCE;
 
+    private boolean spectriteToolsBreakPermanently = false;
+
     private float spectriteToolCooldown = 10f;
 
     private float superchromaticMobSpawnRate = 0.048828f;
@@ -131,6 +133,11 @@ public class SpectriteConfig implements ConfigData
         {
             return superchromaticMobKnockbackResistanceMultiplier;
         }
+    }
+
+    public static boolean getSpectriteToolsBreakPermanently()
+    {
+        return INSTANCE.spectriteToolsBreakPermanently;
     }
 
     public static float getSpectriteToolCooldown()

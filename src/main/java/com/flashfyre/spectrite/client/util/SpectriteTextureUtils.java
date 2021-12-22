@@ -1835,6 +1835,9 @@ public final class SpectriteTextureUtils
             Identifier baseTextureLocation,
             List<ModelPart> rootModelPartList)
     {
+        if (Spectrite.DEBUG)
+            Spectrite.INSTANCE.log("Generating Superchromatic texture for " + entityId + " (" + modelClassName + ")");
+
         final NativeImage baseTexture = getEntityBaseTexture(resourceManager, entityId, modelClassName, baseTextureLocation, rootModelPartList);
 
         final int height = baseTexture.getHeight();

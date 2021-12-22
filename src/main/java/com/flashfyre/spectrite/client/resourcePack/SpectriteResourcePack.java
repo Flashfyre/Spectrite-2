@@ -63,7 +63,7 @@ public class SpectriteResourcePack implements ResourcePack
         {
             ((NativeImageAccessor) (Object) image).invokeWrite(out);
             this.resources.put(location, outStream.toByteArray());
-            if (false)
+            if (Spectrite.DEBUG)
             {
                 final File file = new File("debug/spectrite/" + location);
                 file.getParentFile().mkdirs();
@@ -106,7 +106,7 @@ public class SpectriteResourcePack implements ResourcePack
     private void writeFileBytes(String filePath, byte[] fileBytes)
     {
         this.resources.put(filePath, fileBytes);
-        if (false)
+        if (Spectrite.DEBUG)
         {
             var file = new File("debug/spectrite/" + filePath);
             file.getParentFile().mkdirs();
