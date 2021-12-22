@@ -122,6 +122,10 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
+            case "superchromatic_stone_bricks":
+            case "mossy_superchromatic_stone_bricks":
+            case "cracked_superchromatic_stone_bricks":
+            case "chiseled_superchromatic_stone_bricks":
                 return new String[]{"odd=false", "odd=true"};
             case "superchromatic_chorus_plant":
                 final List<String> variants = new ArrayList<>();
@@ -155,6 +159,10 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
+            case "superchromatic_stone_bricks":
+            case "mossy_superchromatic_stone_bricks":
+            case "cracked_superchromatic_stone_bricks":
+            case "chiseled_superchromatic_stone_bricks":
                 return new String[]{"ew", "ns", "top", "bottom", "top_odd", "bottom_odd"};
             case "superchromatic_chorus_plant":
                 return new String[]{"side", "top", "bottom", "side_odd", "top_odd", "bottom_odd"};
@@ -240,6 +248,10 @@ public final class SpectriteTextureUtils
             case "spectrite_ore_blackstone":
             case "spectrite_ore_end":
             case "spectrite_block":
+            case "superchromatic_stone_bricks":
+            case "mossy_superchromatic_stone_bricks":
+            case "cracked_superchromatic_stone_bricks":
+            case "chiseled_superchromatic_stone_bricks":
                 populateSpectriteSimpleBlockModelObj(modelObj, name, variant, variantIndex);
                 break;
             case "superchromatic_chorus_plant":
@@ -879,7 +891,14 @@ public final class SpectriteTextureUtils
                 populateSpectriteOreTextures(textures, resourceManager, "end_stone", textureName, baseModelEntries);
                 break;
             case "spectrite_block":
+            case "superchromatic_stone_bricks":
+            case "chiseled_superchromatic_stone_bricks":
                 populateSpectriteBlockTextures(textures, resourceManager, textureName, baseModelEntries);
+                break;
+            case "mossy_superchromatic_stone_bricks":
+            case "cracked_superchromatic_stone_bricks":
+                populateSpectriteBlockTexturesWithDifferenceOverlay(textures, resourceManager,
+                        "stone_bricks", textureName, baseModelEntries);
                 break;
             case "superchromatic_chorus_plant":
             case "superchromatic_chorus_flower":
@@ -894,9 +913,7 @@ public final class SpectriteTextureUtils
                                                      String baseBlockName, String textureName, Map.Entry<Identifier, Integer>[] baseModelEntries)
     {
         Arrays.stream(baseModelEntries).forEach(modelEntry ->
-        {
-            textures.add(getSpectriteOreTexture(resourceManager, baseBlockName, textureName, modelEntry.getKey(), false));
-        });
+                textures.add(getSpectriteOreTexture(resourceManager, baseBlockName, textureName, modelEntry.getKey(), false)));
     }
 
     private static void populateSpectriteBlockTextures(ArrayList<NativeImage> textures, ResourceManager
@@ -905,6 +922,14 @@ public final class SpectriteTextureUtils
     {
         Arrays.stream(baseModelEntries).forEach(modelEntry ->
                 textures.add(getSpectriteBlockTexture(resourceManager, textureName, modelEntry.getKey())));
+    }
+
+    private static void populateSpectriteBlockTexturesWithDifferenceOverlay(ArrayList<NativeImage> textures, ResourceManager resourceManager,
+                                                                            String baseBlockName, String textureName, Map.Entry<Identifier, Integer>[] baseModelEntries)
+    {
+        Arrays.stream(baseModelEntries).forEach(modelEntry ->
+                textures.add(getSpectriteBlockTextureWithDifferenceOverlay(
+                        resourceManager, baseBlockName, textureName, modelEntry.getKey())));
     }
 
     private static void populateSuperchromaticChorusBlockTextures
@@ -1455,6 +1480,130 @@ public final class SpectriteTextureUtils
                 } else
                     for (int f = 0; f < frameCount; f++)
                         ret.setColor(x, y + (height * f), cs);
+            }
+        }
+
+        return ret;
+    }
+
+    public static NativeImage getSpectriteBlockTextureWithDifferenceOverlay(ResourceManager resourceManager,
+                                                                            String baseBlockName,
+                                                                            String textureName,
+                                                                            Identifier textureLocation)
+    {
+        final NativeImage baseBlock = getNativeImage(resourceManager, new Identifier(textureLocation.getNamespace(),
+                "textures/block/" + baseBlockName + ".png"));
+        final NativeImage differenceBlock = getNativeImage(resourceManager, new Identifier(textureLocation.getNamespace(),
+                "textures/" + textureLocation.getPath() + ".png"));
+        final int frameCount = 32;
+        final float frameHue = 1f / (float) frameCount;
+        final int size = Math.min(differenceBlock.getHeight(), differenceBlock.getWidth());
+        final int height = size;
+        final int width = size;
+        final int halfHeight = height / 2;
+        final int halfWidth = width / 2;
+
+        final NativeImage ret = new NativeImage(width, height * frameCount, false);
+
+        for (int y = 0; y < height; y++)
+        {
+            for (int x = 0; x < height; x++)
+            {
+                final int c1 = differenceBlock.getColor(x, y);
+                final int a1 = (c1 >> 24) & 0xFF;
+
+                final int c2 = baseBlock.getColor(x, y);
+                final int a2 = (c2 >> 24) & 0xFF;
+
+                if (a1 > 0 && a2 > 0)
+                {
+                    float a = 0;
+
+                    final int[] rgb1 = new int[]{(c1 >> 16) & 0xFF, (c1 >> 8) & 0xFF, (c1) & 0xFF};
+                    final int[] rgb2 = new int[]{(c2 >> 16) & 0xFF, (c2 >> 8) & 0xFF, (c2) & 0xFF};
+                    int[] rgb = new int[3];
+
+                    for (int c = 0; c < 3; c++)
+                    {
+                        int v1 = rgb1[c];
+                        int v2 = rgb2[c];
+                        if (v1 != v2)
+                            a = Math.max(a, v1 > v2 ? (v1 - v2) / (float) (0xFF - v2) : (v2 - v1) / (float) v2);
+                    }
+
+                    if (a > 0f)
+                    {
+                        final float ai = 1f / a;
+
+                        for (int c = 0; c < 3; c++)
+                            rgb[c] = Math.round((rgb1[c] - rgb2[c]) * ai + rgb2[c]);
+                    }
+
+                    float overlayHue;
+                    switch (textureName)
+                    {
+                        case "top":
+                        case "bottom":
+                        case "top_odd":
+                        case "bottom_odd":
+                            boolean isTop = textureName.startsWith("top");
+                            boolean isOdd = textureName.endsWith("_odd");
+                            float centerRatY = (halfHeight - Math.abs(y - halfHeight)) / (float) halfHeight;
+                            float centerRatX = (halfWidth - Math.abs(x - halfWidth)) / (float) halfWidth;
+                            float centerRat = (centerRatX + centerRatY) / 2f;
+                            overlayHue = ((float) Math.atan2(x - halfWidth, y - halfHeight)
+                                    + (((float) Math.PI) * (isTop ? 0.25f : -0.25f) * centerRat)
+                                    + (float) Math.PI) / (float) Math.PI * (isTop ? -1f : 1f)
+                                    + (isTop != isOdd ? 0.5f : 0f);
+                            break;
+                        case "ns":
+                            overlayHue = (1f / 6f) + ((width - x) + (y + 1)) / (float) (height + width);
+                            break;
+                        default:
+                            overlayHue = (2f / 3f) + ((width - x) + (y + 1)) / (float) (height + width);
+                            break;
+                    }
+
+                    final int[] rgbd = new int[]{rgb[0], rgb[1], rgb[2]};
+
+                    rgb = new int[]{(c2 >> 16) & 0xFF, (c2 >> 8) & 0xFF, (c2) & 0xFF};
+
+                    float[] rgbf = new float[]{rgb[0] / 255f, rgb[1] / 255f, rgb[2] / 255f};
+
+                    final float gsf = (rgbf[0] + rgbf[1] + rgbf[2]) / 3f;
+
+                    for (int c = 0; c < 3; c++)
+                        rgbf[c] = gsf;
+
+                    for (int f = 0; f < frameCount; f++)
+                    {
+                        final int co = MathHelper.hsvToRgb(clampHue(overlayHue), 1f, 1f);
+                        final float[] overlayRgbf = new float[]{((co >> 16) & 0xFF) / 255f, ((co >> 8) & 0xFF) / 255f, ((co) & 0xFF) / 255f};
+
+                        float[] frgbf = new float[]{rgbf[0], rgbf[1], rgbf[2]};
+
+                        frgbf = spectriteBlend(frgbf, overlayRgbf);
+
+                        for (int c = 0; c < 3; c++)
+                        {
+                            rgb[c] = Math.round(frgbf[c] * 255f);
+                            if (a > 0f)
+                                rgb[c] = a > 0f ? Math.round(rgb[c] * (1f - a) + rgbd[c] * a) : rgbd[c];
+                        }
+
+                        final int ca = (a1 << 24) & 0xFF000000;
+                        final int cr = (rgb[0] << 16) & 0x00FF0000;
+                        final int cg = (rgb[1] << 8) & 0x0000FF00;
+                        final int cb = rgb[2] & 0x000000FF;
+                        final int c = ca | cr | cg | cb;
+
+                        ret.setColor(x, y + (height * f), c);
+
+                        overlayHue -= frameHue;
+                    }
+                } else
+                    for (int f = 0; f < frameCount; f++)
+                        ret.setColor(x, y + (height * f), a1 > 0 ? c2 : c1);
             }
         }
 

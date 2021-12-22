@@ -33,7 +33,12 @@ public class SuperchromaticChorusPlantBlock extends ChorusPlantBlock
     public BlockState getPlacementState(ItemPlacementContext ctx)
     {
         final BlockPos pos = ctx.getBlockPos();
-        return super.getPlacementState(ctx).with(ODD, pos.getY() % 2 != 0);
+        return withOdd(super.getPlacementState(ctx), pos);
+    }
+
+    public BlockState withOdd(BlockState blockState, BlockPos pos)
+    {
+        return blockState.with(ODD, pos.getY() % 2 != 0);
     }
 
     @Override

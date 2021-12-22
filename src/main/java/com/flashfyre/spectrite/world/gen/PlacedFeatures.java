@@ -41,6 +41,9 @@ public class PlacedFeatures
     private static PlacedFeature ORE_SPECTRITE_END_HUGE = ConfiguredFeatures.ORE_SPECTRITE_END_HUGE
             .withPlacement(modifiersWithRarity(1029, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
 
+    public static PlacedFeature SUPERCHROMATIC_MONSTER_ROOM = ConfiguredFeatures.SUPERCHROMATIC_MONSTER_ROOM
+            .withPlacement(CountPlacementModifier.of(30), SquarePlacementModifier.of(), HeightRangePlacementModifier.uniform(YOffset.aboveBottom(6), YOffset.fixed(-1)), BiomePlacementModifier.of());
+
     private static PlacedFeature SUPERCHROMATIC_CHORUS_PLANT = ConfiguredFeatures.SUPERCHROMATIC_CHORUS_PLANT
             .withPlacement(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(4900), SquarePlacementModifier.of(),
                     net.minecraft.world.gen.feature.PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of());
@@ -63,6 +66,8 @@ public class PlacedFeatures
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
         registerPlacedFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE,
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.UNDERGROUND_ORES);
+        registerPlacedFeature("superchromatic_monster_room", SUPERCHROMATIC_MONSTER_ROOM,
+                BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_STRUCTURES);
         registerPlacedFeature("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT,
                 BiomeSelectors.foundInTheEnd(), GenerationStep.Feature.VEGETAL_DECORATION);
     }

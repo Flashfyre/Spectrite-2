@@ -72,6 +72,10 @@ public abstract class ModelLoaderMixin
                 "spectrite_ore_blackstone"
         });
         spectrite$blockDependencyModelsMap.put("diamond_block", new String[]{"spectrite_block"});
+        spectrite$blockDependencyModelsMap.put("stone_bricks", new String[]{"superchromatic_stone_bricks"});
+        spectrite$blockDependencyModelsMap.put("mossy_stone_bricks", new String[]{"mossy_superchromatic_stone_bricks"});
+        spectrite$blockDependencyModelsMap.put("cracked_stone_bricks", new String[]{"cracked_superchromatic_stone_bricks"});
+        spectrite$blockDependencyModelsMap.put("chiseled_stone_bricks", new String[]{"chiseled_superchromatic_stone_bricks"});
         spectrite$blockDependencyModelsMap.put("chorus_plant", new String[]{"superchromatic_chorus_plant"});
         spectrite$blockDependencyModelVariantMatchMap.put("chorus_plant", "down=false,east=false,north=false,south=false,up=false,west=false");
         spectrite$blockDependencyModelsMap.put("chorus_flower", new String[]{"superchromatic_chorus_flower"});

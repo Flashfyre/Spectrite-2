@@ -8,10 +8,13 @@ import net.minecraft.world.gen.feature.Feature;
 
 public class Features
 {
+    public static final Feature<DefaultFeatureConfig> SUPERCHROMATIC_MONSTER_ROOM = new SuperchromaticDungeonFeature(DefaultFeatureConfig.CODEC);
+
     public static final Feature<DefaultFeatureConfig> SUPERCHROMATIC_CHORUS_PLANT = new SuperchromaticChorusPlantFeature(DefaultFeatureConfig.CODEC);
 
     public static void initFeatures()
     {
+        registerFeature("superchromatic_monster_room", SUPERCHROMATIC_MONSTER_ROOM);
         registerFeature("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT);
     }
 

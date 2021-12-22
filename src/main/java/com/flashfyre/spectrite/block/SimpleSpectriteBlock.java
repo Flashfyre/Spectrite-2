@@ -8,7 +8,7 @@ import net.minecraft.state.StateManager;
 import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 
-public class SimpleSpectriteBlock extends Block
+public class SimpleSpectriteBlock extends Block implements SpectriteBlock
 {
     public static final BooleanProperty ODD = BooleanProperty.of("odd");
 
@@ -28,6 +28,11 @@ public class SimpleSpectriteBlock extends Block
     public BlockState getPlacementState(ItemPlacementContext ctx)
     {
         final BlockPos pos = ctx.getBlockPos();
-        return super.getPlacementState(ctx).with(ODD, (pos.getX() + pos.getY() + pos.getZ()) % 2 != 0);
+        return withOdd(super.getPlacementState(ctx), pos);
+    }
+
+    public BlockState withOdd(BlockState blockState, BlockPos pos)
+    {
+        return blockState.with(ODD, (pos.getX() + pos.getY() + pos.getZ()) % 2 != 0);
     }
 }

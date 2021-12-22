@@ -10,7 +10,7 @@ import net.minecraft.state.property.BooleanProperty;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.intprovider.UniformIntProvider;
 
-public class SpectriteOreBlock extends OreBlock
+public class SpectriteOreBlock extends OreBlock implements SpectriteBlock
 {
     public static final BooleanProperty ODD = BooleanProperty.of("odd");
 
@@ -30,6 +30,11 @@ public class SpectriteOreBlock extends OreBlock
     public BlockState getPlacementState(ItemPlacementContext ctx)
     {
         final BlockPos pos = ctx.getBlockPos();
-        return super.getPlacementState(ctx).with(ODD, (pos.getX() + pos.getY() + pos.getZ()) % 2 != 0);
+        return withOdd(super.getPlacementState(ctx), pos);
+    }
+
+    public BlockState withOdd(BlockState blockState, BlockPos pos)
+    {
+        return blockState.with(ODD, pos.getY() % 2 != 0);
     }
 }

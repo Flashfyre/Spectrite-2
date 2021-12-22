@@ -1,0 +1,6 @@
+{
+	"variants": {
+		"odd=false": { "model": "spectrite:block/chiseled_superchromatic_stone_bricks" },
+		"odd=true": { "model": "spectrite:block/chiseled_superchromatic_stone_bricks_odd" }
+	}
+}

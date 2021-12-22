@@ -49,6 +49,14 @@ public class Blocks
                 return 10;
             }));
 
+    public static Block SUPERCHROMATIC_STONE_BRICKS = new SimpleSpectriteBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(37.5f, 7.5f));
+
+    public static Block MOSSY_SUPERCHROMATIC_STONE_BRICKS = new SimpleSpectriteBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(37.5f, 7.5f));
+
+    public static Block CRACKED_SUPERCHROMATIC_STONE_BRICKS = new SimpleSpectriteBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(37.5f, 7.5f));
+
+    public static Block CHISELED_SUPERCHROMATIC_STONE_BRICKS = new SimpleSpectriteBlock(AbstractBlock.Settings.of(Material.STONE).requiresTool().strength(37.5f, 7.5f));
+
     public static Block SUPERCHROMATIC_CHORUS_PLANT = new SuperchromaticChorusPlantBlock(
             AbstractBlock.Settings.of(Material.PLANT, MapColor.PURPLE).strength(0.4f).sounds(BlockSoundGroup.WOOD).nonOpaque());
 
@@ -72,6 +80,10 @@ public class Blocks
         registerBlock("spectrite_ore_blackstone", BLACKSTONE_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_ore_end", END_SPECTRITE_ORE, new FabricItemSettings());
         registerBlock("spectrite_block", SPECTRITE_BLOCK, new FabricItemSettings());
+        registerBlock("superchromatic_stone_bricks", SUPERCHROMATIC_STONE_BRICKS, new FabricItemSettings());
+        registerBlock("mossy_superchromatic_stone_bricks", MOSSY_SUPERCHROMATIC_STONE_BRICKS, new FabricItemSettings());
+        registerBlock("cracked_superchromatic_stone_bricks", CRACKED_SUPERCHROMATIC_STONE_BRICKS, new FabricItemSettings());
+        registerBlock("chiseled_superchromatic_stone_bricks", CHISELED_SUPERCHROMATIC_STONE_BRICKS, new FabricItemSettings());
         //registerBlock("spectrite_chest", SPECTRITE_CHEST, new FabricItemSettings().group(ItemGroup.DECORATIONS));
         registerBlock("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT, new FabricItemSettings());
         registerBlock("superchromatic_chorus_flower", SUPERCHROMATIC_CHORUS_FLOWER, new FabricItemSettings());

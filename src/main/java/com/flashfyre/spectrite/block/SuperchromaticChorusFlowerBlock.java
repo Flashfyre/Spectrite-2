@@ -40,7 +40,7 @@ public class SuperchromaticChorusFlowerBlock extends ChorusFlowerBlock
         return withOdd(super.getPlacementState(ctx), pos);
     }
 
-    private BlockState withOdd(BlockState blockState, BlockPos pos)
+    public BlockState withOdd(BlockState blockState, BlockPos pos)
     {
         return blockState.with(ODD, pos.getY() % 2 != 0);
     }

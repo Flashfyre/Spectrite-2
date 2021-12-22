@@ -46,6 +46,9 @@ public class ConfiguredFeatures
     public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_HUGE = Feature.ORE
             .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 21));
 
+    public static ConfiguredFeature<?, ?> SUPERCHROMATIC_MONSTER_ROOM = Features.SUPERCHROMATIC_MONSTER_ROOM
+            .configure(FeatureConfig.DEFAULT);
+
     public static ConfiguredFeature<?, ?> SUPERCHROMATIC_CHORUS_PLANT = Features.SUPERCHROMATIC_CHORUS_PLANT
             .configure(FeatureConfig.DEFAULT);
 
@@ -59,6 +62,7 @@ public class ConfiguredFeatures
         registerConfiguredFeature("ore_spectrite_end", ORE_SPECTRITE_END);
         registerConfiguredFeature("ore_spectrite_end_large", ORE_SPECTRITE_END_LARGE);
         registerConfiguredFeature("ore_spectrite_end_huge", ORE_SPECTRITE_END_HUGE);
+        registerConfiguredFeature("superchromatic_monster_room", SUPERCHROMATIC_MONSTER_ROOM);
         registerConfiguredFeature("superchromatic_chorus_plant", SUPERCHROMATIC_CHORUS_PLANT);
     }
 
