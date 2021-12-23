@@ -3,8 +3,6 @@ package com.flashfyre.spectrite.item;
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.BowItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
@@ -63,17 +61,6 @@ public class SpectriteBowItem extends BowItem implements SpectriteWeaponItem
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
         SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks)
-    {
-        final int maxUseTime = stack.getMaxUseTime();
-        final int useTicks = maxUseTime - remainingUseTicks;
-        if (useTicks <= SpectriteItemUtils.SPECTRITE_CHARGEABLE_USE_TICKS_THRESHOLD && user instanceof PlayerEntity playerEntity)
-            SpectriteItemUtils.useSpectriteChargeableItem(playerEntity, stack, true);
-        else
-            super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
     @Override

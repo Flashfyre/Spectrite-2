@@ -17,22 +17,22 @@ public class SpectriteResourcePackGeoEntityExtension implements SpectriteResourc
     @Override
     public void findResources(SpectriteResourcePack spectriteResourcePack, ResourceManager resourceManager)
     {
-        for (Map.Entry<Identifier, Map<String, Map<Identifier, Identifier>>> entry : SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.entrySet())
+        for (Map.Entry<Identifier, Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>>> entry : SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.entrySet())
         {
             final Identifier entityId = entry.getKey();
             final Map<String, List<GeoBone>> entityGeoBoneCache = SpectriteGeoEntityRenderUtils.ENTITY_GEO_BONE_CACHE.getOrDefault(entityId, null);
             if (entityGeoBoneCache != null)
             {
-                for (Map.Entry<String, Map<Identifier, Identifier>> entityEntry : entry.getValue().entrySet())
+                for (Map.Entry<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityEntry : entry.getValue().entrySet())
                 {
                     final String modelClassName = entityEntry.getKey();
                     if (entityGeoBoneCache.containsKey(modelClassName))
                     {
-                        for (Map.Entry<Identifier, Identifier> entityModelEntry : entityEntry.getValue().entrySet())
+                        for (Map.Entry<Map.Entry<Identifier, Boolean>, Identifier> entityModelEntry : entityEntry.getValue().entrySet())
                         {
                             final NativeImage spectriteEntityTexture =
                                     SpectriteGeoEntityTextureUtils.getEntityTexture(
-                                            resourceManager, entityModelEntry.getKey(), entityGeoBoneCache.get(modelClassName));
+                                            resourceManager, entityModelEntry.getKey().getKey(), entityGeoBoneCache.get(modelClassName));
                             spectriteResourcePack.putImage(
                                     "assets/" + Spectrite.MODID + "/" + entityModelEntry.getValue().getPath(),
                                     spectriteEntityTexture);

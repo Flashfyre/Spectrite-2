@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -24,10 +24,10 @@ public class SuperchromaticElixirItem extends SimpleSpectriteItem implements Pas
         if (entity instanceof MobEntity mobEntity && mobEntity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                 && !(spectriteCompatibleMobEntity).isSuperchromatic())
         {
-            SpectriteEntityUtils.setSuperchromatic(entity, true);
+            SuperchromaticEntityUtils.setSuperchromatic(entity, true);
             if (!user.world.isClient && entity.isAlive())
             {
-                SpectriteEntityUtils.initSuperchromaticMobAttributes(mobEntity);
+                SuperchromaticEntityUtils.initSuperchromaticMobAttributes(mobEntity);
                 mobEntity.setPersistent();
                 stack.decrement(1);
             }

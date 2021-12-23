@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.entity;
 
 import com.flashfyre.spectrite.SpectriteConfig;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.data.DataTracker;
 import net.minecraft.entity.data.TrackedData;
@@ -50,7 +50,7 @@ public class SpectriteGolemEntity extends IronGolemEntity implements Superchroma
             if (getHealth() == getMaxHealth())
             {
                 setDepleted(false);
-                SpectriteEntityUtils.enableSuperchromaticMobAttributes(this);
+                SuperchromaticEntityUtils.enableSuperchromaticMobAttributes(this);
             }
         }
     }
@@ -63,7 +63,7 @@ public class SpectriteGolemEntity extends IronGolemEntity implements Superchroma
         {
             setHealth(10.0f);
             setDepleted(true);
-            SpectriteEntityUtils.disableSuperchromaticMobAttributes(this);
+            SuperchromaticEntityUtils.disableSuperchromaticMobAttributes(this);
             return false;
         }
 

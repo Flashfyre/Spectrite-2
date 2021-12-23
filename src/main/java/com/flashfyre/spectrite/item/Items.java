@@ -15,9 +15,7 @@ import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.minecraft.util.registry.Registry;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 public class Items
@@ -25,8 +23,6 @@ public class Items
     private static final SpectriteDamageableDamageHandler spectriteDamageableDamageHandler = new SpectriteDamageableDamageHandler();
 
     public static Map<Item, Item> DEPLETED_DAMAGEABLE_ITEMS_MAP = new HashMap<>();
-
-    public static List<Item> SPECTRITE_CHARGEABLE_ITEMS = new ArrayList<>();
 
     public static final Item SPECTRITE_GEM = new SimpleSpectriteItem(itemSettings().group(ItemGroup.MATERIALS));
 
@@ -104,7 +100,11 @@ public class Items
     public static final Item DEPLETED_SPECTRITE_TRIDENT = new SpectriteTridentItem(true,
             itemSettings().customDamage(spectriteDamageableDamageHandler).maxDamage(462));
 
+    public static final Item SPECTRITE_HORSE_ARMOR = new SpectriteHorseArmorItem(17, itemSettings().group(ItemGroup.MISC));
+
     public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.COMBAT));
+
+    public static final Item SUPERCHROMATIC_ESSENCE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.MATERIALS));
 
     public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().maxCount(1).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
 
@@ -119,8 +119,6 @@ public class Items
     public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().maxCount(1).group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
 
     public static final Item SUPERCHROMATIC_ELIXIR = new SuperchromaticElixirItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
-
-    public static final Item SPECTRITE_HORSE_ARMOR = new SpectriteHorseArmorItem(17, itemSettings().group(ItemGroup.MISC));
 
     public static void initItems()
     {
@@ -138,7 +136,9 @@ public class Items
         registerDamageableItem("spectrite_boots", SPECTRITE_BOOTS, DEPLETED_SPECTRITE_BOOTS);
         registerDamageableItem("spectrite_shield", SPECTRITE_SHIELD, DEPLETED_SPECTRITE_SHIELD);
         registerDamageableItem("spectrite_trident", SPECTRITE_TRIDENT, DEPLETED_SPECTRITE_TRIDENT);
+        registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
         registerItem("spectrite_bomb", SPECTRITE_BOMB);
+        registerItem("superchromatic_essence", SUPERCHROMATIC_ESSENCE);
         registerItem("superchromatic_apple", SUPERCHROMATIC_APPLE);
         registerItem("superchromatic_carrot", SUPERCHROMATIC_CARROT);
         registerItem("superchromatic_axolotl_bucket", SUPERCHROMATIC_AXOLOTL_BUCKET);
@@ -146,7 +146,6 @@ public class Items
         registerItem("superchromatic_nether_star", SUPERCHROMATIC_NETHER_STAR);
         registerItem("superchromatic_chorus_fruit", SUPERCHROMATIC_CHORUS_FRUIT);
         registerItem("superchromatic_elixir", SUPERCHROMATIC_ELIXIR);
-        registerItem("spectrite_horse_armor", SPECTRITE_HORSE_ARMOR);
     }
 
     private static FabricItemSettings itemSettings()
@@ -169,7 +168,5 @@ public class Items
         registerItem(name, item);
         registerItem("depleted_" + name, depletedItem);
         DEPLETED_DAMAGEABLE_ITEMS_MAP.put(item, depletedItem);
-        if (item instanceof SpectriteChargeableItem)
-            SPECTRITE_CHARGEABLE_ITEMS.add(item);
     }
 }

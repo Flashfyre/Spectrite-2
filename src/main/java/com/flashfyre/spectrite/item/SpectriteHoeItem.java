@@ -3,15 +3,10 @@ package com.flashfyre.spectrite.item;
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.HoeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -61,20 +56,6 @@ public class SpectriteHoeItem extends HoeItem implements SpectriteToolItem
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
         SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);
-    }
-
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
-    {
-        final TypedActionResult<ItemStack> ret = SpectriteItemUtils.useSpectriteChargeableItem(user, hand, false);
-        return ret.getResult() != ActionResult.PASS ? ret : super.use(world, user, hand);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks)
-    {
-        SpectriteItemUtils.stopUsingSpectriteChargeableItem(user, stack, remainingUseTicks);
-        super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
     @Override

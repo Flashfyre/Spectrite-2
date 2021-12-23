@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.block.Blocks;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BeaconBlockEntity;
 import net.minecraft.util.math.BlockPos;
@@ -25,7 +25,7 @@ public class BeaconBlockEntityMixin
         {
             final int beaconLevel = ((BeaconBlockEntityAccessor) blockEntity).getLevel();
             final int spectriteBaseBlocks = countBeaconBaseSpectriteBlocks(world, pos.getX(), pos.getY(), pos.getZ(), beaconLevel);
-            SpectriteEntityUtils.BEACON_LOCATIONS.put(pos, new AbstractMap.SimpleEntry(beaconLevel, spectriteBaseBlocks));
+            SuperchromaticEntityUtils.BEACON_LOCATIONS.put(pos, new AbstractMap.SimpleEntry(beaconLevel, spectriteBaseBlocks));
         }
     }
 
@@ -53,6 +53,6 @@ public class BeaconBlockEntityMixin
     @Inject(method = "markRemoved", at = @At(value = "HEAD"))
     private void injectMarkRemovedRemoveBeaconLocation(CallbackInfo ci)
     {
-        SpectriteEntityUtils.BEACON_LOCATIONS.remove(((BlockEntityAccessor) this).getPos());
+        SuperchromaticEntityUtils.BEACON_LOCATIONS.remove(((BlockEntityAccessor) this).getPos());
     }
 }

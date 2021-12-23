@@ -38,13 +38,14 @@ public class SpectriteGeoEntityRenderUtils
         final Identifier entityId = entityType != null ? EntityType.getId(entityType) : SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
         final String modelClassName = model != null ? model.getClass().getName() : entityId.getPath();
         SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = modelClassName;
-        if (!SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.containsKey(entityId))
-            SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.put(entityId, new HashMap<>());
-        final Map<String, Map<Identifier, Identifier>> entityTextureCache = SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.get(entityId);
+        if (!SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId))
+            SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.put(entityId, new HashMap<>());
+        final Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityTextureCache = SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId);
         if (!entityTextureCache.containsKey(modelClassName))
             entityTextureCache.put(modelClassName, new HashMap<>());
-        final Map<Identifier, Identifier> entityModelTextureCache = entityTextureCache.get(modelClassName);
-        if (!entityModelTextureCache.containsKey(texture))
+        final Map<Map.Entry<Identifier, Boolean>, Identifier> entityModelTextureCache = entityTextureCache.get(modelClassName);
+        final Map.Entry<Identifier, Boolean> textureEntry = new AbstractMap.SimpleEntry<>(texture, false);
+        if (!entityModelTextureCache.containsKey(textureEntry))
         {
             final SpectriteResourcePack resourcePack = SpectriteClient.CLIENT_INSTANCE.resourcePack;
             if (!resourcePack.hasGeoEntityExtension())
@@ -69,7 +70,7 @@ public class SpectriteGeoEntityRenderUtils
                 resourcePack.putImage(
                         "assets/" + Spectrite.MODID + "/" + spectriteTextureLocation.getPath(),
                         spectriteEntityTexture);
-                entityModelTextureCache.put(texture, spectriteTextureLocation);
+                entityModelTextureCache.put(textureEntry, spectriteTextureLocation);
                 if (cacheSize)
                     SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE.put(spectriteTextureLocation,
                             new AbstractMap.SimpleEntry<>(spectriteEntityTexture.getWidth(), spectriteEntityTexture.getHeight()));
@@ -78,7 +79,7 @@ public class SpectriteGeoEntityRenderUtils
             return texture;
         }
 
-        return entityModelTextureCache.get(texture);
+        return entityModelTextureCache.get(textureEntry);
     }
 
     public static boolean containsGeoBone(List<GeoBone> geoBonesList, GeoBone geoBone)

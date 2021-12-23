@@ -6,14 +6,10 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.AxeItem;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
@@ -108,20 +104,6 @@ public class SpectriteAxeItem extends AxeItem implements SpectriteToolItem, Spec
     public boolean isUsedOnRelease(ItemStack stack)
     {
         return true;
-    }
-
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
-    {
-        final TypedActionResult<ItemStack> ret = SpectriteItemUtils.useSpectriteChargeableItem(user, hand, false);
-        return ret.getResult() != ActionResult.PASS ? ret : super.use(world, user, hand);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks)
-    {
-        SpectriteItemUtils.stopUsingSpectriteChargeableItem(user, stack, remainingUseTicks);
-        super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
     @Override

@@ -13,6 +13,8 @@ public class SpectriteConfig implements ConfigData
 
     private float spectriteToolCooldown = 10f;
 
+    private float superchromaticToolCooldown = 10f;
+
     private float superchromaticMobSpawnRate = 0.048828f;
 
     private float superchromaticMobSpawnRateBeaconBlockBonus = 0.037977f;
@@ -143,6 +145,11 @@ public class SpectriteConfig implements ConfigData
     public static float getSpectriteToolCooldown()
     {
         return INSTANCE.spectriteToolCooldown;
+    }
+
+    public static float getSuperchromaticToolCooldown()
+    {
+        return INSTANCE.superchromaticToolCooldown;
     }
 
     public static float getSuperchromaticMobSpawnRate()

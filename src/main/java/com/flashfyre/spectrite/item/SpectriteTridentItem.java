@@ -6,11 +6,9 @@ import com.google.common.collect.Multimap;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
-import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.TridentItem;
 import net.minecraft.text.Text;
@@ -93,17 +91,6 @@ public class SpectriteTridentItem extends TridentItem implements SpectriteMeleeW
     public Multimap<EntityAttribute, EntityAttributeModifier> getAttributeModifiers(EquipmentSlot slot)
     {
         return slot == EquipmentSlot.MAINHAND ? this.attributeModifiers : super.getAttributeModifiers(slot);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks)
-    {
-        final int maxUseTime = stack.getMaxUseTime();
-        final int useTicks = maxUseTime - remainingUseTicks;
-        if (useTicks <= SpectriteItemUtils.SPECTRITE_CHARGEABLE_USE_TICKS_THRESHOLD && user instanceof PlayerEntity playerEntity)
-            SpectriteItemUtils.useSpectriteChargeableItem(playerEntity, stack, true);
-
-        super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
     @Override

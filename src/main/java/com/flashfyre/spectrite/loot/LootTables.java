@@ -143,7 +143,7 @@ public class LootTables
                 {
                     final String entityName = id.getPath().substring(9);
                     final FabricLootPoolBuilder spectritePool = FabricLootPoolBuilder.builder()
-                            .with(ItemEntry.builder(SPECTRITE_GEM)
+                            .with(ItemEntry.builder(SUPERCHROMATIC_ESSENCE)
                                     .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
                                     .conditionally(SuperchromaticMobLootCondition.builder())
                                     .conditionally(KilledByPlayerLootCondition.builder()));

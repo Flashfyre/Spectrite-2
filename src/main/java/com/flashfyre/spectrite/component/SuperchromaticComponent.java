@@ -7,5 +7,5 @@ public interface SuperchromaticComponent extends ComponentV3, AutoSyncedComponen
 {
     boolean isSuperchromatic();
 
-    void setSuperchromatic(boolean spectrite);
+    void setSuperchromatic(boolean superchromatic);
 }

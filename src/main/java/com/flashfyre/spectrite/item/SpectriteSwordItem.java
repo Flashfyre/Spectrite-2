@@ -4,15 +4,10 @@ import com.flashfyre.spectrite.util.SpectriteItemUtils;
 import net.minecraft.block.BlockState;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.SwordItem;
 import net.minecraft.item.ToolMaterial;
 import net.minecraft.text.Text;
-import net.minecraft.util.ActionResult;
-import net.minecraft.util.Hand;
-import net.minecraft.util.TypedActionResult;
 import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
@@ -97,20 +92,6 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
             ret *= getChargedEfficiencyMultiplier();
 
         return ret;
-    }
-
-    @Override
-    public TypedActionResult<ItemStack> use(World world, PlayerEntity user, Hand hand)
-    {
-        final TypedActionResult<ItemStack> ret = SpectriteItemUtils.useSpectriteChargeableItem(user, hand, false);
-        return ret.getResult() != ActionResult.PASS ? ret : super.use(world, user, hand);
-    }
-
-    @Override
-    public void onStoppedUsing(ItemStack stack, World world, LivingEntity user, int remainingUseTicks)
-    {
-        SpectriteItemUtils.stopUsingSpectriteChargeableItem(user, stack, remainingUseTicks);
-        super.onStoppedUsing(stack, world, user, remainingUseTicks);
     }
 
     @Override

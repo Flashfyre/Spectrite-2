@@ -36,7 +36,10 @@
 	"item.spectrite.depleted_spectrite_boots": "Spectrite Boots",
 	"item.spectrite.depleted_spectrite_shield": "Spectrite Shield",
 	"item.spectrite.depleted_spectrite_trident": "Spectrite Trident",
+	"item.spectrite.spectrite_horse_armor": "Spectrite Horse Armor",
 	"item.spectrite.spectrite_bomb": "Spectrite Bomb",
+	
+	"item.spectrite.superchromatic_essence": "Superchromatic Essence",
 	
 	"item.spectrite.superchromatic_apple": "Superchromatic Apple",
 	"item.spectrite.superchromatic_carrot": "Superchromatic Carrot",
@@ -48,14 +51,15 @@
 	
 	"item.spectrite.superchromatic_chorus_fruit": "Superchromatic Chorus Fruit",
 	"item.spectrite.superchromatic_elixir": "Superchromatic Elixir",
-	"item.spectrite.spectrite_horse_armor": "Spectrite Horse Armor",
 	
 	"item.spectrite.tooltip.depleted": "Depleted",
 	
+	"item.spectrite.modifiers.superchromized": "Superchromized",
+	"item.spectrite.modifiers.percent_superchromized": "%d%% Superchromized",
 	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",
 	"item.spectrite.modifiers.charged": "When Charged:",
 	"item.spectrite.modifiers.charged.tool_efficiency": "%d%% Efficiency",
-	"item.spectrite.modifiers.set_bonus": "Set Bonus:",
+	"item.spectrite.modifiers.superchromatic_set_bonus": "Superchromatic Set Bonus:",
 	"item.spectrite.modifiers.on_impact": "On Impact:",
 	
 	"effect.spectrite.superchromatic": "Superchromatic",
@@ -70,7 +74,7 @@
 	"advancements.spectrite.root.description": "Acquire a Spectrite Gem",
 	"advancements.spectrite.upgrade_spectrite_tools.title": "Prismatic Pickaxe",
 	"advancements.spectrite.upgrade_spectrite_tools.description": "Obtain a Spectrite Pickaxe",
-	"advancements.spectrite.obtain_depleted_spectrite_item.title": "Don't Worry, It's Not Broken",
+	"advancements.spectrite.obtain_depleted_spectrite_item.title": "Monochrome",
 	"advancements.spectrite.obtain_depleted_spectrite_item.description": "Deplete a piece of Spectrite equipment",
 	"advancements.spectrite.obtain_spectrite_shield.title": "Another Level of Protection",
 	"advancements.spectrite.obtain_spectrite_shield.description": "Obtain a Spectrite Shield",

@@ -30,10 +30,10 @@ public interface IGeoRendererMixin
     {
         final Identifier entityId = SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
         final String modelClassName = SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME;
-        if (entityId != null && SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.containsKey(entityId)
-                && SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.get(entityId).containsKey(modelClassName))
+        if (entityId != null && SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId)
+                && SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId).containsKey(modelClassName))
         {
-            final Map<Identifier, Identifier> entityModelTextureCache = SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.get(entityId).get(modelClassName);
+            final Map<Map.Entry<Identifier, Boolean>, Identifier> entityModelTextureCache = SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId).get(modelClassName);
             if (entityModelTextureCache.isEmpty() && (!bone.childCubes.isEmpty() || !bone.childCubes.isEmpty()))
             {
                 final List<GeoBone> geoBoneCache;

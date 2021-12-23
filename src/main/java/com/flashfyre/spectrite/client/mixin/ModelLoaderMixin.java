@@ -92,7 +92,9 @@ public abstract class ModelLoaderMixin
         spectrite$itemDependencyModelsMap.put("trident", new String[]{"spectrite_trident", "depleted_spectrite_trident"});
         spectrite$itemDependencyModelsMap.put("trident_in_hand", new String[]{"spectrite_trident_in_hand", "depleted_spectrite_trident_in_hand"});
         spectrite$itemDependencyModelsMap.put("trident_throwing", new String[]{"spectrite_trident_throwing", "depleted_spectrite_trident_throwing"});
+        spectrite$itemDependencyModelsMap.put("diamond_horse_armor", new String[]{"spectrite_horse_armor"});
         spectrite$itemDependencyModelsMap.put("fire_charge", new String[]{"spectrite_bomb"});
+        spectrite$itemDependencyModelsMap.put("glowstone_dust", new String[]{"superchromatic_essence"});
         spectrite$itemDependencyModelsMap.put("golden_apple", new String[]{"superchromatic_apple"});
         spectrite$itemDependencyModelsMap.put("golden_carrot", new String[]{"superchromatic_carrot"});
         spectrite$itemDependencyModelsMap.put("axolotl_bucket", new String[]{"superchromatic_axolotl_bucket"});
@@ -100,7 +102,6 @@ public abstract class ModelLoaderMixin
         spectrite$itemDependencyModelsMap.put("nether_star", new String[]{"superchromatic_nether_star"});
         spectrite$itemDependencyModelsMap.put("chorus_fruit", new String[]{"superchromatic_chorus_fruit"});
         spectrite$itemDependencyModelsMap.put("experience_bottle", new String[]{"superchromatic_elixir"});
-        spectrite$itemDependencyModelsMap.put("diamond_horse_armor", new String[]{"spectrite_horse_armor"});
     }
 
     @Inject(method = "putModel", at = @At("HEAD"))

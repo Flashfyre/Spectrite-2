@@ -2,8 +2,8 @@ package com.flashfyre.spectrite.client.mixin;
 
 import com.flashfyre.spectrite.client.sound.SuperchromaticEntityTrackingDeathSoundInstance;
 import com.flashfyre.spectrite.client.sound.SuperchromaticEntityTrackingSoundInstance;
-import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
+import com.flashfyre.spectrite.component.entity.EntityComponents;
+import com.flashfyre.spectrite.component.entity.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -38,7 +38,7 @@ public class SpectriteClientWorldMixin
     {
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity)
         {
-            final SuperchromaticEntityComponent superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(spectriteCompatibleEntity).orElse(null);
+            final SuperchromaticEntityComponent superchromaticEntityComponent = EntityComponents.SUPERCHROMATIC_ENTITY.maybeGet(spectriteCompatibleEntity).orElse(null);
             if (superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic())
             {
                 final EntityTrackingSoundInstance entitySound = !(entity instanceof MobEntity mobEntity) || sound != mobEntity.getDeathSound()

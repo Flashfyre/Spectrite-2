@@ -1,19 +1,14 @@
 package com.flashfyre.spectrite.util;
 
 import com.flashfyre.spectrite.Spectrite;
-import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.damageSource.DamageSources;
 import com.flashfyre.spectrite.etc.ChromaBlast;
-import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.item.SpectriteDamageableItem;
-import com.flashfyre.spectrite.item.SpectriteWeaponItem;
 import io.netty.buffer.Unpooled;
 import net.fabricmc.fabric.api.networking.v1.ServerPlayNetworking;
 import net.minecraft.block.MapColor;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.player.ItemCooldownManager;
 import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketByteBuf;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
@@ -107,23 +102,6 @@ public final class SpectriteUtils
         final int posOffset = pos.getX() + pos.getY() + pos.getZ();
 
         return MAP_COLORS[(posOffset + (int) (worldIn.getTime() >> 2)) % 7];
-    }
-
-    public static void tryActivateSpectriteChargeableItemCooldown(PlayerEntity playerEntity, int power, ItemStack spectriteChargeableItemStack)
-    {
-        if (playerEntity != null && !playerEntity.isCreative())
-        {
-            final ItemCooldownManager itemCooldownManager = playerEntity.getItemCooldownManager();
-            final float cooldownMultiplier = spectriteChargeableItemStack.getItem() instanceof SpectriteWeaponItem spectriteWeaponItem
-                    ? spectriteWeaponItem.getCooldownMultiplier()
-                    : 1f;
-            final float cooldown = SpectriteConfig.getSpectriteToolCooldown() * (2.5f * (float) Math.pow(2, power)) * cooldownMultiplier;
-            for (Item spectriteChargeableItem : Items.SPECTRITE_CHARGEABLE_ITEMS)
-            {
-                final int currentCooldown = Math.round(itemCooldownManager.getCooldownProgress(spectriteChargeableItem, 0f));
-                itemCooldownManager.set(spectriteChargeableItem, (int) Math.max(cooldown, currentCooldown));
-            }
-        }
     }
 
     public static ChromaBlast newChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity,

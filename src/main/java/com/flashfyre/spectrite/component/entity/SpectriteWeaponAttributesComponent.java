@@ -1,4 +1,4 @@
-package com.flashfyre.spectrite.component;
+package com.flashfyre.spectrite.component.entity;
 
 import dev.onyxstudios.cca.api.v3.component.ComponentV3;
 import dev.onyxstudios.cca.api.v3.component.sync.AutoSyncedComponent;
@@ -12,4 +12,8 @@ public interface SpectriteWeaponAttributesComponent extends ComponentV3, AutoSyn
     boolean isSpectriteCharged();
 
     void setSpectriteCharged(boolean spectriteCharged);
+
+    int getBaseChromaBlastLevel();
+
+    void setBaseChromaBlastLevel(int baseChromaBlastLevel);
 }

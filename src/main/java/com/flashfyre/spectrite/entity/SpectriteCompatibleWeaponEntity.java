@@ -9,4 +9,8 @@ public interface SpectriteCompatibleWeaponEntity extends SpectriteCompatibleEnti
     boolean isSpectriteCharged();
 
     void setSpectriteCharged(boolean spectriteCharged);
+
+    int getBaseChromaBlastLevel();
+
+    void setBaseChromaBlastLevel(int baseChromaBlastLevel);
 }

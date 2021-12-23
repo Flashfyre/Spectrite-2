@@ -4,9 +4,11 @@ import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
+import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.item.SpectriteTridentItem;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import com.flashfyre.spectrite.util.SpectriteUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticItemUtils;
 import net.minecraft.enchantment.EnchantmentHelper;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
@@ -92,7 +94,7 @@ public class TridentEntityMixin
             {
                 final SpectriteTridentItem spectriteTridentItem = (SpectriteTridentItem) tridentStack.getItem();
                 if ((!(livingEntity2 instanceof PlayerEntity player)
-                        || player.getItemCooldownManager().getCooldownProgress(spectriteTridentItem, 0f) == 0f)
+                        || ((SuperchromaticCooldownPlayerEntity) player).getSuperchromaticItemCooldownManager().getCooldownProgress(0f) == 0f)
                         && spectriteTridentItem.isCharged(tridentStack)
                         && !spectriteTridentItem.isDepleted())
                 {
@@ -108,7 +110,7 @@ public class TridentEntityMixin
                                 : 0;
                         final int superchromaticMobPowerBonus = livingEntity2 instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                                 && spectriteCompatibleMobEntity.isSuperchromatic() ?
-                                SpectriteEntityUtils.getSuperchromaticMobPowerBonus(((MobEntity) livingEntity2))
+                                SuperchromaticEntityUtils.getSuperchromaticMobPowerBonus(((MobEntity) livingEntity2))
                                 : 0;
                         livingEntity.timeUntilRegen = 0;
                         livingEntity.hurtTime = 0;
@@ -119,7 +121,7 @@ public class TridentEntityMixin
                                 (tridentEntity.getZ() + targetZ) / 2d,
                                 power + superchromaticLevel + superchromaticMobPowerBonus, false, Explosion.DestructionType.NONE);
                         if (livingEntity2 instanceof PlayerEntity playerEntity)
-                            SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, tridentStack);
+                            SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, tridentStack);
                     }
 
                     spectriteTridentItem.setCharged(tridentStack, false);

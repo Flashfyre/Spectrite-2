@@ -1,19 +1,22 @@
 package com.flashfyre.spectrite.mixin;
 
-import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
+import com.flashfyre.spectrite.component.entity.EntityComponents;
+import com.flashfyre.spectrite.component.entity.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.item.SpectriteBowItem;
 import com.flashfyre.spectrite.item.SpectriteWeaponItem;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import com.flashfyre.spectrite.util.SpectriteUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticItemUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.TridentEntity;
+import net.minecraft.item.BowItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -27,14 +30,14 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
     @Override
     public boolean isSuperchromatic()
     {
-        final SuperchromaticEntityComponent superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(this).orElse(null);
+        final SuperchromaticEntityComponent superchromaticEntityComponent = EntityComponents.SUPERCHROMATIC_ENTITY.maybeGet(this).orElse(null);
         return superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic();
     }
 
     @Override
     public void setSuperchromatic(boolean superchromatic)
     {
-        Components.SUPERCHROMATIC_ENTITY.maybeGet(this).ifPresent(superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
+        EntityComponents.SUPERCHROMATIC_ENTITY.maybeGet(this).ifPresent(superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
         if (!superchromatic)
         {
             setSpectriteDamage(0);
@@ -45,25 +48,37 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
     @Override
     public int getSpectriteDamage()
     {
-        return SpectriteEntityUtils.getSpectriteDamage((Entity) (Object) this);
+        return SuperchromaticEntityUtils.getSpectriteDamage((Entity) (Object) this);
     }
 
     @Override
     public void setSpectriteDamage(int spectriteDamage)
     {
-        SpectriteEntityUtils.setSpectriteDamage((Entity) (Object) this, spectriteDamage);
+        SuperchromaticEntityUtils.setSpectriteDamage((Entity) (Object) this, spectriteDamage);
     }
 
     @Override
     public boolean isSpectriteCharged()
     {
-        return SpectriteEntityUtils.isSpectriteCharged((Entity) (Object) this);
+        return SuperchromaticEntityUtils.isSpectriteCharged((Entity) (Object) this);
     }
 
     @Override
     public void setSpectriteCharged(boolean spectriteCharged)
     {
-        SpectriteEntityUtils.setSpectriteCharged((Entity) (Object) this, spectriteCharged);
+        SuperchromaticEntityUtils.setSpectriteCharged((Entity) (Object) this, spectriteCharged);
+    }
+
+    @Override
+    public int getBaseChromaBlastLevel()
+    {
+        return SuperchromaticEntityUtils.getBaseChromaBlastLevel((Entity) (Object) this);
+    }
+
+    @Override
+    public void setBaseChromaBlastLevel(int baseChromaBlastLevel)
+    {
+        SuperchromaticEntityUtils.setBaseChromaBlastLevel((Entity) (Object) this, baseChromaBlastLevel);
     }
 
     @Inject(method = "<init>(Lnet/minecraft/entity/EntityType;Lnet/minecraft/entity/LivingEntity;Lnet/minecraft/world/World;)V",
@@ -73,32 +88,54 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
         if (world.isClient)
             return;
         final ItemStack mainHandStack = owner != null ? owner.getMainHandStack() : null;
-        final ItemStack spectriteWeaponStack;
+        final ItemStack superchromaticWeaponStack;
         final PersistentProjectileEntity persistentProjectileEntity = (PersistentProjectileEntity) (Object) this;
-        if (!(persistentProjectileEntity instanceof TridentEntity) && mainHandStack.getItem() instanceof SpectriteBowItem)
-            spectriteWeaponStack = mainHandStack;
+        if (!(persistentProjectileEntity instanceof TridentEntity) && (mainHandStack.getItem() instanceof SpectriteBowItem
+                || SuperchromaticItemUtils.isSuperchromatic(mainHandStack)))
+            superchromaticWeaponStack = mainHandStack;
         else
-            spectriteWeaponStack = null;
+            superchromaticWeaponStack = null;
 
-        if (spectriteWeaponStack != null)
+        if (superchromaticWeaponStack != null)
         {
-            final SpectriteWeaponItem spectriteWeaponItem = (SpectriteWeaponItem) spectriteWeaponStack.getItem();
-            if (!spectriteWeaponItem.isDepleted())
+            final Item superchromaticWeaponItem = superchromaticWeaponStack.getItem();
+            final SpectriteWeaponItem spectriteWeaponItem = superchromaticWeaponItem instanceof SpectriteWeaponItem
+                    ? (SpectriteWeaponItem) superchromaticWeaponItem
+                    : null;
+            if (spectriteWeaponItem == null || !spectriteWeaponItem.isDepleted())
             {
-                final boolean spectriteCharged = spectriteWeaponItem.isCharged(spectriteWeaponStack);
-                final int power = spectriteWeaponItem.getChromaBlastLevel() + (spectriteCharged ? 1 : 0);
+                final boolean superchromaticCharged;
+                final int power;
+                final int passiveChromaBlastLevel;
+                if (spectriteWeaponItem != null)
+                {
+                    superchromaticCharged = spectriteWeaponItem.isCharged(superchromaticWeaponStack);
+                    passiveChromaBlastLevel = spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0;
+                    power = spectriteWeaponItem.getChromaBlastLevel() + passiveChromaBlastLevel + (superchromaticCharged ? 1 : 0);
+                } else
+                {
+                    superchromaticCharged = SuperchromaticItemUtils.isSuperchromaticCharged(superchromaticWeaponStack);
+                    passiveChromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(superchromaticWeaponItem);
+                    power = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(superchromaticWeaponItem)
+                            + passiveChromaBlastLevel + (superchromaticCharged ? 1 : 0);
+                }
                 ((SpectriteCompatibleEntity) persistentProjectileEntity).setSuperchromatic(true);
                 ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
-                        SpectriteUtils.getItemStackStDamage(spectriteWeaponStack));
-                ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(spectriteCharged);
-                if (spectriteCharged)
+                        spectriteWeaponItem != null ? SpectriteUtils.getItemStackStDamage(superchromaticWeaponStack) : 0);
+                ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(superchromaticCharged);
+                if (spectriteWeaponItem == null)
+                    ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setBaseChromaBlastLevel(passiveChromaBlastLevel);
+                if (superchromaticCharged)
                 {
-                    spectriteWeaponStack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), owner,
+                    final float stackDamageMultiplier = spectriteWeaponItem != null
+                            ? spectriteWeaponItem.getStackDamageMultiplier()
+                            : SuperchromaticItemUtils.getSuperchromaticWeaponItemDamageMultiplier(superchromaticWeaponItem);
+                    superchromaticWeaponStack.damage((int) (Math.pow(power, 3f) * stackDamageMultiplier), owner,
                             (e) -> e.sendToolBreakStatus(e.getActiveHand()));
                     if (owner instanceof PlayerEntity playerEntity)
-                        SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, spectriteWeaponStack);
-                } else if (spectriteWeaponStack.getItem() instanceof SpectriteBowItem)
-                    spectriteWeaponStack.damage(3, owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
+                        SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, superchromaticWeaponStack);
+                } else if (superchromaticWeaponStack.getItem() instanceof BowItem)
+                    superchromaticWeaponStack.damage(3, owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
             }
         }
     }

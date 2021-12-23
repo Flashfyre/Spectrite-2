@@ -21,8 +21,11 @@
     "client": [
       "com.flashfyre.spectrite.client.SpectriteClient"
     ],
+    "cardinal-components-item": [
+      "com.flashfyre.spectrite.component.item.ItemComponents"
+    ],
     "cardinal-components-entity": [
-      "com.flashfyre.spectrite.component.Components"
+      "com.flashfyre.spectrite.component.entity.EntityComponents"
     ]
   },
   "mixins": [
@@ -32,6 +35,7 @@
   "accessWidener": "spectrite.accesswidener",
   "custom": {
     "cardinal-components": [
+      "spectrite:superchromatic_item",
       "spectrite:superchromatic_entity",
       "spectrite:spectrite_weapon_entity_attributes"
     ]

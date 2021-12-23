@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.client.util;
 
 import com.flashfyre.spectrite.client.particle.ChromaBlastEmitterParticle;
+import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.etc.ChromaBlast;
 import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.util.SpectriteUtils;
@@ -12,15 +13,16 @@ import net.minecraft.client.network.ClientPlayNetworkHandler;
 import net.minecraft.client.particle.Particle;
 import net.minecraft.client.world.ClientWorld;
 import net.minecraft.network.PacketByteBuf;
+import net.minecraft.network.packet.s2c.play.CooldownUpdateS2CPacket;
 import net.minecraft.network.packet.s2c.play.ExplosionS2CPacket;
 import net.minecraft.world.explosion.Explosion;
 
 @Environment(EnvType.CLIENT)
 public class SpectriteClientUtils
 {
-    public static void explodeOnClient(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender sender)
+    public static void handleClientChromaBlastExplosion(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender sender)
     {
-        ExplosionS2CPacket packet = new ExplosionS2CPacket(buf); // Read from byte buf
+        final ExplosionS2CPacket packet = new ExplosionS2CPacket(buf);
         client.execute(() ->
         {
             final Explosion explosion = new ChromaBlast(client.world, null, null,
@@ -41,5 +43,17 @@ public class SpectriteClientUtils
         final float offsetLevel = 18F * (Double.valueOf(Math.abs(posX + posZ) + posY).floatValue() % 20F);
         final float[] c = SpectriteUtils.getCurrentHueRGBColor(offsetLevel);
         particle.setColor(c[0], c[1], c[2]);
+    }
+
+    public static void handleClientSuperchromaticCooldown(MinecraftClient client, ClientPlayNetworkHandler handler, PacketByteBuf buf, PacketSender sender)
+    {
+        final CooldownUpdateS2CPacket packet = new CooldownUpdateS2CPacket(buf);
+        client.execute(() ->
+        {
+            if (packet.getCooldown() == 0)
+                ((SuperchromaticCooldownPlayerEntity) client.player).getSuperchromaticItemCooldownManager().remove();
+            else
+                ((SuperchromaticCooldownPlayerEntity) client.player).getSuperchromaticItemCooldownManager().set(packet.getCooldown());
+        });
     }
 }

@@ -22,7 +22,7 @@ public class SpectriteEntityRenderUtils
 {
     public static Identifier CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
     public static String CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME;
-    public static Map<Identifier, Map<String, Map<Identifier, Identifier>>> ENTITY_SPECTRITE_TEXTURE_CACHE = new HashMap<>();
+    public static Map<Identifier, Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>>> ENTITY_SUPERCHROMATIC_TEXTURE_CACHE = new HashMap<>();
     public static Map<Identifier, Map<String, List<ModelPart>>> ENTITY_MODEL_PART_CACHE = new HashMap<>();
     public static Map<Identifier, Map.Entry<Integer, Integer>> ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE = new HashMap<>();
     public static Map<Identifier, SpectriteTextureOverlayData> SPECTRITE_TEXTURE_OVERLAY_CACHE = new HashMap<>();
@@ -46,10 +46,9 @@ public class SpectriteEntityRenderUtils
         return getOrGenerateSpectriteEntityTexture(model, null, texture, entityType, null, false, true);
     }
 
-    public static Identifier getOrGenerateSpectriteEntityArmorTexture(Model model, Identifier texture)
+    public static Identifier getOrGenerateSpectriteEntityArmorTexture(Model model, Identifier texture, String spectriteTexturePath)
     {
-        return getOrGenerateSpectriteEntityTexture(model, null, new Identifier(texture.getNamespace(),
-                texture.getPath().replace("spectrite", "diamond")), null, null, true, false);
+        return getOrGenerateSpectriteEntityTexture(model, null, texture, null, spectriteTexturePath, spectriteTexturePath == null, false);
     }
 
     public static Identifier getOrGenerateSpectriteEntityTexture(SpectriteTextureOverlayData overlayData,
@@ -61,18 +60,19 @@ public class SpectriteEntityRenderUtils
     private static Identifier getOrGenerateSpectriteEntityTexture(Model model, SpectriteTextureOverlayData overlayData,
                                                                   Identifier texture, EntityType entityType,
                                                                   String spectriteTexturePath,
-                                                                  boolean isArmor, boolean cacheSize)
+                                                                  boolean isPartial, boolean cacheSize)
     {
         final Identifier entityId = entityType != null ? EntityType.getId(entityType) : CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
         final String modelClassName = model != null ? model.getClass().getName() : entityId.getPath();
         CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = modelClassName;
-        if (!ENTITY_SPECTRITE_TEXTURE_CACHE.containsKey(entityId))
-            ENTITY_SPECTRITE_TEXTURE_CACHE.put(entityId, new HashMap<>());
-        final Map<String, Map<Identifier, Identifier>> entityTextureCache = ENTITY_SPECTRITE_TEXTURE_CACHE.get(entityId);
+        if (!ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId))
+            ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.put(entityId, new HashMap<>());
+        final Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityTextureCache = ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId);
         if (!entityTextureCache.containsKey(modelClassName))
             entityTextureCache.put(modelClassName, new HashMap<>());
-        final Map<Identifier, Identifier> entityModelTextureCache = entityTextureCache.get(modelClassName);
-        if (!entityModelTextureCache.containsKey(texture))
+        final Map<Map.Entry<Identifier, Boolean>, Identifier> entityModelTextureCache = entityTextureCache.get(modelClassName);
+        final Map.Entry<Identifier, Boolean> textureEntry = new AbstractMap.SimpleEntry<>(texture, isPartial);
+        if (!entityModelTextureCache.containsKey(textureEntry))
         {
             final SpectriteResourcePack resourcePack = SpectriteClient.CLIENT_INSTANCE.resourcePack;
             final NativeImage spectriteEntityTexture;
@@ -91,21 +91,20 @@ public class SpectriteEntityRenderUtils
                         entityId.toString(),
                         modelClassName,
                         texture,
-                        entityModelPartCache.get(modelClassName))
+                        entityModelPartCache.get(modelClassName),
+                        isPartial)
                         : null;
             } else
                 spectriteEntityTexture = null;
             if (spectriteEntityTexture != null)
             {
                 final Identifier spectriteTextureLocation = spectriteTexturePath == null
-                        ? isArmor
-                        ? new Identifier(Spectrite.MODID, texture.getPath())
-                        : SpectriteTextureUtils.getSpectriteEntityTextureLocation(texture, entityId.getPath())
+                        ? SpectriteTextureUtils.getSpectriteEntityTextureLocation(texture, entityId.getPath())
                         : new Identifier(Spectrite.MODID, spectriteTexturePath);
                 resourcePack.putImage(
                         "assets/" + Spectrite.MODID + "/" + spectriteTextureLocation.getPath(),
                         spectriteEntityTexture);
-                entityModelTextureCache.put(texture, spectriteTextureLocation);
+                entityModelTextureCache.put(textureEntry, spectriteTextureLocation);
                 if (cacheSize)
                     ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE.put(spectriteTextureLocation,
                             new AbstractMap.SimpleEntry<>(spectriteEntityTexture.getWidth(), spectriteEntityTexture.getHeight()));
@@ -114,7 +113,7 @@ public class SpectriteEntityRenderUtils
             return texture;
         }
 
-        return entityModelTextureCache.get(texture);
+        return entityModelTextureCache.get(textureEntry);
     }
 
     public static boolean containsModelPart(List<ModelPart> modelPartsList, ModelPart modelPart)

@@ -4,7 +4,7 @@ import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SimpleSpectriteItem;
 import com.flashfyre.spectrite.particle.Particles;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
@@ -49,7 +49,7 @@ public class LivingEntityMixin
     {
         final LivingEntity livingEntity = (LivingEntity) (Object) this;
         if (!livingEntity.world.isClient && source.getAttacker() instanceof LivingEntity attacker && !source.isProjectile())
-            SpectriteEntityUtils.tryAddChromaBlast(attacker, livingEntity);
+            SuperchromaticEntityUtils.tryAddChromaBlast(attacker, livingEntity);
     }
 
     @Inject(method = "eatFood", at = @At(value = "INVOKE", target = "Lnet/minecraft/item/ItemStack;decrement(I)V"), cancellable = true)

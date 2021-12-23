@@ -3,7 +3,7 @@ package com.flashfyre.spectrite.mixin;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SuperchromaticEntity;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
@@ -46,7 +46,7 @@ public abstract class EntityMixin
         {
             if (entity instanceof EnderDragonEntity)
                 return;
-            if (SpectriteEntityUtils.trySetMobSuperchromatic((MobEntity) entity) && entity instanceof Monster)
+            if (SuperchromaticEntityUtils.trySetMobSuperchromatic((MobEntity) entity) && entity instanceof Monster)
                 spectriteCompatibleMobEntity.setSuperchromaticBossBar(new ServerBossBar(entity.getDisplayName(),
                         BossBar.Color.PURPLE, BossBar.Style.PROGRESS));
         }

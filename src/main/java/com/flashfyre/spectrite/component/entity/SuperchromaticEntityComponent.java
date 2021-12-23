@@ -1,5 +1,6 @@
-package com.flashfyre.spectrite.component;
+package com.flashfyre.spectrite.component.entity;
 
+import com.flashfyre.spectrite.component.SuperchromaticComponent;
 import net.minecraft.nbt.NbtCompound;
 
 public class SuperchromaticEntityComponent implements SuperchromaticComponent

@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.passive.AnimalEntity;
 import net.minecraft.entity.passive.PassiveEntity;
 import net.minecraft.server.world.ServerWorld;
@@ -27,7 +27,7 @@ public class AnimalEntityMixin
             superchromatic = world.random.nextFloat() < (1f / 49f);
         else
             superchromatic = isParentSuperchromatic && world.random.nextFloat() < (1f / 7f);
-        if (superchromatic || SpectriteEntityUtils.trySetMobSuperchromatic(passiveEntity))
-            SpectriteEntityUtils.initSuperchromaticMobAttributes(passiveEntity);
+        if (superchromatic || SuperchromaticEntityUtils.trySetMobSuperchromatic(passiveEntity))
+            SuperchromaticEntityUtils.initSuperchromaticMobAttributes(passiveEntity);
     }
 }

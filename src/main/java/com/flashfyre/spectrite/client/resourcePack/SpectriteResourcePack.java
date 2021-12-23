@@ -149,7 +149,7 @@ public class SpectriteResourcePack implements ResourcePack
 
         final ResourceManager resourceManager = MinecraftClient.getInstance().getResourceManager();
 
-        for (Map.Entry<Identifier, Map<String, Map<Identifier, Identifier>>> entry : SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_CACHE.entrySet())
+        for (Map.Entry<Identifier, Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>>> entry : SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.entrySet())
         {
             final Identifier entityId = entry.getKey();
             final Map<String, List<ModelPart>> entityModelPartCache = SpectriteEntityRenderUtils.ENTITY_MODEL_PART_CACHE.getOrDefault(entityId, null);
@@ -158,20 +158,21 @@ public class SpectriteResourcePack implements ResourcePack
                     : null;
             if (entityModelPartCache != null || overlayData != null)
             {
-                for (Map.Entry<String, Map<Identifier, Identifier>> entityEntry : entry.getValue().entrySet())
+                for (Map.Entry<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityEntry : entry.getValue().entrySet())
                 {
                     final String modelClassName = entityEntry.getKey();
                     if (overlayData != null || entityModelPartCache.containsKey(modelClassName))
                     {
-                        for (Map.Entry<Identifier, Identifier> entityModelEntry : entityEntry.getValue().entrySet())
+                        for (Map.Entry<Map.Entry<Identifier, Boolean>, Identifier> entityModelEntry : entityEntry.getValue().entrySet())
                         {
                             final NativeImage spectriteEntityTexture =
                                     overlayData == null
                                             ? SpectriteTextureUtils.getEntityTexture(
                                             resourceManager, entityId.toString(), modelClassName,
-                                            entityModelEntry.getKey(), entityModelPartCache.get(modelClassName))
+                                            entityModelEntry.getKey().getKey(), entityModelPartCache.get(modelClassName),
+                                            entityModelEntry.getKey().getValue())
                                             : SpectriteTextureUtils.getEntityTexture(resourceManager,
-                                            entityModelEntry.getKey(), overlayData);
+                                            entityModelEntry.getKey().getKey(), overlayData);
                             putImage(
                                     "assets/" + Spectrite.MODID + "/" + entityModelEntry.getValue().getPath(),
                                     spectriteEntityTexture);

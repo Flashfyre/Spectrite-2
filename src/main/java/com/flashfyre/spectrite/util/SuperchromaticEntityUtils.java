@@ -1,13 +1,14 @@
 package com.flashfyre.spectrite.util;
 
 import com.flashfyre.spectrite.SpectriteConfig;
-import com.flashfyre.spectrite.component.Components;
-import com.flashfyre.spectrite.component.SpectriteWeaponEntityAttributesComponent;
-import com.flashfyre.spectrite.component.SuperchromaticEntityComponent;
+import com.flashfyre.spectrite.component.entity.EntityComponents;
+import com.flashfyre.spectrite.component.entity.SpectriteWeaponEntityAttributesComponent;
+import com.flashfyre.spectrite.component.entity.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SpectriteGolemEntity;
 import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
+import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
@@ -15,6 +16,7 @@ import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
@@ -26,7 +28,7 @@ import java.util.*;
 import java.util.function.Supplier;
 import java.util.stream.Collectors;
 
-public class SpectriteEntityUtils
+public class SuperchromaticEntityUtils
 {
     public static final Map<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> ENTITY_ATTRIBUTE_MODIFIERS = new HashMap<>();
     public static final Map<BlockPos, Map.Entry<Integer, Integer>> BEACON_LOCATIONS = new HashMap<>();
@@ -118,13 +120,13 @@ public class SpectriteEntityUtils
     public static boolean isSuperchromatic(Entity entity)
     {
         final SuperchromaticEntityComponent superchromaticEntityComponent;
-        superchromaticEntityComponent = Components.SUPERCHROMATIC_ENTITY.maybeGet(entity).orElse(null);
+        superchromaticEntityComponent = EntityComponents.SUPERCHROMATIC_ENTITY.maybeGet(entity).orElse(null);
         return superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic();
     }
 
     public static void setSuperchromatic(Entity entity, boolean superchromatic)
     {
-        Components.SUPERCHROMATIC_ENTITY.maybeGet(entity).ifPresent(
+        EntityComponents.SUPERCHROMATIC_ENTITY.maybeGet(entity).ifPresent(
                 superchromaticEntityComponent -> superchromaticEntityComponent.setSuperchromatic(superchromatic));
         if (superchromatic && entity instanceof LivingEntity livingEntity)
             addPassiveSuperchromaticEffectIfNotPresent(livingEntity);
@@ -133,27 +135,40 @@ public class SpectriteEntityUtils
     public static int getSpectriteDamage(Entity entity)
     {
         final SpectriteWeaponEntityAttributesComponent spectriteWeaponEntityAttributesComponent =
-                Components.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).orElse(null);
+                EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).orElse(null);
         return spectriteWeaponEntityAttributesComponent != null ? spectriteWeaponEntityAttributesComponent.getSpectriteDamage() : 0;
     }
 
     public static void setSpectriteDamage(Entity entity, int spectriteDamage)
     {
-        Components.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).ifPresent(
+        EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).ifPresent(
                 spectriteWeaponEntityAttributesComponent -> spectriteWeaponEntityAttributesComponent.setSpectriteDamage(spectriteDamage));
     }
 
     public static boolean isSpectriteCharged(Entity entity)
     {
         final SpectriteWeaponEntityAttributesComponent spectriteWeaponEntityAttributesComponent =
-                Components.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).orElse(null);
+                EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).orElse(null);
         return spectriteWeaponEntityAttributesComponent != null && spectriteWeaponEntityAttributesComponent.isSpectriteCharged();
     }
 
     public static void setSpectriteCharged(Entity entity, boolean spectriteCharged)
     {
-        Components.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).ifPresent(
+        EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).ifPresent(
                 spectriteWeaponEntityAttributesComponent -> spectriteWeaponEntityAttributesComponent.setSpectriteCharged(spectriteCharged));
+    }
+
+    public static int getBaseChromaBlastLevel(Entity entity)
+    {
+        final SpectriteWeaponEntityAttributesComponent spectriteWeaponEntityAttributesComponent =
+                EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).orElse(null);
+        return spectriteWeaponEntityAttributesComponent != null ? spectriteWeaponEntityAttributesComponent.getBaseChromaBlastLevel() : 0;
+    }
+
+    public static void setBaseChromaBlastLevel(Entity entity, int baseChromaBlastLevel)
+    {
+        EntityComponents.SPECTRITE_WEAPON_ENTITY_ATTRIBUTES.maybeGet(entity).ifPresent(
+                spectriteWeaponEntityAttributesComponent -> spectriteWeaponEntityAttributesComponent.setBaseChromaBlastLevel(baseChromaBlastLevel));
     }
 
     public static void addPassiveSuperchromaticEffectIfNotPresent(LivingEntity livingEntity)
@@ -175,34 +190,44 @@ public class SpectriteEntityUtils
             final int superchromaticMobPowerBonus = livingEntity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                     && spectriteCompatibleMobEntity.isSuperchromatic() ? getSuperchromaticMobPowerBonus(((MobEntity) livingEntity)) : 0;
             final ItemStack stack = livingEntity.getMainHandStack();
+            final Item item = stack.getItem();
             final SpectriteMeleeWeaponItem spectriteWeaponItem = !stack.isEmpty()
-                    && stack.getItem() instanceof SpectriteMeleeWeaponItem
+                    && item instanceof SpectriteMeleeWeaponItem
                     ? (SpectriteMeleeWeaponItem) stack.getItem()
                     : null;
             final PlayerEntity playerEntity = livingEntity instanceof PlayerEntity ? (PlayerEntity) livingEntity : null;
 
-            if (spectriteWeaponItem != null && spectriteWeaponItem.isCharged(stack) && !spectriteWeaponItem.isDepleted())
+            if ((spectriteWeaponItem != null && spectriteWeaponItem.isCharged(stack))
+                    || (SuperchromaticItemUtils.isSuperchromaticMeleeWeaponItem(stack) && SuperchromaticItemUtils.isSuperchromaticCharged(stack)))
             {
-                final int power = spectriteWeaponItem.getChromaBlastLevel();
+                final int power = spectriteWeaponItem != null ? spectriteWeaponItem.getChromaBlastLevel() : SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item);
                 if ((playerEntity == null
-                        || playerEntity.getItemCooldownManager().getCooldownProgress(stack.getItem(), 0f) == 0f))
+                        || ((SuperchromaticCooldownPlayerEntity) playerEntity).getSuperchromaticItemCooldownManager().getCooldownProgress(0f) == 0f))
                 {
                     if (playerEntity == null || !(target instanceof PlayerEntity targetPlayer)
                             || playerEntity.shouldDamagePlayer(targetPlayer))
                     {
                         if (playerEntity != null)
-                            stack.damage((int) (Math.pow(power, 3f) * spectriteWeaponItem.getStackDamageMultiplier()), playerEntity,
+                        {
+                            final float stackDamageMultiplier = spectriteWeaponItem != null
+                                    ? spectriteWeaponItem.getStackDamageMultiplier()
+                                    : SuperchromaticItemUtils.getSuperchromaticWeaponItemDamageMultiplier(item);
+                            stack.damage((int) (Math.pow(power, 3f) * stackDamageMultiplier), playerEntity,
                                     (e) -> e.sendToolBreakStatus(playerEntity.getActiveHand()));
+                        }
 
                         if (!livingEntity.world.isClient)
                         {
                             newChromaBlast(livingEntity, livingTarget, power + superchromaticLevel + superchromaticMobPowerBonus);
 
                             if (playerEntity != null)
-                                SpectriteUtils.tryActivateSpectriteChargeableItemCooldown(playerEntity, power, stack);
+                                SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, stack);
                         }
 
-                        spectriteWeaponItem.setCharged(stack, false);
+                        if (spectriteWeaponItem != null)
+                            spectriteWeaponItem.setCharged(stack, false);
+                        else
+                            SuperchromaticItemUtils.setSuperchromaticCharged(stack, false);
                         return;
                     }
                 }
@@ -231,7 +256,7 @@ public class SpectriteEntityUtils
         final float initialMaxHealth = mobEntity.getMaxHealth();
         final float healthRatio = mobEntity.getHealth() / initialMaxHealth;
         final AttributeContainer attributes = mobEntity.getAttributes();
-        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
+        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SuperchromaticEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
         {
             final EntityAttribute attribute = e.getKey();
             if (attributes.hasAttribute(attribute) && (!ignoreHealth || attribute != EntityAttributes.GENERIC_MAX_HEALTH))
@@ -274,7 +299,7 @@ public class SpectriteEntityUtils
     public static void disableSuperchromaticMobAttributes(MobEntity mobEntity)
     {
         final AttributeContainer attributes = mobEntity.getAttributes();
-        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SpectriteEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
+        for (Map.Entry<EntityAttribute, Map.Entry<Supplier<Double>, Supplier<Double>>> e : SuperchromaticEntityUtils.ENTITY_ATTRIBUTE_MODIFIERS.entrySet())
         {
             final EntityAttribute attribute = e.getKey();
             if (attributes.hasAttribute(attribute) && attribute != EntityAttributes.GENERIC_MAX_HEALTH)

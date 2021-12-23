@@ -47,6 +47,16 @@ public class WitherSkullEntityMixin implements SpectriteCompatibleWeaponEntity
     {
     }
 
+    @Override
+    public int getBaseChromaBlastLevel()
+    {
+        return 0;
+    }
+
+    @Override
+    public void setBaseChromaBlastLevel(int baseChromaBlastLevel)
+    {
+    }
 
     @Inject(method = "onCollision", at = @At(value = "FIELD",
             target = "Lnet/minecraft/entity/projectile/WitherSkullEntity;world:Lnet/minecraft/world/World;"),

@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.Bucketable;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.item.ItemStack;
@@ -27,9 +27,9 @@ public interface BucketableMixin
         if (nbt.contains("Superchromatic") && entity instanceof SpectriteCompatibleMobEntity)
         {
             final boolean superchromatic = nbt.getBoolean("Superchromatic");
-            SpectriteEntityUtils.setSuperchromatic(entity, superchromatic);
+            SuperchromaticEntityUtils.setSuperchromatic(entity, superchromatic);
             if (superchromatic)
-                SpectriteEntityUtils.initSuperchromaticMobAttributes(entity);
+                SuperchromaticEntityUtils.initSuperchromaticMobAttributes(entity);
         }
     }
 }

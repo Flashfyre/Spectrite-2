@@ -68,6 +68,13 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     private static final Uniform1f[] spectriteItemChargedSaturation = new Uniform1f[4];
     private static final Uniform2f[] spectriteItemChargedTexSize = new Uniform2f[4];
 
+    private static ManagedCoreShader superchromizedItem;
+    private static Uniform1f superchromizedItemSTime;
+
+    private static ManagedCoreShader superchromizedItemCharged;
+    private static Uniform1f superchromizedItemChargedSTime;
+    private static Uniform2f superchromizedItemChargedTexSize;
+
     public static Map.Entry<Integer, Integer> BLOCKS_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
     public static Map.Entry<Integer, Integer> CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
     public static ParticleTextureSheet PARTICLE_SHEET_SPECTRITE = new ParticleTextureSheet()
@@ -96,9 +103,9 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
     static
     {
-        final Identifier hueShaderId = new Identifier(MODID, "hue");
-        final Identifier spectriteItemShaderId = new Identifier(MODID, "spectrite_item");
-        final Identifier spectriteItemChargedShaderId = new Identifier(MODID, "spectrite_item_charged");
+        final Identifier hueShaderId = getId("hue");
+        final Identifier spectriteItemShaderId = getId("spectrite_item");
+        final Identifier spectriteItemChargedShaderId = getId("spectrite_item_charged");
 
         for (int h = 0; h < spectriteItem.length; h++)
         {
@@ -121,6 +128,16 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
                 spectriteItemChargedTexSize[h] = spectriteItemChargedShader.findUniform2f("TexSize");
             }
         }
+
+        final Identifier superchromizedItemShaderId = getId("superchromized_item");
+        final Identifier superchromizedItemChargedShaderId = getId("superchromized_item_charged");
+
+        superchromizedItem = ShaderEffectManager.getInstance().manageCoreShader(superchromizedItemShaderId);
+        superchromizedItemSTime = superchromizedItem.findUniform1f("STime");
+
+        superchromizedItemCharged = ShaderEffectManager.getInstance().manageCoreShader(superchromizedItemChargedShaderId);
+        superchromizedItemChargedSTime = superchromizedItemCharged.findUniform1f("STime");
+        superchromizedItemChargedTexSize = superchromizedItemCharged.findUniform2f("TexSize");
     }
 
     @Override
@@ -164,6 +181,11 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
                     spectriteItemChargedTexSize[h].set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
                 }
             }
+
+            superchromizedItemSTime.set(sTimeValue);
+
+            superchromizedItemChargedSTime.set(sTimeValue);
+            superchromizedItemChargedTexSize.set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
 
             MinecraftClient client = MinecraftClient.getInstance();
             ((ClearCancelFramebuffer) client.getFramebuffer()).spectrite$cancelNextClear();
@@ -242,7 +264,8 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
         EntityRenderers.initEntityRenderers();
         ParticleFactories.initParticleFactories();
 
-        ClientPlayNetworking.registerGlobalReceiver(getId("explosion"), SpectriteClientUtils::explodeOnClient);
+        ClientPlayNetworking.registerGlobalReceiver(getId("explosion"), SpectriteClientUtils::handleClientChromaBlastExplosion);
+        ClientPlayNetworking.registerGlobalReceiver(getId("superchromatic_cooldown_update"), SpectriteClientUtils::handleClientSuperchromaticCooldown);
     }
 
     @Override
@@ -284,6 +307,13 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             return null;
         assert (!charged || damage < 4);
         return (!charged ? spectriteItem[damage] : spectriteItemCharged[damage]).getRenderLayer(layer);
+    }
+
+    public RenderLayer getSuperchromizedItemLayer(RenderLayer layer, boolean charged)
+    {
+        if (layer == null)
+            return null;
+        return (!charged ? superchromizedItem : superchromizedItemCharged).getRenderLayer(layer);
     }
 
     @Override

@@ -1,4 +1,4 @@
-package com.flashfyre.spectrite.component;
+package com.flashfyre.spectrite.component.entity;
 
 import com.flashfyre.spectrite.Spectrite;
 import dev.onyxstudios.cca.api.v3.component.ComponentKey;
@@ -9,7 +9,7 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.projectile.PersistentProjectileEntity;
 import net.minecraft.entity.projectile.WitherSkullEntity;
 
-public final class Components implements EntityComponentInitializer
+public final class EntityComponents implements EntityComponentInitializer
 {
     public static final ComponentKey<SuperchromaticEntityComponent> SUPERCHROMATIC_ENTITY =
             ComponentRegistryV3.INSTANCE.getOrCreate(Spectrite.getId("superchromatic_entity"), SuperchromaticEntityComponent.class);

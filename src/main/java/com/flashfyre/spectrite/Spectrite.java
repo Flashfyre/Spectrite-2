@@ -9,6 +9,7 @@ import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.loot.LootTables;
 import com.flashfyre.spectrite.loot.condition.LootConditionTypes;
 import com.flashfyre.spectrite.particle.Particles;
+import com.flashfyre.spectrite.recipe.RecipeSerializers;
 import com.flashfyre.spectrite.soundEvent.SoundEvents;
 import com.flashfyre.spectrite.world.gen.ConfiguredFeatures;
 import com.flashfyre.spectrite.world.gen.Features;
@@ -44,6 +45,7 @@ public class Spectrite implements ModInitializer
         StatusEffects.initStatusEffects();
         Blocks.initBlocks();
         Items.initItems();
+        RecipeSerializers.initRecipeSerializers();
         EntityTypes.initEntityTypes();
         DispensorBehaviors.initDispenserBehaviors();
         Features.initFeatures();

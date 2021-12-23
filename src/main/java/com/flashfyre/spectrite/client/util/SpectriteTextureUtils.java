@@ -1833,7 +1833,8 @@ public final class SpectriteTextureUtils
             String entityId,
             String modelClassName,
             Identifier baseTextureLocation,
-            List<ModelPart> rootModelPartList)
+            List<ModelPart> rootModelPartList,
+            boolean isPartial)
     {
         if (Spectrite.DEBUG)
             Spectrite.INSTANCE.log("Generating Superchromatic texture for " + entityId + " (" + modelClassName + ")");
@@ -1993,6 +1994,7 @@ public final class SpectriteTextureUtils
                                 int[] rgb = new int[3];
 
                                 float[] rgbf = new float[]{rgbs[0] / 255f, rgbs[1] / 255f, rgbs[2] / 255f};
+                                final float[] orgbf = new float[]{rgbf[0], rgbf[1], rgbf[2]};
 
                                 final float gsf = (rgbf[0] + rgbf[1] + rgbf[2]) / 3f;
 
@@ -2002,6 +2004,12 @@ public final class SpectriteTextureUtils
                                 float[] frgbf = new float[]{rgbf[0], rgbf[1], rgbf[2]};
 
                                 frgbf = spectriteBlend(frgbf, overlayRgbf);
+
+                                if (isPartial)
+                                {
+                                    for (int cl = 0; cl < 3; cl++)
+                                        frgbf[cl] = (orgbf[cl] * 0.375f) + (frgbf[cl] * 0.625f);
+                                }
 
                                 for (int cl = 0; cl < 3; cl++)
                                     rgb[cl] = Math.round(frgbf[cl] * 255f);

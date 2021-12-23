@@ -1,7 +1,7 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityData;
 import net.minecraft.entity.EntityType;
@@ -36,13 +36,13 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
     @Override
     public boolean isSuperchromatic()
     {
-        return SpectriteEntityUtils.isSuperchromatic((Entity) (Object) this);
+        return SuperchromaticEntityUtils.isSuperchromatic((Entity) (Object) this);
     }
 
     @Override
     public void setSuperchromatic(boolean superchromatic)
     {
-        SpectriteEntityUtils.setSuperchromatic((Entity) (Object) this, superchromatic);
+        SuperchromaticEntityUtils.setSuperchromatic((Entity) (Object) this, superchromatic);
     }
 
     @Override
@@ -104,7 +104,7 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
     {
         final MobEntity entity = (MobEntity) (Object) this;
         if (((SpectriteCompatibleMobEntity) entity).isSuperchromatic())
-            SpectriteEntityUtils.initSuperchromaticMobAttributes(entity);
+            SuperchromaticEntityUtils.initSuperchromaticMobAttributes(entity);
     }
 
     @Inject(method = "tickMovement", at = @At("TAIL"))
@@ -113,6 +113,6 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
         final MobEntity mobEntity = (MobEntity) (Object) this;
 
         if (((SpectriteCompatibleMobEntity) mobEntity).isSuperchromatic())
-            SpectriteEntityUtils.addPassiveSuperchromaticEffectIfNotPresent(mobEntity);
+            SuperchromaticEntityUtils.addPassiveSuperchromaticEffectIfNotPresent(mobEntity);
     }
 }

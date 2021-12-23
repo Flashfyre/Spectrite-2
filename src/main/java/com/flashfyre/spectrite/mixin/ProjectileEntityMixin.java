@@ -4,8 +4,8 @@ import com.flashfyre.spectrite.entity.SpectriteBombEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
-import com.flashfyre.spectrite.util.SpectriteEntityUtils;
 import com.flashfyre.spectrite.util.SpectriteUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -44,7 +44,7 @@ public class ProjectileEntityMixin
                         : null;
                 final boolean isTrident = spectriteCompatibleWeaponEntity != null && spectriteCompatibleWeaponEntity instanceof TridentEntity;
                 final boolean isSuperchromatic = spectriteCompatibleWeaponEntity != null && spectriteCompatibleWeaponEntity.isSuperchromatic();
-                // Charged Spectite Trident logic is handled in TridentEntityMixin
+                // Charged Spectrite Trident logic is handled in TridentEntityMixin
                 if (hitResult.getType() == HitResult.Type.ENTITY && (isTrident && isSuperchromatic && spectriteCompatibleWeaponEntity.isSpectriteCharged()))
                     return;
                 final LivingEntity ownerEntity = projectileEntity.getOwner() instanceof LivingEntity
@@ -56,9 +56,10 @@ public class ProjectileEntityMixin
                         : 0;
                 final int superchromaticMobPowerBonus = ownerEntity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                         && spectriteCompatibleMobEntity.isSuperchromatic()
-                        ? SpectriteEntityUtils.getSuperchromaticMobPowerBonus(((MobEntity) ownerEntity))
+                        ? SuperchromaticEntityUtils.getSuperchromaticMobPowerBonus(((MobEntity) ownerEntity))
                         : 0;
-                int power = isSuperchromatic ? 1 + (spectriteCompatibleWeaponEntity.isSpectriteCharged() ? 1 : 0) : 0;
+                int power = isSuperchromatic ? spectriteCompatibleWeaponEntity.getBaseChromaBlastLevel()
+                        + (spectriteCompatibleWeaponEntity.isSpectriteCharged() ? 1 : 0) : 0;
 
                 final boolean isWitherSkull = projectileEntity instanceof WitherSkullEntity;
                 final Explosion.DestructionType destructionType;
