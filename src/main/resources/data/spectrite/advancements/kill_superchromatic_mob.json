@@ -2,7 +2,7 @@
   "parent": "spectrite:root",
   "display": {
     "icon": {
-      "item": "spectrite:spectrite_sword",
+      "item": "spectrite:superchromatic_essence",
       "nbt": "{Damage:0}"
     },
     "title": {

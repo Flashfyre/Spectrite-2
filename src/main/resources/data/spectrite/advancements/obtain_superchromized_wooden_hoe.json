@@ -1,0 +1,42 @@
+{
+  "parent": "spectrite:obtain_superchromized_item",
+  "display": {
+    "icon": {
+      "item": "minecraft:wooden_hoe",
+      "nbt": "{\"spectrite:superchromatic_item\":{superchromatic_points:1}}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromized_wooden_hoe.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromized_wooden_hoe.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "wooden_hoe": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:wooden_hoe"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "wooden_hoe"
+    ]
+  ]
+}

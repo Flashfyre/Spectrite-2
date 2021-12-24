@@ -61,7 +61,7 @@ public class SpectriteItemStackMixin
     {
         final ItemStack stack = (ItemStack) (Object) this;
         final Item item = stack.getItem();
-        if (item instanceof ToolItem && ((item instanceof SpectriteChargeableItem)
+        if (item instanceof ToolItem && ((item instanceof SpectriteChargeableItem && !((SpectriteChargeableItem) item).isDepleted())
                 || (SuperchromaticItemUtils.isSuperchromatic(stack) && SuperchromaticItemUtils.isSuperchromaticChargeable(stack))))
         {
             final TypedActionResult<ItemStack> ret = SuperchromaticItemUtils.useSuperchromaticOrSpectriteChargeableItem(user, hand, false);

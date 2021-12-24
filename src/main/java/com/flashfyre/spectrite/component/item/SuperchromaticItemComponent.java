@@ -25,9 +25,11 @@ public class SuperchromaticItemComponent extends ItemComponent implements Superc
         return false;
     }
 
+    // This tag serves no function purpose except the for superchromized item advancement
     @Override
     public void setSuperchromatic(boolean superchromatic)
     {
+        putBoolean("superchromatic", superchromatic);
     }
 
     public boolean isChargeable()

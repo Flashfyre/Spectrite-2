@@ -1,32 +1,31 @@
 {
-  "parent": "spectrite:obtain_spectrite_sword",
+  "parent": "spectrite:obtain_superchromatic_chorus_fruit",
   "display": {
     "icon": {
-      "item": "spectrite:spectrite_trident",
-      "nbt": "{Damage:0}"
+      "item": "spectrite:superchromatic_elixir"
     },
     "title": {
-      "translate": "advancements.spectrite.obtain_spectrite_trident.title"
+      "translate": "advancements.spectrite.obtain_superchromatic_elixir.title"
     },
     "description": {
-      "translate": "advancements.spectrite.obtain_spectrite_trident.description"
+      "translate": "advancements.spectrite.obtain_superchromatic_elixir.description"
     },
     "frame": "challenge",
     "show_toast": true,
     "announce_to_chat": true,
-    "hidden": true
+    "hidden": false
   },
   "rewards": {
     "experience": 100
   },
   "criteria": {
-    "spectrite_trident": {
+    "superchromatic_elixir": {
       "trigger": "minecraft:inventory_changed",
       "conditions": {
         "items": [
           {
             "items": [
-              "spectrite:spectrite_trident"
+              "spectrite:superchromatic_elixir"
             ]
           }
         ]
@@ -35,7 +34,7 @@
   },
   "requirements": [
     [
-      "spectrite_trident"
+      "superchromatic_elixir"
     ]
   ]
 }

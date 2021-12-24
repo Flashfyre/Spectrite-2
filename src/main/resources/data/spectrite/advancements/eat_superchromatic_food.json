@@ -38,23 +38,12 @@
           ]
         }
       }
-    },
-    "superchromatic_chorus_fruit": {
-      "trigger": "minecraft:consume_item",
-      "conditions": {
-        "item": {
-          "items": [
-            "spectrite:superchromatic_chorus_fruit"
-          ]
-        }
-      }
     }
   },
   "requirements": [
     [
       "superchromatic_apple",
-      "superchromatic_carrot",
-      "superchromatic_chorus_fruit"
+      "superchromatic_carrot"
     ]
   ]
 }

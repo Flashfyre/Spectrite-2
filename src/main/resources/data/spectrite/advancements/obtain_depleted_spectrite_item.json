@@ -1,5 +1,5 @@
 {
-  "parent": "spectrite:upgrade_spectrite_tools",
+  "parent": "spectrite:obtain_spectrite_pickaxe",
   "display": {
     "icon": {
       "item": "spectrite:depleted_spectrite_pickaxe",

@@ -1,0 +1,84 @@
+{
+  "parent": "spectrite:obtain_superchromized_diamond_armor",
+  "display": {
+    "icon": {
+      "item": "minecraft:netherite_helmet",
+      "nbt": "{\"spectrite:superchromatic_item\":{superchromatic_points:4}}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromized_netherite_armor.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromized_netherite_armor.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 100
+  },
+  "criteria": {
+    "netherite_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_helmet"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "netherite_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_chestplate"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "netherite_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_leggings"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "netherite_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:netherite_boots"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "netherite_helmet",
+      "netherite_chestplate",
+      "netherite_leggings",
+      "netherite_boots"
+    ]
+  ]
+}

@@ -1,0 +1,84 @@
+{
+  "parent": "spectrite:shinier_gear",
+  "display": {
+    "icon": {
+      "item": "minecraft:diamond_helmet",
+      "nbt": "{\"spectrite:superchromatic_item\":{superchromatic_points:4}}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromized_diamond_armor.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromized_diamond_armor.description"
+    },
+    "frame": "challenge",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "rewards": {
+    "experience": 50
+  },
+  "criteria": {
+    "diamond_helmet": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_helmet"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "diamond_chestplate": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_chestplate"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "diamond_leggings": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_leggings"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    },
+    "diamond_boots": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "minecraft:diamond_boots"
+            ],
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "diamond_helmet",
+      "diamond_chestplate",
+      "diamond_leggings",
+      "diamond_boots"
+    ]
+  ]
+}

@@ -32,7 +32,10 @@ public class SuperchromizedItemRecipe extends SmithingRecipe
     public ItemStack craft(Inventory inventory)
     {
         final ItemStack itemStack = inventory.getStack(0).copy();
-        SuperchromaticItemUtils.setSuperchromaticPoints(itemStack, SuperchromaticItemUtils.getSuperchromaticPoints(itemStack) + 1);
+        final int superchromaticPoints = SuperchromaticItemUtils.getSuperchromaticPoints(itemStack) + 1;
+        SuperchromaticItemUtils.setSuperchromaticPoints(itemStack, superchromaticPoints);
+        if (superchromaticPoints >= SuperchromaticItemUtils.getRequiredSuperchromaticPoints(itemStack))
+            SuperchromaticItemUtils.setSuperchromatic(itemStack, true);
         return itemStack;
     }
 

@@ -55,6 +55,12 @@ public class SuperchromaticItemUtils
                 && superchromaticItemComponent.getSuperchromaticPoints() >= SuperchromaticItemUtils.getRequiredSuperchromaticPoints(stack);
     }
 
+    public static void setSuperchromatic(ItemStack stack, boolean superchromatic)
+    {
+        ItemComponents.SUPERCHROMATIC_ITEM.maybeGet(stack).ifPresent(
+                superchromaticItemComponent -> superchromaticItemComponent.setSuperchromatic(superchromatic));
+    }
+
     public static boolean isSuperchromaticChargeable(ItemStack stack)
     {
         final SuperchromaticItemComponent superchromaticItemComponent;

@@ -1,0 +1,37 @@
+{
+  "parent": "spectrite:root",
+  "display": {
+    "icon": {
+      "item": "spectrite:superchromatic_chorus_fruit"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromatic_chorus_fruit.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromatic_chorus_fruit.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": true
+  },
+  "criteria": {
+    "superchromatic_chorus_fruit": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "items": [
+              "spectrite:superchromatic_chorus_fruit"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromatic_chorus_fruit"
+    ]
+  ]
+}

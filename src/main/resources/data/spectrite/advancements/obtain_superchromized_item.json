@@ -1,0 +1,36 @@
+{
+  "parent": "spectrite:kill_superchromatic_mob",
+  "display": {
+    "icon": {
+      "item": "minecraft:diamond_sword",
+      "nbt": "{\"spectrite:superchromatic_item\":{superchromatic_points:4}}"
+    },
+    "title": {
+      "translate": "advancements.spectrite.obtain_superchromized_item.title"
+    },
+    "description": {
+      "translate": "advancements.spectrite.obtain_superchromized_item.description"
+    },
+    "frame": "goal",
+    "show_toast": true,
+    "announce_to_chat": true,
+    "hidden": false
+  },
+  "criteria": {
+    "superchromized_item": {
+      "trigger": "minecraft:inventory_changed",
+      "conditions": {
+        "items": [
+          {
+            "nbt": "{\"spectrite:superchromatic_item\":{superchromatic:1b}}"
+          }
+        ]
+      }
+    }
+  },
+  "requirements": [
+    [
+      "superchromized_item"
+    ]
+  ]
+}

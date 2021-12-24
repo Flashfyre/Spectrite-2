@@ -1,5 +1,5 @@
 {
-  "parent": "spectrite:tame_superchromatic_animal",
+  "parent": "spectrite:root",
   "display": {
     "icon": {
       "item": "spectrite:spectrite_block"
