@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.loot;
 
 import com.flashfyre.spectrite.loot.condition.SuperchromaticMobLootCondition;
 import com.flashfyre.spectrite.mixin.*;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPool;
 import net.fabricmc.fabric.api.loot.v1.FabricLootPoolBuilder;
 import net.fabricmc.fabric.api.loot.v1.event.LootTableLoadingCallback;
@@ -20,6 +21,7 @@ import net.minecraft.loot.function.SetCountLootFunction;
 import net.minecraft.loot.provider.number.ConstantLootNumberProvider;
 import net.minecraft.loot.provider.number.LootNumberProvider;
 import net.minecraft.loot.provider.number.UniformLootNumberProvider;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.Pair;
 
 import java.util.*;
@@ -141,16 +143,29 @@ public class LootTables
                     spectritePools.forEach(sp -> supplier.pool(sp));
                 } else if (id.getPath().startsWith("entities/"))
                 {
-                    final String entityName = id.getPath().substring(9);
-                    final FabricLootPoolBuilder spectritePool = FabricLootPoolBuilder.builder()
+                    String entityName = id.getPath().substring(9);
+                    if (entityName.contains("/"))
+                        entityName = entityName.substring(0, entityName.indexOf('/'));
+
+                    final Identifier entityId = new Identifier(id.getNamespace(), entityName);
+                    final Map.Entry<Integer, Integer> essenceRange = SuperchromaticEntityUtils.getSuperchromaticEssenceRange(entityId);
+
+                    final FabricLootPoolBuilder superchromaticEssencePool = FabricLootPoolBuilder.builder()
                             .with(ItemEntry.builder(SUPERCHROMATIC_ESSENCE)
-                                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(1.0f, 3.0f)))
+                                    .apply(SetCountLootFunction.builder(UniformLootNumberProvider.create(essenceRange.getKey(), essenceRange.getValue())))
                                     .conditionally(SuperchromaticMobLootCondition.builder())
                                     .conditionally(KilledByPlayerLootCondition.builder()));
-                    supplier.pool(spectritePool);
+                    supplier.pool(superchromaticEssencePool);
 
                     switch (entityName)
                     {
+                        case "witch":
+                            supplier.pool(FabricLootPoolBuilder.builder()
+                                    .with(ItemEntry.builder(SUPERCHROMATIC_ELIXIR)
+                                            .conditionally(SuperchromaticMobLootCondition.builder())
+                                            .conditionally(KilledByPlayerLootCondition.builder())
+                                            .conditionally(RandomChanceLootCondition.builder(1f / 7f))));
+                            break;
                         case "enderman":
                         case "wither":
                             final boolean isEnderman = "enderman".equals(entityName);

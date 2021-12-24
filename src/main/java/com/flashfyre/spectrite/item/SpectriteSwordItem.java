@@ -66,18 +66,6 @@ public class SpectriteSwordItem extends SwordItem implements SpectriteToolItem, 
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack)
-    {
-        return 72000;
-    }
-
-    @Override
-    public boolean isUsedOnRelease(ItemStack stack)
-    {
-        return true;
-    }
-
-    @Override
     public void appendTooltip(ItemStack stack, @Nullable World world, List<Text> tooltip, TooltipContext context)
     {
         SpectriteItemUtils.appendSpectriteDamageableItemTooltip(stack, world, tooltip, context);

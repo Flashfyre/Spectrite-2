@@ -95,18 +95,6 @@ public class SpectritePickaxeItem extends PickaxeItem implements SpectriteToolIt
     }
 
     @Override
-    public int getMaxUseTime(ItemStack stack)
-    {
-        return 72000;
-    }
-
-    @Override
-    public boolean isUsedOnRelease(ItemStack stack)
-    {
-        return true;
-    }
-
-    @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
         SpectriteItemUtils.spectriteDamageableItemInventoryTick(stack, world, entity, slot);

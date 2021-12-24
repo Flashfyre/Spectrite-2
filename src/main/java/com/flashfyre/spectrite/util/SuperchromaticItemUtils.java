@@ -185,7 +185,7 @@ public class SuperchromaticItemUtils
 
     public static boolean stopUsingSuperchromaticOrSpectriteChargeableItem(LivingEntity user, ItemStack itemStack, int remainingUseTicks)
     {
-        final int maxUseTime = itemStack.getMaxUseTime();
+        final int maxUseTime = 72000;
         final int useTicks = maxUseTime - remainingUseTicks;
 
         if (useTicks <= SuperchromaticItemUtils.SUPERCHROMATIC_CHARGEABLE_USE_TICKS_THRESHOLD && user instanceof PlayerEntity playerEntity)

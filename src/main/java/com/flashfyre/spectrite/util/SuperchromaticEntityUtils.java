@@ -11,16 +11,20 @@ import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.attribute.*;
 import net.minecraft.entity.effect.StatusEffectInstance;
 import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.Identifier;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.registry.Registry;
 import net.minecraft.world.World;
 import net.minecraft.world.explosion.Explosion;
 
@@ -311,6 +315,132 @@ public class SuperchromaticEntityUtils
                     entityAttributeInstance.removeModifier(modifier);
             }
         }
+    }
+
+    public static Map.Entry<Integer, Integer> getSuperchromaticEssenceRange(Identifier entityId)
+    {
+        int min = 0;
+        int max = 1;
+
+        try
+        {
+            final EntityType<?> entityType = Registry.ENTITY_TYPE.getOrEmpty(entityId).orElse(null);
+            if (entityType != null)
+            {
+                final DefaultAttributeContainer entityDefaultAttributes = DefaultAttributeRegistry.get((EntityType<? extends LivingEntity>) entityType);
+                final double maxHealth = entityDefaultAttributes.getValue(EntityAttributes.GENERIC_MAX_HEALTH);
+                final double attack = entityDefaultAttributes.has(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+                        ? entityDefaultAttributes.getValue(EntityAttributes.GENERIC_ATTACK_DAMAGE)
+                        : 0D;
+                final double armor = entityDefaultAttributes.has(EntityAttributes.GENERIC_ARMOR)
+                        ? entityDefaultAttributes.getValue(EntityAttributes.GENERIC_ARMOR)
+                        : 0D;
+                final boolean isHostile = entityType.getSpawnGroup() == SpawnGroup.MONSTER || attack > 0D;
+
+                healthBasedRangeModifiers:
+                {
+                    if (maxHealth >= 10D)
+                    {
+                        min++;
+                        max++;
+                    } else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 20D)
+                        max++;
+                    else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 40D)
+                    {
+                        if (isHostile)
+                        {
+                            min++;
+                            max++;
+                        }
+                    } else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 60D)
+                    {
+                        if (isHostile)
+                            max++;
+                    } else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 80D)
+                    {
+                        if (isHostile)
+                            min++;
+                        max++;
+                    } else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 100D)
+                    {
+                        if (isHostile)
+                            max++;
+                    } else
+                        break healthBasedRangeModifiers;
+
+                    if (maxHealth >= 200D)
+                    {
+                        min++;
+                        max++;
+                    }
+                }
+
+                attackBaseRangeModifiers:
+                {
+                    if (attack >= 5D)
+                    {
+                        min++;
+                        max++;
+                    } else
+                        break attackBaseRangeModifiers;
+
+                    if (attack >= 7D)
+                    {
+                        min++;
+                        max++;
+                    } else
+                        break attackBaseRangeModifiers;
+
+                    if (attack >= 10D)
+                    {
+                        min++;
+                        max++;
+                    } else
+                        break attackBaseRangeModifiers;
+
+                    if (attack >= 12D)
+                    {
+                        min++;
+                        max++;
+                    }
+                }
+
+                if (isHostile)
+                {
+                    max++;
+                    if (armor >= 4.0D)
+                    {
+                        min++;
+                        max++;
+                    }
+                }
+            } else
+            {
+                min = 1;
+                max = 2;
+            }
+        } catch (Exception e)
+        {
+            min = 1;
+            max = 2;
+        }
+
+        return new AbstractMap.SimpleEntry(min, max);
     }
 
     public static int getSuperchromaticMobPowerBonus(MobEntity mobEntity)
