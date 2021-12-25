@@ -1,13 +1,16 @@
 package com.flashfyre.spectrite.mixin;
 
+import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.item.SimpleSpectriteItem;
+import com.flashfyre.spectrite.item.SuperchromaticChorusFruitItem;
 import com.flashfyre.spectrite.particle.Particles;
 import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.damage.DamageSource;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.world.World;
@@ -56,10 +59,15 @@ public class LivingEntityMixin
     private void injectEatFoodSuperchromaticFood(World world, ItemStack stack, CallbackInfoReturnable<ItemStack> cir)
     {
         final LivingEntity livingEntity = (LivingEntity) (Object) this;
-        if (stack.getItem() instanceof SimpleSpectriteItem)
+        final Item foodItem = stack.getItem();
+        if (foodItem instanceof SimpleSpectriteItem)
         {
-            if (livingEntity instanceof PlayerEntity playerEntity)
-                playerEntity.getItemCooldownManager().set(stack.getItem(), 1500);
+            if (livingEntity instanceof PlayerEntity playerEntity && !(foodItem instanceof SuperchromaticChorusFruitItem))
+                playerEntity.getItemCooldownManager().set(foodItem, (int) (20f * SpectriteConfig.getSuperchromaticFoodCooldown()));
+            if (stack.getMaxDamage() > 0)
+                stack.damage(1, livingEntity, p ->
+                {
+                });
             livingEntity.emitGameEvent(GameEvent.EAT);
             cir.setReturnValue(stack);
         }

@@ -1,0 +1,19 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    "XXX",
+    "XYX",
+    "XXX"
+  ],
+  "key": {
+    "X": {
+      "item": "spectrite:superchromatic_essence"
+    },
+    "Y": {
+      "item": "minecraft:golden_apple"
+    }
+  },
+  "result": {
+    "item": "spectrite:superchromatic_apple"
+  }
+}

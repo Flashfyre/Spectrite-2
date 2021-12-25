@@ -1,6 +1,7 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.Spectrite;
+import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.item.material.ArmorMaterials;
 import com.flashfyre.spectrite.item.material.ToolMaterials;
 import net.fabricmc.fabric.api.item.v1.FabricItemSettings;
@@ -106,9 +107,11 @@ public class Items
 
     public static final Item SUPERCHROMATIC_ESSENCE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.MATERIALS));
 
-    public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().maxCount(1).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
+    public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().maxCount(1)
+            .maxDamage(SpectriteConfig.getSuperchromaticFoodUses()).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
 
-    public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().maxCount(1).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
+    public static final Item SUPERCHROMATIC_CARROT = new SimpleSpectriteItem(itemSettings().maxCount(1)
+            .maxDamage(SpectriteConfig.getSuperchromaticFoodUses()).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_CARROT));
 
     public static final Item SUPERCHROMATIC_AXOLOTL_BUCKET = new SuperchromaticAxolotlBucketItem(Fluids.WATER, itemSettings().maxCount(1).group(ItemGroup.MISC));
 
@@ -116,7 +119,8 @@ public class Items
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
 
-    public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().maxCount(1).group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
+    public static final Item SUPERCHROMATIC_CHORUS_FRUIT = new SuperchromaticChorusFruitItem(itemSettings().maxCount(1)
+            .maxDamage(SpectriteConfig.getSuperchromaticChorusFruitUses()).group(ItemGroup.MATERIALS).food(FoodComponents.CHORUS_FRUIT));
 
     public static final Item SUPERCHROMATIC_ELIXIR = new SuperchromaticElixirItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
 

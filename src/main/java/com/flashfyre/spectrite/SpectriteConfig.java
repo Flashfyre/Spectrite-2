@@ -15,6 +15,14 @@ public class SpectriteConfig implements ConfigData
 
     private float superchromaticToolCooldown = 10f;
 
+    private int superchromaticFoodUses = 0;
+
+    private float superchromaticFoodCooldown = 300f;
+
+    private int superchromaticChorusFruitUses = 2;
+
+    private float superchromaticChorusFruitCooldown = 10f;
+
     private float superchromaticMobSpawnRate = 0.048828f;
 
     private float superchromaticMobSpawnRateBeaconBlockBonus = 0.037977f;
@@ -150,6 +158,26 @@ public class SpectriteConfig implements ConfigData
     public static float getSuperchromaticToolCooldown()
     {
         return INSTANCE.superchromaticToolCooldown;
+    }
+
+    public static int getSuperchromaticFoodUses()
+    {
+        return INSTANCE.superchromaticFoodUses;
+    }
+
+    public static float getSuperchromaticFoodCooldown()
+    {
+        return INSTANCE.superchromaticFoodCooldown;
+    }
+
+    public static int getSuperchromaticChorusFruitUses()
+    {
+        return INSTANCE.superchromaticChorusFruitUses;
+    }
+
+    public static float getSuperchromaticChorusFruitCooldown()
+    {
+        return INSTANCE.superchromaticChorusFruitCooldown;
     }
 
     public static float getSuperchromaticMobSpawnRate()

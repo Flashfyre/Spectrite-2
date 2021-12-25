@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.item;
 
+import com.flashfyre.spectrite.SpectriteConfig;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.passive.FoxEntity;
 import net.minecraft.entity.player.PlayerEntity;
@@ -61,7 +62,7 @@ public class SuperchromaticChorusFruitItem extends SimpleSpectriteItem implement
                 break;
             }
             if (user instanceof PlayerEntity playerEntity)
-                playerEntity.getItemCooldownManager().set(this, playerEntity.isCreative() ? 20 : 200);
+                playerEntity.getItemCooldownManager().set(this, playerEntity.isCreative() ? 20 : (int) (20f * SpectriteConfig.getSuperchromaticChorusFruitCooldown()));
         }
         return itemStack;
     }
