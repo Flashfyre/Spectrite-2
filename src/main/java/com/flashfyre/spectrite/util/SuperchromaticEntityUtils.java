@@ -225,7 +225,7 @@ public class SuperchromaticEntityUtils
                             newChromaBlast(livingEntity, livingTarget, power + superchromaticLevel + superchromaticMobPowerBonus);
 
                             if (playerEntity != null)
-                                SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, stack);
+                                SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, stack);
                         }
 
                         if (spectriteWeaponItem != null)

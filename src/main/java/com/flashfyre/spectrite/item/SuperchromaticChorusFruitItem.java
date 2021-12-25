@@ -17,7 +17,7 @@ public class SuperchromaticChorusFruitItem extends SimpleSpectriteItem implement
 {
     public SuperchromaticChorusFruitItem(Settings settings)
     {
-        super(settings);
+        super(settings, true);
     }
 
     @Override

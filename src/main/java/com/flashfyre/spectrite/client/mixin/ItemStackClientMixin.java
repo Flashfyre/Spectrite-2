@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.client.mixin;
 
+import com.flashfyre.spectrite.SpectriteConfig;
 import com.flashfyre.spectrite.item.*;
 import com.flashfyre.spectrite.text.SpectriteText;
 import com.flashfyre.spectrite.util.SuperchromaticItemUtils;
@@ -9,10 +10,7 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.MutableText;
-import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
+import net.minecraft.text.*;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -74,38 +72,95 @@ public class ItemStackClientMixin
     {
         final ItemStack stack = (ItemStack) (Object) this;
         final Item item = stack.getItem();
-        if (item instanceof SpectriteDamageableItem spectriteItem)
+        if (item instanceof SpectriteItem spectriteItem)
         {
-            final SpectriteToolItem spectriteToolItem = spectriteItem instanceof SpectriteToolItem
-                    ? (SpectriteToolItem) spectriteItem
-                    : null;
-            final SpectriteWeaponItem spectriteWeaponItem = spectriteItem instanceof SpectriteWeaponItem
-                    ? (SpectriteWeaponItem) spectriteItem
-                    : null;
-            if (isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
+            if (spectriteItem.hasCustomTooltip())
             {
-                if (spectriteWeaponItem != null || (spectriteToolItem != null && spectriteToolItem.getChargedEfficiencyMultiplier() > 1f))
+                int lineCount = 0;
+                String tooltipLineText;
+                do
                 {
-                    if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
-                        list.add(LiteralText.EMPTY);
-                    list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
-                    if (spectriteToolItem != null)
-                        list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency",
-                                (int) (spectriteToolItem.getChargedEfficiencyMultiplier() * 100f)).formatted(Formatting.BLUE)));
-                    if (spectriteWeaponItem != null)
+                    final String translationKey = item.getTranslationKey() + ".tooltip.l" + ++lineCount;
+                    final TranslatableText tooltipLine = new TranslatableText(translationKey);
+                    ((TranslatableTextAccessor) tooltipLine).invokeUpdateTranslations();
+                    final StringVisitable translation = ((TranslatableTextAccessor) tooltipLine).getTranslations().stream().findFirst().orElse(null);
+                    tooltipLineText = translation != null ? translation.getString() : null;
+                    if (tooltipLineText == null || tooltipLineText.equals(translationKey))
+                        break;
+                    list.add(tooltipLine.formatted(Formatting.GREEN));
+                } while (true);
+            }
+            if (item instanceof SpectriteDamageableItem spectriteDamageableItem)
+            {
+                final SpectriteToolItem spectriteToolItem = spectriteDamageableItem instanceof SpectriteToolItem
+                        ? (SpectriteToolItem) spectriteDamageableItem
+                        : null;
+                final SpectriteWeaponItem spectriteWeaponItem = spectriteDamageableItem instanceof SpectriteWeaponItem
+                        ? (SpectriteWeaponItem) spectriteDamageableItem
+                        : null;
+                if (isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
+                {
+                    if (spectriteWeaponItem != null || (spectriteToolItem != null && spectriteToolItem.getChargedEfficiencyMultiplier() > 1f))
                     {
-                        final int chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel() + (spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0);
-                        final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                        chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
-                        list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                        if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
+                            list.add(LiteralText.EMPTY);
+                        list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
+                        if (spectriteToolItem != null)
+                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency",
+                                    (int) (spectriteToolItem.getChargedEfficiencyMultiplier() * 100f)).formatted(Formatting.BLUE)));
+                        if (spectriteWeaponItem != null)
+                        {
+                            final int chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel() + (spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0);
+                            final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
+                            chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
+                            list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                            if (chromaBlastLevel > 0)
+                            {
+                                final float cooldownSeconds = MathHelper.ceil(SuperchromaticItemUtils.getSuperchromaticOrChargeableSpectriteItemCooldownTicks(item) / 2f) / 10f;
+                                if (cooldownSeconds > 0f)
+                                    list.add(new LiteralText(" ")
+                                            .append(new TranslatableText("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
+                            }
+                        }
+                    } else if (spectriteDamageableItem instanceof SpectriteArmorItem spectriteArmorItem)
+                    {
+                        if (stack.getAttributeModifiers(spectriteArmorItem.getSlotType()).isEmpty())
+                            list.add(LiteralText.EMPTY);
+                        final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
+                        list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
+                        list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
                     }
-                } else if (spectriteItem instanceof SpectriteArmorItem spectriteArmorItem)
+                }
+            } else if (item.getGroup() == ItemGroup.FOOD || item instanceof SuperchromaticChorusFruitItem)
+            {
+                final float cooldownSeconds;
+                final boolean isUnlimited;
+                if (item instanceof SuperchromaticChorusFruitItem)
                 {
-                    if (stack.getAttributeModifiers(spectriteArmorItem.getSlotType()).isEmpty())
-                        list.add(LiteralText.EMPTY);
-                    final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
-                    list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
-                    list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
+                    cooldownSeconds = MathHelper.ceil(SpectriteConfig.getSuperchromaticChorusFruitCooldown() * 10f) / 10f;
+                    isUnlimited = SpectriteConfig.getSuperchromaticChorusFruitUses() == 0;
+                } else
+                {
+                    cooldownSeconds = MathHelper.ceil(SpectriteConfig.getSuperchromaticFoodCooldown() * 10f) / 10f;
+                    isUnlimited = SpectriteConfig.getSuperchromaticFoodUses() == 0;
+                }
+                if (cooldownSeconds > 0f)
+                    list.add(new TranslatableText("item.spectrite.modifiers.cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA));
+                if (isUnlimited)
+                    list.add(new TranslatableText("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
+            } else if (item instanceof SuperchromaticEnderPearlItem)
+            {
+                if (SpectriteConfig.getSuperchromaticEnderPearlUses() == 0)
+                    list.add(new TranslatableText("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
+            } else if (item instanceof SpectriteBombItem)
+            {
+                if (isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
+                {
+                    list.add(LiteralText.EMPTY);
+                    list.add(new TranslatableText("item.spectrite.modifiers.on_impact").formatted(Formatting.GRAY));
+                    final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
+                    chromaBlastText.append(" ").append(new TranslatableText("enchantment.level.5"));
+                    list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
                 }
             }
         } else if (SuperchromaticItemUtils.isSuperchromaticCompatible(stack))
@@ -138,6 +193,13 @@ public class ItemStackClientMixin
                         list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
                         list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
                     }
+                    if (SuperchromaticItemUtils.isSuperchromaticChargeable(stack) && SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item) > 0)
+                    {
+                        final float cooldownSeconds = MathHelper.ceil(SuperchromaticItemUtils.getSuperchromaticOrChargeableSpectriteItemCooldownTicks(item) / 2f) / 10f;
+                        if (cooldownSeconds > 0f)
+                            list.add(new LiteralText(" ")
+                                    .append(new TranslatableText("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
+                    }
                 } else
                 {
                     final int superchromaticPoints = SuperchromaticItemUtils.getSuperchromaticPoints(stack);
@@ -148,12 +210,6 @@ public class ItemStackClientMixin
                     }
                 }
             }
-        } else if (stack.getItem() instanceof SpectriteBombItem)
-        {
-            list.add(new TranslatableText("item.spectrite.modifiers.on_impact").formatted(Formatting.GRAY));
-            final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-            chromaBlastText.append(" ").append(new TranslatableText("enchantment.level.5"));
-            list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
         }
     }
 

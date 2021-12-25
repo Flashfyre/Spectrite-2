@@ -21,10 +21,10 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 public abstract class EntityRenderDispatcherMixin
 {
     @Inject(method = "render", at = @At(value = "HEAD"))
-    private <E extends Entity> void spectrite$setCurrentRenderer(E entity, double x, double y, double z, float yaw,
-                                                                 float tickDelta, MatrixStack matrices,
-                                                                 VertexConsumerProvider vertexConsumers, int light,
-                                                                 CallbackInfo ci)
+    private <E extends Entity> void injectRenderSetCurrentRenderingSpectriteCompatibleEntity(E entity, double x, double y, double z, float yaw,
+                                                                                             float tickDelta, MatrixStack matrices,
+                                                                                             VertexConsumerProvider vertexConsumers, int light,
+                                                                                             CallbackInfo ci)
     {
         SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = entity instanceof SpectriteCompatibleEntity
                 || entity instanceof PlayerEntity
@@ -32,5 +32,15 @@ public abstract class EntityRenderDispatcherMixin
                 ? EntityType.getId(entity.getType())
                 : null;
         SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
+    }
+
+    @Inject(method = "render", at = @At(value = "RETURN"))
+    private <E extends Entity> void injectRenderClearCurrentRenderingSpectriteCompatibleEntity(E entity, double x, double y, double z, float yaw,
+                                                                                               float tickDelta, MatrixStack matrices,
+                                                                                               VertexConsumerProvider vertexConsumers, int light,
+                                                                                               CallbackInfo ci)
+    {
+        //SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
+        //SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
     }
 }

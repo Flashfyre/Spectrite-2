@@ -11,17 +11,19 @@ public class SpectriteConfig implements ConfigData
 
     private boolean spectriteToolsBreakPermanently = false;
 
-    private float spectriteToolCooldown = 10f;
+    private float spectriteToolBaseCooldown = 10f;
 
-    private float superchromaticToolCooldown = 10f;
+    private float superchromaticToolBaseCooldown = 10f;
 
     private int superchromaticFoodUses = 0;
 
     private float superchromaticFoodCooldown = 300f;
 
-    private int superchromaticChorusFruitUses = 2;
+    private int superchromaticChorusFruitUses = 0;
 
     private float superchromaticChorusFruitCooldown = 10f;
+
+    private int superchromaticEnderPearlUses = 0;
 
     private float superchromaticMobSpawnRate = 0.048828f;
 
@@ -150,14 +152,14 @@ public class SpectriteConfig implements ConfigData
         return INSTANCE.spectriteToolsBreakPermanently;
     }
 
-    public static float getSpectriteToolCooldown()
+    public static float getSpectriteToolBaseCooldown()
     {
-        return INSTANCE.spectriteToolCooldown;
+        return INSTANCE.spectriteToolBaseCooldown;
     }
 
-    public static float getSuperchromaticToolCooldown()
+    public static float getSuperchromaticToolBaseCooldown()
     {
-        return INSTANCE.superchromaticToolCooldown;
+        return INSTANCE.superchromaticToolBaseCooldown;
     }
 
     public static int getSuperchromaticFoodUses()
@@ -178,6 +180,11 @@ public class SpectriteConfig implements ConfigData
     public static float getSuperchromaticChorusFruitCooldown()
     {
         return INSTANCE.superchromaticChorusFruitCooldown;
+    }
+
+    public static int getSuperchromaticEnderPearlUses()
+    {
+        return INSTANCE.superchromaticEnderPearlUses;
     }
 
     public static float getSuperchromaticMobSpawnRate()

@@ -121,7 +121,7 @@ public class TridentEntityMixin
                                 (tridentEntity.getZ() + targetZ) / 2d,
                                 power + superchromaticLevel + superchromaticMobPowerBonus, false, Explosion.DestructionType.NONE);
                         if (livingEntity2 instanceof PlayerEntity playerEntity)
-                            SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, tridentStack);
+                            SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, tridentStack);
                     }
 
                     spectriteTridentItem.setCharged(tridentStack, false);

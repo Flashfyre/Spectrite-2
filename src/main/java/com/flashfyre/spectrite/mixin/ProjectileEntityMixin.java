@@ -78,7 +78,9 @@ public class ProjectileEntityMixin
                         power = 5;
                 }
 
-                if (power + superchromaticLevel == 0)
+                power += superchromaticLevel + superchromaticMobPowerBonus;
+
+                if (power <= 0)
                     return;
 
                 if (hitResult instanceof EntityHitResult entityHitResult)
@@ -97,7 +99,7 @@ public class ProjectileEntityMixin
                 SpectriteUtils.newChromaBlast(projectileEntity.world, projectileEntity,
                         target != null && target.getType() == EntityType.ENDERMAN ? null : target,
                         null, projectileEntity.getX(), projectileEntity.getY(), projectileEntity.getZ(),
-                        power + superchromaticLevel + superchromaticMobPowerBonus, false, destructionType);
+                        power, false, destructionType);
                 if ((isSuperchromatic && !isTrident) && (hitResult.getType() == HitResult.Type.BLOCK || isWitherSkull))
                     projectileEntity.discard();
             }

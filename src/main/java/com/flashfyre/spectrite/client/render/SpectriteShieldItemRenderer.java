@@ -64,6 +64,7 @@ public class SpectriteShieldItemRenderer implements BuiltinItemRendererRegistry.
         renderModel(stack, matrices, vertexConsumers, SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(shieldEntityModel,
                 shieldEntityTexture, null), light, overlay);
         matrices.pop();
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
     }
 
     private void renderModel(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, int overlay)

@@ -105,7 +105,7 @@ public class Items
 
     public static final Item SPECTRITE_BOMB = new SpectriteBombItem(itemSettings().group(ItemGroup.COMBAT));
 
-    public static final Item SUPERCHROMATIC_ESSENCE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.MATERIALS));
+    public static final Item SUPERCHROMATIC_ESSENCE = new SimpleSpectriteItem(itemSettings().group(ItemGroup.MATERIALS), true);
 
     public static final Item SUPERCHROMATIC_APPLE = new SimpleSpectriteItem(itemSettings().maxCount(1)
             .maxDamage(SpectriteConfig.getSuperchromaticFoodUses()).group(ItemGroup.FOOD).food(FoodComponents.GOLDEN_APPLE));
@@ -115,7 +115,8 @@ public class Items
 
     public static final Item SUPERCHROMATIC_AXOLOTL_BUCKET = new SuperchromaticAxolotlBucketItem(Fluids.WATER, itemSettings().maxCount(1).group(ItemGroup.MISC));
 
-    public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(1).group(ItemGroup.MISC));
+    public static final Item SUPERCHROMATIC_ENDER_PEARL = new SuperchromaticEnderPearlItem(itemSettings().maxCount(1)
+            .maxDamage(SpectriteConfig.getSuperchromaticEnderPearlUses()).group(ItemGroup.MISC));
 
     public static final Item SUPERCHROMATIC_NETHER_STAR = new SuperchromaticNetherStarItem(itemSettings().group(ItemGroup.MATERIALS));
 

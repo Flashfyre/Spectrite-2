@@ -4,6 +4,7 @@ import com.flashfyre.spectrite.component.entity.EntityComponents;
 import com.flashfyre.spectrite.component.entity.SuperchromaticEntityComponent;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleWeaponEntity;
+import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.item.SpectriteBowItem;
 import com.flashfyre.spectrite.item.SpectriteWeaponItem;
 import com.flashfyre.spectrite.util.SpectriteUtils;
@@ -104,36 +105,37 @@ public class PersistentProjectileEntityMixin implements SpectriteCompatibleWeapo
                     : null;
             if (spectriteWeaponItem == null || !spectriteWeaponItem.isDepleted())
             {
+                final boolean isCoolingDown = owner instanceof PlayerEntity playerEntity
+                        && ((SuperchromaticCooldownPlayerEntity) playerEntity).getSuperchromaticItemCooldownManager().isCoolingDown();
                 final boolean superchromaticCharged;
-                final int power;
+                final int chromaBlastLevel;
                 final int passiveChromaBlastLevel;
                 if (spectriteWeaponItem != null)
                 {
-                    superchromaticCharged = spectriteWeaponItem.isCharged(superchromaticWeaponStack);
-                    passiveChromaBlastLevel = spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0;
-                    power = spectriteWeaponItem.getChromaBlastLevel() + passiveChromaBlastLevel + (superchromaticCharged ? 1 : 0);
+                    superchromaticCharged = !isCoolingDown && spectriteWeaponItem.isCharged(superchromaticWeaponStack);
+                    chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel();
+                    passiveChromaBlastLevel = !isCoolingDown && spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0;
                 } else
                 {
-                    superchromaticCharged = SuperchromaticItemUtils.isSuperchromaticCharged(superchromaticWeaponStack);
-                    passiveChromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(superchromaticWeaponItem);
-                    power = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(superchromaticWeaponItem)
-                            + passiveChromaBlastLevel + (superchromaticCharged ? 1 : 0);
+                    superchromaticCharged = !isCoolingDown && SuperchromaticItemUtils.isSuperchromaticCharged(superchromaticWeaponStack);
+                    chromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(superchromaticWeaponItem);
+                    passiveChromaBlastLevel = !isCoolingDown ? SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(superchromaticWeaponItem) : 0;
                 }
                 ((SpectriteCompatibleEntity) persistentProjectileEntity).setSuperchromatic(true);
                 ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteDamage(
                         spectriteWeaponItem != null ? SpectriteUtils.getItemStackStDamage(superchromaticWeaponStack) : 0);
                 ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setSpectriteCharged(superchromaticCharged);
-                if (spectriteWeaponItem == null)
-                    ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setBaseChromaBlastLevel(passiveChromaBlastLevel);
+                ((SpectriteCompatibleWeaponEntity) persistentProjectileEntity).setBaseChromaBlastLevel(passiveChromaBlastLevel);
                 if (superchromaticCharged)
                 {
+                    final int power = chromaBlastLevel + passiveChromaBlastLevel + (superchromaticCharged ? 1 : 0);
                     final float stackDamageMultiplier = spectriteWeaponItem != null
                             ? spectriteWeaponItem.getStackDamageMultiplier()
                             : SuperchromaticItemUtils.getSuperchromaticWeaponItemDamageMultiplier(superchromaticWeaponItem);
                     superchromaticWeaponStack.damage((int) (Math.pow(power, 3f) * stackDamageMultiplier), owner,
                             (e) -> e.sendToolBreakStatus(e.getActiveHand()));
                     if (owner instanceof PlayerEntity playerEntity)
-                        SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, power, superchromaticWeaponStack);
+                        SuperchromaticItemUtils.tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(playerEntity, superchromaticWeaponStack);
                 } else if (superchromaticWeaponStack.getItem() instanceof BowItem)
                     superchromaticWeaponStack.damage(3, owner, (e) -> e.sendToolBreakStatus(e.getActiveHand()));
             }

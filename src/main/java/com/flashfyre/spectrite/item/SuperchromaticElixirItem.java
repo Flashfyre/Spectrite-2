@@ -15,7 +15,7 @@ public class SuperchromaticElixirItem extends SimpleSpectriteItem implements Pas
 {
     public SuperchromaticElixirItem(Settings settings)
     {
-        super(settings);
+        super(settings, true);
     }
 
     @Override
@@ -24,15 +24,18 @@ public class SuperchromaticElixirItem extends SimpleSpectriteItem implements Pas
         if (entity instanceof MobEntity mobEntity && mobEntity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                 && !(spectriteCompatibleMobEntity).isSuperchromatic())
         {
-            SuperchromaticEntityUtils.setSuperchromatic(entity, true);
-            if (!user.world.isClient && entity.isAlive())
+            if (entity.getHealth() >= entity.getMaxHealth())
             {
-                SuperchromaticEntityUtils.initSuperchromaticMobAttributes(mobEntity);
-                mobEntity.setPersistent();
-                stack.decrement(1);
+                SuperchromaticEntityUtils.setSuperchromatic(entity, true);
+                if (!user.world.isClient)
+                {
+                    SuperchromaticEntityUtils.initSuperchromaticMobAttributes(mobEntity);
+                    mobEntity.setPersistent();
+                    stack.decrement(1);
+                }
+                user.world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_WITCH_DRINK,
+                        SoundCategory.NEUTRAL, 1.0f, 0.8f + user.getRandom().nextFloat() * 0.4f);
             }
-            user.world.playSound(null, entity.getX(), entity.getY(), entity.getZ(), SoundEvents.ENTITY_WITCH_DRINK,
-                    SoundCategory.NEUTRAL, 1.0f, 0.8f + user.getRandom().nextFloat() * 0.4f);
             return ActionResult.success(user.world.isClient);
         }
         return ActionResult.PASS;

@@ -52,15 +52,26 @@
 	"item.spectrite.superchromatic_chorus_fruit": "Superchromatic Chorus Fruit",
 	"item.spectrite.superchromatic_elixir": "Superchromatic Elixir",
 	
+	"item.spectrite.superchromatic_essence.tooltip.l1": "Can be used to Superchromize",
+	"item.spectrite.superchromatic_essence.tooltip.l2": "equipment at a smithing table",
+	"item.spectrite.superchromatic_chorus_fruit.tooltip.l1": "Teleports you randomly when",
+	"item.spectrite.superchromatic_chorus_fruit.tooltip.l2": "eaten, but the distance can",
+	"item.spectrite.superchromatic_chorus_fruit.tooltip.l3": "vary drastically",
+	"item.spectrite.superchromatic_elixir.tooltip.l1": "Superchromizes a mob",
+	"item.spectrite.superchromatic_elixir.tooltip.l2": "(mob must be at full health)",
+	
 	"item.spectrite.tooltip.depleted": "Depleted",
 	
 	"item.spectrite.modifiers.superchromized": "Superchromized",
 	"item.spectrite.modifiers.percent_superchromized": "%d%% Superchromized",
 	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",
+	"item.spectrite.modifiers.cooldown": "Cooldown: %fs",
 	"item.spectrite.modifiers.charged": "When Charged:",
 	"item.spectrite.modifiers.charged.tool_efficiency": "%d%% Efficiency",
+	"item.spectrite.modifiers.charged_attack_cooldown": "Attack Cooldown: %fs",
 	"item.spectrite.modifiers.superchromatic_set_bonus": "Superchromatic Set Bonus:",
 	"item.spectrite.modifiers.on_impact": "On Impact:",
+	"item.spectrite.modifiers.unlimited_use": "Unlimited Use",
 	
 	"effect.spectrite.superchromatic": "Superchromatic",
 	
@@ -81,7 +92,7 @@
 	"advancements.spectrite.obtain_spectrite_shield.title": "Another Level of Protection",
 	"advancements.spectrite.obtain_spectrite_shield.description": "Obtain a Spectrite Shield",
 	"advancements.spectrite.obtain_spectrite_trident.title": "No Ordinary Trident",
-	"advancements.spectrite.obtain_spectrite_trident.description": "Find a Spectrite Trident",
+	"advancements.spectrite.obtain_spectrite_trident.description": "Obtain a Spectrite Trident",
 	"advancements.spectrite.obtain_spectrite_hoe.title": "Bruh",
 	"advancements.spectrite.obtain_spectrite_hoe.description": "Of all things you could craft",
 	"advancements.spectrite.shinier_gear.title": "Imagine Using Diamond Armor",

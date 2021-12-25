@@ -197,26 +197,40 @@ public class SuperchromaticItemUtils
         return false;
     }
 
-    public static void tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(PlayerEntity playerEntity, int power, ItemStack itemStack)
+    public static void tryActivateSuperchromaticOrSpectriteChargeableItemCooldown(PlayerEntity playerEntity, ItemStack itemStack)
     {
         if (playerEntity != null && !playerEntity.isCreative())
         {
             final SuperchromaticItemCooldownManager superchromaticItemCooldownManager = ((SuperchromaticCooldownPlayerEntity) playerEntity).getSuperchromaticItemCooldownManager();
-            final Item item = itemStack.getItem();
-            final float baseCooldown;
-            final float cooldownMultiplier;
-            if (item instanceof SpectriteWeaponItem spectriteWeaponItem)
-            {
-                baseCooldown = SpectriteConfig.getSpectriteToolCooldown();
-                cooldownMultiplier = spectriteWeaponItem.getCooldownMultiplier();
-            } else
-            {
-                baseCooldown = SpectriteConfig.getSuperchromaticToolCooldown();
-                cooldownMultiplier = getSuperchromaticChargeableItemCooldownMultiplier(item);
-            }
-            final float cooldown = baseCooldown * (2.5f * (float) Math.pow(2, power)) * cooldownMultiplier;
+            final float cooldown = getSuperchromaticOrChargeableSpectriteItemCooldownTicks(itemStack.getItem());
             superchromaticItemCooldownManager.set((int) Math.max(cooldown, Math.round(superchromaticItemCooldownManager.getCooldownProgress(0f))));
         }
+    }
+
+    public static float getSuperchromaticOrChargeableSpectriteItemCooldownTicks(Item item)
+    {
+        final float baseCooldown;
+        final float cooldownMultiplier;
+        final int chromaBlastLevel;
+        final int passiveChromaBlastLevel;
+
+        if (item instanceof SpectriteWeaponItem spectriteWeaponItem)
+        {
+            chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel();
+            passiveChromaBlastLevel = spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0;
+            baseCooldown = SpectriteConfig.getSpectriteToolBaseCooldown();
+            cooldownMultiplier = spectriteWeaponItem.getCooldownMultiplier();
+        } else
+        {
+            chromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item);
+            passiveChromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item);
+            baseCooldown = SpectriteConfig.getSuperchromaticToolBaseCooldown();
+            cooldownMultiplier = getSuperchromaticChargeableItemCooldownMultiplier(item);
+        }
+
+        final int power = chromaBlastLevel + passiveChromaBlastLevel + 1;
+
+        return baseCooldown * (2.5f * (float) Math.pow(2, power)) * cooldownMultiplier;
     }
 
     public static int getSuperchromaticItemChromaBlastLevel(Item item)
