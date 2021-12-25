@@ -5,7 +5,7 @@
     "dstrgb": "1-srcalpha"
   },
   "vertex": "spectrite:spectrite_item",
-  "fragment": "spectrite:superchromized_item",
+  "fragment": "spectrite:spectrite_item",
   "attributes": [
     "Position",
     "UV0"
@@ -79,6 +79,22 @@
       "count": 1,
       "values": [
         1.0
+      ]
+    },
+    {
+      "name": "Saturation",
+      "type": "float",
+      "count": 1,
+      "values": [
+        1.0
+      ]
+    },
+    {
+      "name": "Partial",
+      "type": "int",
+      "count": 1,
+      "values": [
+        1
       ]
     }
   ]

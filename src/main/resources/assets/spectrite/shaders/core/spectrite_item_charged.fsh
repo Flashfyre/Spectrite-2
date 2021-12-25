@@ -4,6 +4,7 @@ uniform sampler2D Sampler0;
 uniform vec4 ColorModulator;
 uniform float STime;
 uniform float Saturation;
+uniform int Partial;
 
 in vec2 vertexPosition;
 in vec2 texCoord;
@@ -64,7 +65,14 @@ void main()
     overlayHsv[0] = mod(overlayHsv[0] + overlayHueOffset + ((vertexPosition.x + vertexPosition.y) / 2.0), 1.0);
     overlayHsv[1] *= Saturation;
 
-    vec3 blendRgb = spectriteBlend(hsv2rgb(hsv), hsv2rgb(overlayHsv));
+    vec3 blendRgb;
+    if (Partial == 0)
+    {
+        blendRgb = spectriteBlend(hsv2rgb(hsv), hsv2rgb(overlayHsv));
+    } else
+    {
+        blendRgb = mix(spectriteBlend(hsv2rgb(hsv), hsv2rgb(overlayHsv)), color.rgb, 0.625);
+    }
 
     if (texture(Sampler0, texCoord - vec2(oneTexel.x, 0.0)).a == 0.0
     || texture(Sampler0, texCoord + vec2(oneTexel.x, 0.0)).a == 0.0

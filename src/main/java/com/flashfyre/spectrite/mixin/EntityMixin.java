@@ -2,7 +2,6 @@ package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
-import com.flashfyre.spectrite.entity.SpectriteGolemEntity;
 import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.entity.Entity;
@@ -45,7 +44,7 @@ public abstract class EntityMixin
         final Entity entity = (Entity) (Object) this;
         if (this.firstUpdate && entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity)
         {
-            if (entity instanceof EnderDragonEntity || entity instanceof SpectriteGolemEntity)
+            if (entity instanceof EnderDragonEntity)
                 return;
             if (SuperchromaticEntityUtils.trySetMobSuperchromatic((MobEntity) entity) && entity instanceof Monster)
                 spectriteCompatibleMobEntity.setSuperchromaticBossBar(new ServerBossBar(entity.getDisplayName(),
@@ -95,7 +94,7 @@ public abstract class EntityMixin
         if (entity instanceof SpectriteCompatibleMobEntity spectriteCompatibleMobEntity
                 && spectriteCompatibleMobEntity.isSuperchromatic() && entity instanceof Monster)
         {
-            if (entity instanceof EnderDragonEntity || entity instanceof SpectriteGolemEntity)
+            if (entity instanceof EnderDragonEntity)
                 return;
             spectriteCompatibleMobEntity.setSuperchromaticBossBar(new ServerBossBar(entity.getDisplayName(),
                     BossBar.Color.PURPLE, BossBar.Style.PROGRESS));
