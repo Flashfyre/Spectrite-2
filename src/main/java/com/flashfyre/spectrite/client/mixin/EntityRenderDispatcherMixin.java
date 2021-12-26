@@ -40,7 +40,7 @@ public abstract class EntityRenderDispatcherMixin
                                                                                                VertexConsumerProvider vertexConsumers, int light,
                                                                                                CallbackInfo ci)
     {
-        //SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
-        //SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
     }
 }

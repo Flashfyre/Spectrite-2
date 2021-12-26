@@ -17,6 +17,8 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.damage.DamageSource;
+import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
 import net.minecraft.fluid.FluidState;
@@ -216,6 +218,12 @@ public class ChromaBlast extends Explosion
     {
         if (targetEntity == damagedEntity)
             return true;
+
+        if (damagedEntity instanceof TameableEntity tameableEntity && tameableEntity.getOwnerUuid() == sourceEntity.getUuid())
+            return false;
+
+        if (damagedEntity instanceof HorseBaseEntity horseEntity && (horseEntity.getOwnerUuid() == sourceEntity.getUuid() || horseEntity.getPassengerList().contains(sourceEntity)))
+            return false;
 
         final ChromaBlastTargetType sourceEntityTargetType = ChromaBlastTargetType.getEntityTargetType(sourceEntity);
         final ChromaBlastTargetType targetEntityTargetType = ChromaBlastTargetType.getEntityTargetType(targetEntity);
