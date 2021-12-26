@@ -63,8 +63,9 @@ void main()
     vec3 overlayHsv = rgb2hsv(vec3(1.0, 0.0, 0.0));
     float originalSaturation = overlayHsv[1];
     vec2 textureSize = vec2(oneTexel.x * scale * 16.0, oneTexel.y * scale * 16.0);
+    vec2 coordOffset = vec2(texCoord.x - mod(texCoord.x, oneTexel.x), texCoord.y - mod(texCoord.y, oneTexel.y));
 
-    overlayHsv[0] = mod(overlayHsv[0] + overlayHueOffset + ((texCoord.x / textureSize.x - texCoord.y / textureSize.y) / 2.0), 1.0);
+    overlayHsv[0] = mod(overlayHsv[0] + overlayHueOffset + ((coordOffset.x / textureSize.x - coordOffset.y / textureSize.y) / 2.0), 1.0);
     overlayHsv[1] *= Saturation;
 
     vec3 blendRgb;

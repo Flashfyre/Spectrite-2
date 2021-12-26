@@ -57,6 +57,7 @@
     "ProjectileEntityMixin",
     "SpectriteItemStackMixin",
     "TridentEntityMixin",
+    "UniformLootNumberProviderAccessor",
     "WitherSkullEntityMixin"
   ],
   "injectors": {
