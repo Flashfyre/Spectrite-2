@@ -171,11 +171,18 @@ public class ItemStackClientMixin
                 {
                     if (item instanceof ToolItem || item instanceof BowItem)
                     {
-                        if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
+                        final boolean hasMainHandModifiers = !stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty();
+                        if (!hasMainHandModifiers)
                             list.add(LiteralText.EMPTY);
+                        if (item instanceof ToolItem)
+                        {
+                            if (!hasMainHandModifiers)
+                                list.add(new TranslatableText("item.modifiers.mainhand").formatted(Formatting.GRAY));
+                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) 125f).formatted(Formatting.BLUE)));
+                        }
                         list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
                         if (item instanceof ToolItem)
-                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) 150f).formatted(Formatting.BLUE)));
+                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) 175f).formatted(Formatting.BLUE)));
 
                         final int chromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item)
                                 + SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item);

@@ -52,6 +52,10 @@ public class SpectriteItemStackMixin
                         ? ((SpectriteToolItem) item).getChargedEfficiencyMultiplier()
                         : SuperchromaticItemUtils.getSuperchromaticToolItemChargedEfficiencyMultiplier(item);
                 cir.setReturnValue(cir.getReturnValue() * chargedEfficiencyMultiplier);
+            } else if (!(item instanceof SpectriteToolItem))
+            {
+                final float passiveEfficiencyMultiplier = SuperchromaticItemUtils.getSuperchromaticToolItemPassiveEfficiencyMultiplier(item);
+                cir.setReturnValue(cir.getReturnValue() * passiveEfficiencyMultiplier);
             }
         }
     }

@@ -39,8 +39,8 @@ public class HorseArmorFeatureRendererMixin
         if (itemStack.getItem() instanceof SpectriteHorseArmorItem)
         {
             final Identifier textureId = args.get(0);
-            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityArmorTexture(model, textureId,
-                    textureId.getPath().replace("spectrite", "diamond"));
+            final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityArmorTexture(model,
+                    new Identifier(textureId.getPath().replace("spectrite", "diamond")), textureId.getPath());
             args.set(0, spectriteTexture);
         }
     }
@@ -55,7 +55,7 @@ public class HorseArmorFeatureRendererMixin
         final ItemStack itemStack = horseEntity.getArmorType();
         if (itemStack.getItem() instanceof HorseArmorItem)
         {
-            HorseArmorItem horseArmorItem = (HorseArmorItem) itemStack.getItem();
+            final HorseArmorItem horseArmorItem = (HorseArmorItem) itemStack.getItem();
             if (horseArmorItem instanceof SpectriteHorseArmorItem)
                 args.set(0, SpectriteClient.CLIENT_INSTANCE.getHueLayer(args.get(0)));
         }

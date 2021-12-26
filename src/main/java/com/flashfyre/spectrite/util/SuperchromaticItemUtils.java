@@ -106,9 +106,14 @@ public class SuperchromaticItemUtils
         return item instanceof ToolItem && !(item instanceof HoeItem) && isSuperchromatic(stack);
     }
 
+    public static float getSuperchromaticToolItemPassiveEfficiencyMultiplier(Item item)
+    {
+        return 1.25f;
+    }
+
     public static float getSuperchromaticToolItemChargedEfficiencyMultiplier(Item item)
     {
-        return 1.5f;
+        return 1.75f;
     }
 
     public static float getSuperchromaticWeaponItemDamageMultiplier(Item item)
