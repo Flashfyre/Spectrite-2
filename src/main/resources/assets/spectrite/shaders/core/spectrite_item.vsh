@@ -5,14 +5,18 @@ in vec2 UV0;
 
 uniform mat4 ModelViewMat;
 uniform mat4 ProjMat;
+uniform vec2 TexSize;
 
-out vec2 vertexPosition;
-out vec2 texCoord0;
+out vec4 vertexColor;
+out vec2 texCoord;
+out vec2 oneTexel;
+out float scale;
 
 void main()
 {
     gl_Position = ProjMat * ModelViewMat * vec4(Position, 1.0);
 
-    vertexPosition = Position.xy + 0.5;
-    texCoord0 = UV0;
+    texCoord = UV0;
+    scale = TexSize.x / 1024.0;
+    oneTexel = 1.0 / TexSize;
 }

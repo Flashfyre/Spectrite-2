@@ -4,8 +4,8 @@
     "srcrgb": "srcalpha",
     "dstrgb": "1-srcalpha"
   },
-  "vertex": "spectrite:spectrite_item_charged",
-  "fragment": "spectrite:spectrite_item_charged",
+  "vertex": "spectrite:spectrite_item",
+  "fragment": "spectrite:spectrite_item",
   "attributes": [
     "Position",
     "UV0"
@@ -96,6 +96,14 @@
       "count": 1,
       "values": [
         1.0
+      ]
+    },
+    {
+      "name": "Charged",
+      "type": "int",
+      "count": 1,
+      "values": [
+        1
       ]
     },
     {

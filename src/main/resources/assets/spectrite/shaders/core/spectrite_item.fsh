@@ -4,10 +4,12 @@ uniform sampler2D Sampler0;
 uniform vec4 ColorModulator;
 uniform float STime;
 uniform float Saturation;
+uniform int Charged;
 uniform int Partial;
 
-in vec2 vertexPosition;
-in vec2 texCoord0;
+in vec2 texCoord;
+in vec2 oneTexel;
+in float scale;
 
 out vec4 fragColor;
 
@@ -43,9 +45,15 @@ vec3 spectriteBlend(vec3 a, vec3 b)
     return (1.0 - r) * r * b + r * (1.0 - (1.0 - r) * (1.0 - b));
 }
 
+vec3 screen(vec3 a, vec3 b)
+{
+    vec3 r = 1.0 - (1.0 - a) * (1.0 - b);
+    return r;
+}
+
 void main()
 {
-    vec4 color = texture(Sampler0, texCoord0);
+    vec4 color = texture(Sampler0, texCoord);
     if (color.a == 0.0) discard;
     vec3 hsv = rgb2hsv(color.rgb);
     float overlayHueOffset = STime * 0.3;
@@ -53,7 +61,10 @@ void main()
     hsv[1] *= Saturation;
 
     vec3 overlayHsv = rgb2hsv(vec3(1.0, 0.0, 0.0));
-    overlayHsv[0] = mod(overlayHsv[0] + overlayHueOffset + ((vertexPosition.x + vertexPosition.y) / 2.0), 1.0);
+    float originalSaturation = overlayHsv[1];
+    vec2 textureSize = vec2(oneTexel.x * scale * 16.0, oneTexel.y * scale * 16.0);
+
+    overlayHsv[0] = mod(overlayHsv[0] + overlayHueOffset + ((texCoord.x / textureSize.x - texCoord.y / textureSize.y) / 2.0), 1.0);
     overlayHsv[1] *= Saturation;
 
     vec3 blendRgb;
@@ -63,6 +74,21 @@ void main()
     } else
     {
         blendRgb = mix(spectriteBlend(hsv2rgb(hsv), hsv2rgb(overlayHsv)), color.rgb, 0.625);
+    }
+
+    if (Charged == 1)
+    {
+        if (texture(Sampler0, texCoord - vec2(oneTexel.x, 0.0)).a == 0.0
+        || texture(Sampler0, texCoord + vec2(oneTexel.x, 0.0)).a == 0.0
+        || texture(Sampler0, texCoord - vec2(0.0, oneTexel.y)).a == 0.0
+        || texture(Sampler0, texCoord + vec2(0.0, oneTexel.y)).a == 0.0)
+        {
+            vec3 chargedOverlayHsv = vec3(overlayHsv[0], originalSaturation, overlayHsv[2] * 1.5);
+            if (chargedOverlayHsv[2] > 1.0) {
+                chargedOverlayHsv[2] = 1.0;
+            }
+            blendRgb = screen(blendRgb, hsv2rgb(chargedOverlayHsv));
+        }
     }
 
     fragColor = vec4(blendRgb, color.a) * ColorModulator;

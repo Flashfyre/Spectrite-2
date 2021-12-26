@@ -62,6 +62,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     private static final ManagedCoreShader[] spectriteItem = new ManagedCoreShader[5];
     private static final Uniform1f[] spectriteItemSTime = new Uniform1f[5];
     private static final Uniform1f[] spectriteItemSaturation = new Uniform1f[5];
+    private static final Uniform2f[] spectriteItemTexSize = new Uniform2f[5];
 
     private static final ManagedCoreShader[] spectriteItemCharged = new ManagedCoreShader[4];
     private static final Uniform1f[] spectriteItemChargedSTime = new Uniform1f[4];
@@ -70,6 +71,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
     private static ManagedCoreShader superchromizedItem;
     private static Uniform1f superchromizedItemSTime;
+    private static Uniform2f superchromizedItemTexSize;
 
     private static ManagedCoreShader superchromizedItemCharged;
     private static Uniform1f superchromizedItemChargedSTime;
@@ -118,6 +120,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             spectriteItem[h] = spectriteItemShader;
             spectriteItemSTime[h] = spectriteItemShader.findUniform1f("STime");
             spectriteItemSaturation[h] = spectriteItemShader.findUniform1f("Saturation");
+            spectriteItemTexSize[h] = spectriteItemShader.findUniform2f("TexSize");
 
             if (h < spectriteItemCharged.length)
             {
@@ -134,6 +137,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
         superchromizedItem = ShaderEffectManager.getInstance().manageCoreShader(superchromizedItemShaderId);
         superchromizedItemSTime = superchromizedItem.findUniform1f("STime");
+        superchromizedItemTexSize = superchromizedItem.findUniform2f("TexSize");
 
         superchromizedItemCharged = ShaderEffectManager.getInstance().manageCoreShader(superchromizedItemChargedShaderId);
         superchromizedItemChargedSTime = superchromizedItemCharged.findUniform1f("STime");
@@ -173,6 +177,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
                 spectriteItemSTime[h].set(sTimeValue);
                 spectriteItemSaturation[h].set(saturation);
+                spectriteItemTexSize[h].set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
 
                 if (h < spectriteItemCharged.length)
                 {
@@ -183,6 +188,7 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
             }
 
             superchromizedItemSTime.set(sTimeValue);
+            superchromizedItemTexSize.set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
 
             superchromizedItemChargedSTime.set(sTimeValue);
             superchromizedItemChargedTexSize.set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
