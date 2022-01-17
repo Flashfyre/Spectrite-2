@@ -1,5 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
+import com.flashfyre.spectrite.item.Items;
 import com.flashfyre.spectrite.particle.Particles;
 import net.minecraft.entity.projectile.thrown.EnderPearlEntity;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,7 +15,7 @@ public class EnderPearlEntityMixin
     private void injectTickSuperSuperchromaticGlow(CallbackInfo ci)
     {
         final EnderPearlEntity entity = (EnderPearlEntity) (Object) this;
-        if (entity.world.getTime() % 3 == 0)
+        if (entity.getStack().getItem() == Items.SUPERCHROMATIC_ENDER_PEARL && entity.world.getTime() % 3 == 0)
             entity.world.addParticle(Particles.SUPERCHROMATIC_GLOW, entity.getParticleX(0.6D), entity.getRandomBodyY(), entity.getParticleZ(0.6D), 0.0D, 0.0D, 0.0D);
     }
 }

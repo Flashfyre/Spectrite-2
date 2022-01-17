@@ -7,6 +7,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ArmorItem;
+import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -14,8 +15,14 @@ import org.spongepowered.asm.mixin.Mixin;
 import java.util.Iterator;
 
 @Mixin(ArmorItem.class)
-public class ArmorItemMixin
+public abstract class ArmorItemMixin extends Item
 {
+    public ArmorItemMixin(Settings settings)
+    {
+        super(settings);
+    }
+
+    @Override
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
         final ArmorItem armorItem = (ArmorItem) (Object) this;
