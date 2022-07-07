@@ -6,44 +6,45 @@ import net.fabricmc.fabric.api.biome.v1.BiomeSelectionContext;
 import net.fabricmc.fabric.api.biome.v1.BiomeSelectors;
 import net.minecraft.util.registry.BuiltinRegistries;
 import net.minecraft.util.registry.Registry;
+import net.minecraft.util.registry.RegistryEntry;
 import net.minecraft.util.registry.RegistryKey;
 import net.minecraft.world.gen.GenerationStep;
 import net.minecraft.world.gen.YOffset;
-import net.minecraft.world.gen.decorator.*;
 import net.minecraft.world.gen.feature.PlacedFeature;
+import net.minecraft.world.gen.placementmodifier.*;
 
 import java.util.List;
 import java.util.function.Predicate;
 
 public class PlacedFeatures
 {
-    private static PlacedFeature ORE_SPECTRITE_OVERWORLD = ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD
-            .withPlacement(modifiersWithRarity(2, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80))));
+    private static PlacedFeature ORE_SPECTRITE_OVERWORLD = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD),
+            modifiersWithRarity(2, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80))));
 
-    private static PlacedFeature ORE_SPECTRITE_OVERWORLD_LARGE = ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD_LARGE
-            .withPlacement(modifiersWithRarity(21, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80))));
+    private static PlacedFeature ORE_SPECTRITE_OVERWORLD_LARGE = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD_LARGE),
+            modifiersWithRarity(21, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80))));
 
-    private static PlacedFeature ORE_SPECTRITE_NETHER = ConfiguredFeatures.ORE_SPECTRITE_NETHER
-            .withPlacement(modifiersWithRarity(14, net.minecraft.world.gen.feature.PlacedFeatures.TEN_ABOVE_AND_BELOW_RANGE));
+    private static PlacedFeature ORE_SPECTRITE_NETHER = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_NETHER),
+            modifiersWithRarity(14, net.minecraft.world.gen.feature.PlacedFeatures.TEN_ABOVE_AND_BELOW_RANGE));
 
-    private static PlacedFeature ORE_SPECTRITE_NETHER_ENCLOSED_LARGE = ConfiguredFeatures.ORE_SPECTRITE_NETHER_ENCLOSED_LARGE
-            .withPlacement(modifiersWithRarity(14, HeightRangePlacementModifier.trapezoid(YOffset.fixed(8), YOffset.fixed(24))));
+    private static PlacedFeature ORE_SPECTRITE_NETHER_ENCLOSED_LARGE = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_NETHER_ENCLOSED_LARGE),
+            modifiersWithRarity(14, HeightRangePlacementModifier.trapezoid(YOffset.fixed(8), YOffset.fixed(24))));
 
-    private static PlacedFeature ORE_SPECTRITE_NETHER_ENCLOSED_SMALL = ConfiguredFeatures.ORE_SPECTRITE_NETHER_ENCLOSED_SMALL
-            .withPlacement(modifiersWithRarity(14, net.minecraft.world.gen.feature.PlacedFeatures.EIGHT_ABOVE_AND_BELOW_RANGE));
+    private static PlacedFeature ORE_SPECTRITE_NETHER_ENCLOSED_SMALL = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_NETHER_ENCLOSED_SMALL),
+            modifiersWithRarity(14, net.minecraft.world.gen.feature.PlacedFeatures.EIGHT_ABOVE_AND_BELOW_RANGE));
 
-    private static PlacedFeature ORE_SPECTRITE_END = ConfiguredFeatures.ORE_SPECTRITE_END_LARGE
-            .withPlacement(modifiersWithRarity(21, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
+    private static PlacedFeature ORE_SPECTRITE_END = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_END_LARGE),
+            modifiersWithRarity(21, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
 
-    private static PlacedFeature ORE_SPECTRITE_END_LARGE = ConfiguredFeatures.ORE_SPECTRITE_END_LARGE
-            .withPlacement(modifiersWithRarity(147, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
+    private static PlacedFeature ORE_SPECTRITE_END_LARGE = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_END_LARGE),
+            modifiersWithRarity(147, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
 
-    private static PlacedFeature ORE_SPECTRITE_END_HUGE = ConfiguredFeatures.ORE_SPECTRITE_END_HUGE
-            .withPlacement(modifiersWithRarity(1029, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
+    private static PlacedFeature ORE_SPECTRITE_END_HUGE = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_END_HUGE),
+            modifiersWithRarity(1029, HeightRangePlacementModifier.trapezoid(YOffset.fixed(4), YOffset.fixed(55))));
 
-    private static PlacedFeature SUPERCHROMATIC_CHORUS_PLANT = ConfiguredFeatures.SUPERCHROMATIC_CHORUS_PLANT
-            .withPlacement(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(4900), SquarePlacementModifier.of(),
-                    net.minecraft.world.gen.feature.PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of());
+    private static PlacedFeature SUPERCHROMATIC_CHORUS_PLANT = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.SUPERCHROMATIC_CHORUS_PLANT),
+            List.of(CountPlacementModifier.of(1), RarityFilterPlacementModifier.of(4900), SquarePlacementModifier.of(),
+                    net.minecraft.world.gen.feature.PlacedFeatures.MOTION_BLOCKING_HEIGHTMAP, BiomePlacementModifier.of()));
 
     public static void initPlacedFeatures()
     {

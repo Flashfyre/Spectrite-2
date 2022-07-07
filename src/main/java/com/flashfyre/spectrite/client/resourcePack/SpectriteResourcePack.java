@@ -108,7 +108,7 @@ public class SpectriteResourcePack implements ResourcePack
         this.resources.put(filePath, fileBytes);
         if (Spectrite.DEBUG)
         {
-            var file = new File("debug/spectrite/" + filePath);
+            File file = new File("debug/spectrite/" + filePath);
             file.getParentFile().mkdirs();
 
             try (FileChannel fc = FileChannel.open(file.toPath(), StandardOpenOption.CREATE, StandardOpenOption.WRITE))

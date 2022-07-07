@@ -22,32 +22,32 @@ public class ConfiguredFeatures
     public static ImmutableList<OreFeatureConfig.Target> SPECTRITE_ORE_END_TARGETS = ImmutableList.of(
             OreFeatureConfig.createTarget(new BlockMatchRuleTest(net.minecraft.block.Blocks.END_STONE), Blocks.END_SPECTRITE_ORE.getDefaultState()));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_OVERWORLD = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_OVERWORLD_TARGETS, 3));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_OVERWORLD = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_OVERWORLD_TARGETS, 3, 0.7F));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_OVERWORLD_LARGE = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_OVERWORLD_TARGETS, 7));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_OVERWORLD_LARGE = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_OVERWORLD_TARGETS, 7, 0.7F));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 3));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 3, 0.7F));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER_ENCLOSED_LARGE = Feature.SCATTERED_ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 3, 1.0F));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER_ENCLOSED_LARGE = new ConfiguredFeature<>(Feature.SCATTERED_ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 3, 1.0F));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER_ENCLOSED_SMALL = Feature.SCATTERED_ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 1, 1.0F));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_NETHER_ENCLOSED_SMALL = new ConfiguredFeature<>(Feature.SCATTERED_ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_NETHER_TARGETS, 1, 1.0F));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 7));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 7));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_LARGE = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 14));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_LARGE = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 14));
 
-    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_HUGE = Feature.ORE
-            .configure(new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 21));
+    public static ConfiguredFeature<?, ?> ORE_SPECTRITE_END_HUGE = new ConfiguredFeature<>(Feature.ORE,
+            new OreFeatureConfig(SPECTRITE_ORE_END_TARGETS, 21));
 
-    public static ConfiguredFeature<?, ?> SUPERCHROMATIC_CHORUS_PLANT = Features.SUPERCHROMATIC_CHORUS_PLANT
-            .configure(FeatureConfig.DEFAULT);
+    public static ConfiguredFeature<?, ?> SUPERCHROMATIC_CHORUS_PLANT = new ConfiguredFeature<>(Features.SUPERCHROMATIC_CHORUS_PLANT,
+            FeatureConfig.DEFAULT);
 
     public static void initConfiguredFeatures()
     {

@@ -49,15 +49,16 @@ public abstract class ModelLoaderMixin
     @Shadow
     protected abstract void addModel(ModelIdentifier modelId);
 
+    private boolean spectrite$vanillaLoaded;
     private boolean spectrite$addModelRecursive;
 
     private static Identifier spectrite$blocksAtlasId = new Identifier("textures/atlas/blocks.png");
 
+    private static ArrayDeque<String> spectrite$itemModelQueue = new ArrayDeque<>();
     private static String[] spectrite$existingBlockStateBlockDependencyModels;
     private static HashMap<String, String[]> spectrite$blockDependencyModelsMap = new HashMap<>();
     private static HashMap<String, String> spectrite$blockDependencyModelVariantMatchMap = new HashMap<>();
     private static HashMap<String, String[]> spectrite$itemDependencyModelsMap = new HashMap<>();
-
 
     static
     {
@@ -102,6 +103,24 @@ public abstract class ModelLoaderMixin
         spectrite$itemDependencyModelsMap.put("nether_star", new String[]{"superchromatic_nether_star"});
         spectrite$itemDependencyModelsMap.put("chorus_fruit", new String[]{"superchromatic_chorus_fruit"});
         spectrite$itemDependencyModelsMap.put("experience_bottle", new String[]{"superchromatic_elixir"});
+    }
+
+    @Inject(method = "addModel", at = @At("HEAD"), cancellable = true)
+    private void spectrite$injectOnAddModel(ModelIdentifier modelId, CallbackInfo ci)
+    {
+        if (Spectrite.MODID.equals(modelId.getNamespace()) && "inventory".equals(modelId.getVariant()) && !spectrite$vanillaLoaded)
+        {
+            spectrite$itemModelQueue.add(modelId.getNamespace() + ":" + modelId.getPath());
+            ci.cancel();
+        }
+    }
+
+    @Inject(method = "<init>", at = @At(value = "INVOKE", target = "Lnet/minecraft/util/profiler/Profiler;swap(Ljava/lang/String;)V", ordinal = 4))
+    private void spectrite$injectAddSpectriteModels(ResourceManager resourceManager, BlockColors blockColors, Profiler profiler, int i, CallbackInfo ci)
+    {
+        spectrite$vanillaLoaded = true;
+        while (!spectrite$itemModelQueue.isEmpty())
+            addModel(new ModelIdentifier(spectrite$itemModelQueue.poll(), "inventory"));
     }
 
     @Inject(method = "putModel", at = @At("HEAD"))
@@ -225,27 +244,36 @@ public abstract class ModelLoaderMixin
             boolean reusesTexture = modPath.startsWith("depleted_") || modPath.startsWith("bow_") || "shield".equals(path);
             boolean isSpecialModel = path.startsWith("bow_") || path.startsWith("shield") || path.startsWith("trident_");
             boolean overrideBuiltin = false;
+            boolean generated = false;
             JsonObject baseModelObj = null;
-            if (hasOverrides)
+            try (final InputStream bmis = resourceManager.getResource(new Identifier(modelId.getNamespace(),
+                    "models/" + modelId.getPath() + ".json")).getInputStream())
             {
-                try (final InputStream bmis = resourceManager.getResource(new Identifier(modelId.getNamespace(),
-                        "models/" + modelId.getPath() + ".json")).getInputStream())
+                final String baseModelJsonString = new String(bmis.readAllBytes());
+                baseModelObj = new JsonParser().parse(baseModelJsonString).getAsJsonObject();
+                if (baseModelObj.has("parent"))
                 {
-                    final String baseModelJsonString = new String(bmis.readAllBytes());
-                    baseModelObj = new JsonParser().parse(baseModelJsonString).getAsJsonObject();
-                    if (baseModelObj.has("parent") && !baseModelObj.get("parent").getAsString().startsWith("builtin/"))
+                    String parent = baseModelObj.get("parent").getAsString();
+                    if (!parent.startsWith("builtin/"))
                     {
-                        overrideBuiltin = true;
-                        if ("spectrite_shield".equals(modPath))
-                            reusesTexture = false;
+                        if (hasOverrides)
+                        {
+                            overrideBuiltin = true;
+                            if ("spectrite_shield".equals(modPath))
+                                reusesTexture = false;
+                        } else
+                        {
+                            generated = "minecraft:item/generated".equals(parent);
+                            baseModelObj = null;
+                        }
                     }
-                } catch (IOException e)
-                {
-                    e.printStackTrace();
                 }
+            } catch (IOException e)
+            {
+                e.printStackTrace();
             }
 
-            final JsonObject modelObj = SpectriteTextureUtils.getItemModelObj(modPath, propertyOverrides, baseModelObj);
+            final JsonObject modelObj = SpectriteTextureUtils.getItemModelObj(modPath, propertyOverrides, baseModelObj, generated);
             final String modelName = SpectriteTextureUtils.getItemModelName(modPath, null);
             resourcePack.putItemModel(modelName, modelObj.toString().getBytes());
 
@@ -305,5 +333,6 @@ public abstract class ModelLoaderMixin
                     blocksAtlasData.getWidth(), blocksAtlasData.getHeight());
         }
         SpectriteTextureUtils.clearCaches();
+        spectrite$vanillaLoaded = false;
     }
 }

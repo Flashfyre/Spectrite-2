@@ -25,7 +25,7 @@ public class SpectriteConfig implements ConfigData
 
     private int superchromaticEnderPearlUses = 0;
 
-    private float superchromaticMobSpawnRate = 0.048828f;
+    private float superchromaticMobSpawnRate = 0.48828f;
 
     private float superchromaticMobSpawnRateBeaconBlockBonus = 0.037977f;
 

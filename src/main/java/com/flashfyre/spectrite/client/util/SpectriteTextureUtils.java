@@ -964,7 +964,7 @@ public final class SpectriteTextureUtils
         return name + "_" + propertyOverride.getKey() + propertyOverride.getValue();
     }
 
-    public static JsonObject getItemModelObj(String name, Map.Entry<String, Integer>[] propertyOverrides, JsonObject baseModelObj)
+    public static JsonObject getItemModelObj(String name, Map.Entry<String, Integer>[] propertyOverrides, JsonObject baseModelObj, boolean generated)
     {
         JsonObject modelObj = new JsonObject();
         String variant = null;
@@ -994,18 +994,18 @@ public final class SpectriteTextureUtils
         if (builtin)
             populateSpectriteBuiltinItemModelObj(modelObj, name, variant, propertyOverrides, baseModelObj);
         else
-            populateSimpleSpectriteItemModelObj(modelObj, name, variant, propertyOverrides, baseModelObj);
+            populateSimpleSpectriteItemModelObj(modelObj, name, variant, propertyOverrides, baseModelObj, generated);
 
         return modelObj;
     }
 
     private static void populateSimpleSpectriteItemModelObj(JsonObject modelObj, String name, String variant,
                                                             Map.Entry<String, Integer>[] propertyOverrides,
-                                                            JsonObject baseModelObj)
+                                                            JsonObject baseModelObj, boolean generated)
     {
         if (baseModelObj == null)
         {
-            modelObj.addProperty("parent", "item/handheld");
+            modelObj.addProperty("parent", generated ? "item/generated" : "item/handheld");
 
             final JsonObject texturesObj = new JsonObject();
             texturesObj.addProperty("layer0", itemModelPrefix + getItemTextureName(name, null));

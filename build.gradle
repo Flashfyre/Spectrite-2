@@ -1,5 +1,5 @@
 plugins {
-	id 'fabric-loom' version '0.10-SNAPSHOT'
+	id 'fabric-loom' version '0.11-SNAPSHOT'
 	id 'maven-publish'
 }
 
@@ -28,7 +28,7 @@ repositories {
 		url = 'https://ladysnake.jfrog.io/artifactory/mods'
 		content {
 			includeGroup 'io.github.ladysnake'
-			includeGroupByRegex 'io\\.github\\.onyxstudios.*'
+			includeGroupByRegex 'dev\\.onyxstudios.*'
 		}
 	}
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
@@ -36,7 +36,7 @@ repositories {
 }
 
 loom {
-	accessWidener = file("src/main/resources/spectrite.accesswidener")
+	accessWidenerPath = file("src/main/resources/spectrite.accesswidener")
 	runs {
 		configureEach {
 			vmArg("-Dmixin.debug.export=true")
@@ -61,16 +61,16 @@ dependencies {
 
 	compileOnly "org.jetbrains:annotations:${jb_annotations_version}"
 
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.1.1"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-base:3.1.1"
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:3.1.1"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-item:3.1.1"
-	modImplementation "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.1.1"
-	include "io.github.onyxstudios.Cardinal-Components-API:cardinal-components-entity:3.1.1"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0"
+	include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-item:4.2.0"
+	include "dev.onyxstudios.cardinal-components-api:cardinal-components-item:4.2.0"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.2.0"
+	include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.2.0"
 
 	modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.18:${project.geckolib_version}"
 
-	modApi("me.shedaniel.cloth:cloth-config-fabric:6.1.48") {
+	modApi("me.shedaniel.cloth:cloth-config-fabric:6.2.57") {
 		exclude(group: "net.fabricmc.fabric-api")
 	}
 }

@@ -97,7 +97,28 @@ public class SuperchromaticItemUtils
     public static int getRequiredSuperchromaticPoints(ItemStack stack)
     {
         final Item item = stack.getItem();
-        return MathHelper.ceil(item.getMaxDamage() / (item instanceof ArmorItem ? 120f : 490f));
+        int maxPoints = 30;
+        if (item instanceof ArmorItem armorItem)
+        {
+            switch (armorItem.getSlotType())
+            {
+                case HEAD:
+                    maxPoints = 21;
+                    break;
+                case CHEST:
+                    maxPoints = 35;
+                    break;
+                case LEGS:
+                    maxPoints = 28;
+                    break;
+                case FEET:
+                    maxPoints = 14;
+                    break;
+            }
+        }
+        if (item.getMaxDamage() <= 0)
+            return maxPoints;
+        return Math.min(MathHelper.ceil(item.getMaxDamage() / (item instanceof ArmorItem ? 120f : 490f)), maxPoints);
     }
 
     public static boolean isSuperchromaticMeleeWeaponItem(ItemStack stack)
