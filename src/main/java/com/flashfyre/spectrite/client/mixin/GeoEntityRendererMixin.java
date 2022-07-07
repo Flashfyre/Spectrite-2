@@ -38,7 +38,7 @@ public class GeoEntityRendererMixin
     }
 
 
-    @Inject(method = "getTextureLocation(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/util/Identifier;", at = @At("RETURN"), cancellable = true)
+    @Inject(method = "getTextureResource(Lnet/minecraft/entity/LivingEntity;)Lnet/minecraft/util/Identifier;", at = @At("RETURN"), cancellable = true)
     private void injectGetTextureLocationSubstituteSpectriteTexture(LivingEntity entity, CallbackInfoReturnable<Identifier> cir)
     {
         final GeoModel currentModel = ((AnimatedGeoModelAccessor) this.modelProvider).getCurrentModel();
