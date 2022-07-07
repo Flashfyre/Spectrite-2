@@ -26,6 +26,8 @@
     "LeafEntryBuilderAccessor",
     "LivingEntityAccessor",
     "LivingEntityMixin",
+    "LootPoolBuilderAccessor",
+    "LootTableBuilderAccessor",
     "MobEntityMixin",
     "PersistentProjectileEntityAccessor",
     "PersistentProjectileEntityMixin",
