@@ -21,6 +21,7 @@ import net.minecraft.util.math.Vec3f;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.*;
+import java.util.concurrent.atomic.AtomicReference;
 import java.util.stream.Collectors;
 
 @Environment(EnvType.CLIENT)
@@ -38,13 +39,21 @@ public final class SpectriteTextureUtils
 
     public static NativeImage getNativeImage(ResourceManager resourceManager, Identifier path)
     {
-        try
+        AtomicReference<NativeImage> ret = new AtomicReference<>();
+
+        resourceManager.getResource(path).ifPresent(r ->
         {
-            return NativeImage.read(resourceManager.getResource(path).get().getInputStream());
-        } catch (IOException e)
-        {
-            Spectrite.INSTANCE.warn("Failed to load texture \"" + path + "\": " + e.getMessage());
-        }
+            try
+            {
+                ret.set(NativeImage.read(r.getInputStream()));
+            } catch (IOException e)
+            {
+                Spectrite.INSTANCE.warn("Failed to load texture \"" + path + "\": " + e.getMessage());
+            }
+        });
+
+        if (ret.get() != null)
+            return ret.get();
 
         return !fallbackTexture.equals(path.getPath())
                 ? getNativeImage(resourceManager, new Identifier(Spectrite.MODID, "textures/transparent.png"))
@@ -53,63 +62,74 @@ public final class SpectriteTextureUtils
 
     public static Identifier getBaseModelTextureLocation(ResourceManager resourceManager, Identifier modelLocation)
     {
-        JsonObject modelObj = null;
+        AtomicReference<Identifier> ret = new AtomicReference<>();
 
-        try (InputStream mis = resourceManager.getResource(new Identifier(modelLocation.getNamespace(), "models/" + modelLocation.getPath() + ".json")).get().getInputStream())
+        resourceManager.getResource(new Identifier(modelLocation.getNamespace(), "models/" + modelLocation.getPath() + ".json")).ifPresent(r ->
         {
-            String modelJsonString = new String(mis.readAllBytes());
-            modelObj = new JsonParser().parse(modelJsonString).getAsJsonObject();
-        } catch (IOException e)
-        {
-            e.printStackTrace();
-        }
-
-        if (modelObj != null && modelObj.has("textures"))
-        {
-            final JsonObject texturesObj = modelObj.getAsJsonObject("textures");
-            final Map.Entry<String, JsonElement> textureEntry = texturesObj.entrySet().stream().findAny().orElse(null);
-            final String location = textureEntry != null ? textureEntry.getValue().getAsString() : null;
-            if (location != null)
+            JsonObject modelObj = null;
+            try (InputStream mis = r.getInputStream())
             {
-                int separatorIndex = location.indexOf(':');
-                if (separatorIndex == -1)
-                    return new Identifier(location);
-                return new Identifier(location.substring(0, separatorIndex), location.substring(separatorIndex + 1));
+                String modelJsonString = new String(mis.readAllBytes());
+                modelObj = new JsonParser().parse(modelJsonString).getAsJsonObject();
+            } catch (IOException e)
+            {
+                e.printStackTrace();
             }
-        }
 
-        return null;
+            if (modelObj != null && modelObj.has("textures"))
+            {
+                final JsonObject texturesObj = modelObj.getAsJsonObject("textures");
+                final Map.Entry<String, JsonElement> textureEntry = texturesObj.entrySet().stream().findAny().orElse(null);
+                final String location = textureEntry != null ? textureEntry.getValue().getAsString() : null;
+                if (location != null)
+                {
+                    int separatorIndex = location.indexOf(':');
+                    ret.set(separatorIndex == -1
+                            ? new Identifier(location)
+                            : new Identifier(location.substring(0, separatorIndex), location.substring(separatorIndex + 1)));
+                }
+            }
+        });
+
+        return ret.get();
     }
 
     public static byte[] getMcMetaBytes(ResourceManager resourceManager, Identifier textureLocation)
     {
         final Identifier mcMetaLocation;
+        final AtomicReference<byte[]> ret = new AtomicReference<>(new byte[0]);
         if (textureLocation == null)
         {
             mcMetaLocation = new Identifier(Spectrite.MODID, "textures/block/spectrite_ore.png.mcmeta");
             if (spectriteBlockMcMetaBytes == null)
             {
-                try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).get().getInputStream())
+                resourceManager.getResource(mcMetaLocation).ifPresent(r ->
                 {
-                    spectriteBlockMcMetaBytes = inputStream.readAllBytes();
+                    try (InputStream inputStream = r.getInputStream())
+                    {
+                        spectriteBlockMcMetaBytes = inputStream.readAllBytes();
+                    } catch (IOException e)
+                    {
+                        e.printStackTrace();
+                    }
+                });
+            }
+            ret.set(spectriteBlockMcMetaBytes);
+        } else
+        {
+            mcMetaLocation = new Identifier(textureLocation.getNamespace(), "textures/" + textureLocation.getPath() + ".png.mcmeta");
+            resourceManager.getResource(mcMetaLocation).ifPresent(r ->
+            {
+                try (InputStream inputStream = r.getInputStream())
+                {
+                    ret.set(inputStream.readAllBytes());
                 } catch (IOException e)
                 {
                     e.printStackTrace();
                 }
-            }
-            return spectriteBlockMcMetaBytes;
-        } else
-        {
-            mcMetaLocation = new Identifier(textureLocation.getNamespace(), "textures/" + textureLocation.getPath() + ".png.mcmeta");
-            try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).get().getInputStream())
-            {
-                return inputStream.readAllBytes();
-            } catch (IOException e)
-            {
-                e.printStackTrace();
-            }
+            });
         }
-        return new byte[0];
+        return ret.get();
     }
 
     public static String[] getBlockVariants(String name)

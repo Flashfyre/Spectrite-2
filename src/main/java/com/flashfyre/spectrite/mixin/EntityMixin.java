@@ -104,7 +104,8 @@ public abstract class EntityMixin
     private void injectSetCustomNameSetSuperchromaticBossBarName(Text name, CallbackInfo ci)
     {
         final Entity entity = (Entity) (Object) this;
-        if (entity instanceof SpectriteCompatibleMobEntity && entity.hasCustomName() && ((SpectriteCompatibleMobEntity) entity).isSuperchromatic())
+        if (entity instanceof SpectriteCompatibleMobEntity && entity.hasCustomName()
+                && ((SpectriteCompatibleMobEntity) entity).isSuperchromatic() && entity instanceof Monster)
             ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().setName(entity.getDisplayName());
     }
 
