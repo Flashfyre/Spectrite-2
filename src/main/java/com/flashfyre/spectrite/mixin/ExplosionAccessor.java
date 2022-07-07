@@ -6,15 +6,14 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.ExplosionBehavior;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.gen.Accessor;
 import org.spongepowered.asm.mixin.gen.Invoker;
 
-import java.util.List;
 import java.util.Map;
-import java.util.Random;
 
 @Mixin(Explosion.class)
 public interface ExplosionAccessor
@@ -26,7 +25,7 @@ public interface ExplosionAccessor
     ExplosionBehavior getBehavior();
 
     @Accessor("affectedBlocks")
-    List<BlockPos> getAffectedBlocks();
+    ObjectArrayList<BlockPos> getAffectedBlocks();
 
     @Accessor("affectedPlayers")
     Map<PlayerEntity, Vec3d> getAffectedPlayers();

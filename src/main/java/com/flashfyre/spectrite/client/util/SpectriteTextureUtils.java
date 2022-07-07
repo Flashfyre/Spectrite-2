@@ -40,7 +40,7 @@ public final class SpectriteTextureUtils
     {
         try
         {
-            return NativeImage.read(resourceManager.getResource(path).getInputStream());
+            return NativeImage.read(resourceManager.getResource(path).get().getInputStream());
         } catch (IOException e)
         {
             Spectrite.INSTANCE.warn("Failed to load texture \"" + path + "\": " + e.getMessage());
@@ -55,7 +55,7 @@ public final class SpectriteTextureUtils
     {
         JsonObject modelObj = null;
 
-        try (InputStream mis = resourceManager.getResource(new Identifier(modelLocation.getNamespace(), "models/" + modelLocation.getPath() + ".json")).getInputStream())
+        try (InputStream mis = resourceManager.getResource(new Identifier(modelLocation.getNamespace(), "models/" + modelLocation.getPath() + ".json")).get().getInputStream())
         {
             String modelJsonString = new String(mis.readAllBytes());
             modelObj = new JsonParser().parse(modelJsonString).getAsJsonObject();
@@ -89,7 +89,7 @@ public final class SpectriteTextureUtils
             mcMetaLocation = new Identifier(Spectrite.MODID, "textures/block/spectrite_ore.png.mcmeta");
             if (spectriteBlockMcMetaBytes == null)
             {
-                try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).getInputStream())
+                try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).get().getInputStream())
                 {
                     spectriteBlockMcMetaBytes = inputStream.readAllBytes();
                 } catch (IOException e)
@@ -101,7 +101,7 @@ public final class SpectriteTextureUtils
         } else
         {
             mcMetaLocation = new Identifier(textureLocation.getNamespace(), "textures/" + textureLocation.getPath() + ".png.mcmeta");
-            try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).getInputStream())
+            try (InputStream inputStream = resourceManager.getResource(mcMetaLocation).get().getInputStream())
             {
                 return inputStream.readAllBytes();
             } catch (IOException e)

@@ -17,7 +17,7 @@ import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.TntEntity;
 import net.minecraft.entity.damage.DamageSource;
-import net.minecraft.entity.passive.HorseBaseEntity;
+import net.minecraft.entity.passive.AbstractHorseEntity;
 import net.minecraft.entity.passive.TameableEntity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.projectile.ProjectileEntity;
@@ -28,17 +28,22 @@ import net.minecraft.loot.context.LootContextParameters;
 import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvents;
+import net.minecraft.util.Util;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Box;
 import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.Vec3d;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.World;
 import net.minecraft.world.event.GameEvent;
 import net.minecraft.world.explosion.Explosion;
 import net.minecraft.world.explosion.ExplosionBehavior;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Optional;
+import java.util.Set;
 
 public class ChromaBlast extends Explosion
 {
@@ -54,7 +59,7 @@ public class ChromaBlast extends Explosion
     @Nullable
     private final Entity targetEntity;
     private final float power;
-    private final List<BlockPos> affectedBlocks;
+    private final ObjectArrayList<BlockPos> affectedBlocks = new ObjectArrayList();
 
     public ChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity, double x, double y, double z,
                        float power, List<BlockPos> affectedBlocks)
@@ -70,7 +75,7 @@ public class ChromaBlast extends Explosion
         this.power = power;
         this.createFire = false;
         this.destructionType = DestructionType.DESTROY;
-        this.affectedBlocks = ((ExplosionAccessor) this).getAffectedBlocks();
+        this.affectedBlocks.addAll(((ExplosionAccessor) this).getAffectedBlocks());
     }
 
     public ChromaBlast(World world, @Nullable Entity entity, @Nullable Entity targetEntity,
@@ -89,7 +94,7 @@ public class ChromaBlast extends Explosion
         this.power = power;
         this.createFire = createFire;
         this.destructionType = destructionType;
-        this.affectedBlocks = ((ExplosionAccessor) this).getAffectedBlocks();
+        this.affectedBlocks.addAll(((ExplosionAccessor) this).getAffectedBlocks());
     }
 
     @Override
@@ -222,7 +227,7 @@ public class ChromaBlast extends Explosion
         if (damagedEntity instanceof TameableEntity tameableEntity && tameableEntity.getOwnerUuid() == sourceEntity.getUuid())
             return false;
 
-        if (damagedEntity instanceof HorseBaseEntity horseEntity && (horseEntity.getOwnerUuid() == sourceEntity.getUuid() || horseEntity.getPassengerList().contains(sourceEntity)))
+        if (damagedEntity instanceof AbstractHorseEntity horseEntity && (horseEntity.getOwnerUuid() == sourceEntity.getUuid() || horseEntity.getPassengerList().contains(sourceEntity)))
             return false;
 
         final ChromaBlastTargetType sourceEntityTargetType = ChromaBlastTargetType.getEntityTargetType(sourceEntity);
@@ -292,44 +297,53 @@ public class ChromaBlast extends Explosion
 
         if (bl)
         {
-            final ObjectArrayList<Pair<ItemStack, BlockPos>> objectArrayList = new ObjectArrayList();
-            Collections.shuffle(this.affectedBlocks, this.world.random);
-            final Iterator var4 = this.affectedBlocks.iterator();
+            ObjectArrayList<Pair<ItemStack, BlockPos>> objectArrayList = new ObjectArrayList();
+            boolean bl2 = this.getCausingEntity() instanceof PlayerEntity;
+            Util.shuffle(this.affectedBlocks, this.world.random);
+            ObjectListIterator var5 = this.affectedBlocks.iterator();
 
-            while (var4.hasNext())
+            while (var5.hasNext())
             {
-                final BlockPos blockPos = (BlockPos) var4.next();
-                final BlockState blockState = this.world.getBlockState(blockPos);
-                final Block block = blockState.getBlock();
+                BlockPos blockPos = (BlockPos) var5.next();
+                BlockState blockState = this.world.getBlockState(blockPos);
+                Block block = blockState.getBlock();
                 if (!blockState.isAir())
                 {
-                    final BlockPos blockPos2 = blockPos.toImmutable();
+                    BlockPos blockPos2 = blockPos.toImmutable();
                     this.world.getProfiler().push("explosion_blocks");
-                    if (block.shouldDropItemsOnExplosion(this) && this.world instanceof ServerWorld)
+                    if (block.shouldDropItemsOnExplosion(this))
                     {
-                        BlockEntity blockEntity = blockState.hasBlockEntity() ? this.world.getBlockEntity(blockPos) : null;
-                        LootContext.Builder builder = (new LootContext.Builder((ServerWorld) this.world)).random(this.world.random).parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockPos)).parameter(LootContextParameters.TOOL, ItemStack.EMPTY).optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity).optionalParameter(LootContextParameters.THIS_ENTITY, this.entity);
-                        if (this.destructionType == Explosion.DestructionType.DESTROY)
-                            builder.parameter(LootContextParameters.EXPLOSION_RADIUS, this.power);
-
-                        blockState.getDroppedStacks(builder).forEach((stack) ->
+                        World var11 = this.world;
+                        if (var11 instanceof ServerWorld)
                         {
-                            ExplosionAccessor.invokeTryMergeStack(objectArrayList, stack, blockPos2);
-                        });
+                            ServerWorld serverWorld = (ServerWorld) var11;
+                            BlockEntity blockEntity = blockState.hasBlockEntity() ? this.world.getBlockEntity(blockPos) : null;
+                            LootContext.Builder builder = (new LootContext.Builder(serverWorld)).random(this.world.random).parameter(LootContextParameters.ORIGIN, Vec3d.ofCenter(blockPos)).parameter(LootContextParameters.TOOL, ItemStack.EMPTY).optionalParameter(LootContextParameters.BLOCK_ENTITY, blockEntity).optionalParameter(LootContextParameters.THIS_ENTITY, this.entity);
+                            if (this.destructionType == Explosion.DestructionType.DESTROY)
+                            {
+                                builder.parameter(LootContextParameters.EXPLOSION_RADIUS, this.power);
+                            }
+
+                            blockState.onStacksDropped(serverWorld, blockPos, ItemStack.EMPTY, bl2);
+                            blockState.getDroppedStacks(builder).forEach((stack) ->
+                            {
+                                ExplosionAccessor.invokeTryMergeStack(objectArrayList, stack, blockPos2);
+                            });
+                        }
                     }
 
-                    this.world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), Block.NOTIFY_ALL);
+                    this.world.setBlockState(blockPos, Blocks.AIR.getDefaultState(), 3);
                     block.onDestroyedByExplosion(this.world, blockPos, this);
                     this.world.getProfiler().pop();
                 }
             }
 
-            final ObjectListIterator var12 = objectArrayList.iterator();
+            var5 = objectArrayList.iterator();
 
-            while (var12.hasNext())
+            while (var5.hasNext())
             {
-                final Pair<ItemStack, BlockPos> pair = (Pair) var12.next();
-                Block.dropStack(this.world, pair.getSecond(), pair.getFirst());
+                Pair<ItemStack, BlockPos> pair = (Pair) var5.next();
+                Block.dropStack(this.world, (BlockPos) pair.getSecond(), (ItemStack) pair.getFirst());
             }
         }
 

@@ -11,10 +11,10 @@ public class SuperchromaticEntityTrackingDeathSoundInstance extends Superchromat
 {
     private int hueFrame;
 
-    public SuperchromaticEntityTrackingDeathSoundInstance(SoundEvent sound, SoundCategory category, float volume, float pitch, Entity entity)
+    public SuperchromaticEntityTrackingDeathSoundInstance(SoundEvent sound, SoundCategory category, float volume, float pitch, Entity entity, long seed)
     {
-        super(sound, category, volume, pitch, entity);
-        this.hueFrame = 9 + entity.world.random.nextInt(10);
+        super(sound, category, volume, pitch, entity, seed);
+        this.hueFrame = 9 + field_38800.nextInt(10);
     }
 
     @Override

@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
 import net.minecraft.world.World;
@@ -29,7 +30,7 @@ import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
 {
     @Shadow
-    protected abstract void enchantMainHandItem(float power);
+    protected abstract void enchantMainHandItem(Random random, float power);
 
     private ServerBossBar superchromaticBossBar;
 
@@ -67,7 +68,7 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
             if (mainHandStack.getItem() == Items.BOW && mobEntity.world.random.nextInt(7) == 0)
             {
                 mobEntity.setStackInHand(Hand.MAIN_HAND, new ItemStack(com.flashfyre.spectrite.item.Items.SPECTRITE_BOW));
-                this.enchantMainHandItem(mobEntity.world.getLocalDifficulty(mobEntity.getBlockPos()).getClampedLocalDifficulty());
+                this.enchantMainHandItem(mobEntity.world.random, mobEntity.world.getLocalDifficulty(mobEntity.getBlockPos()).getClampedLocalDifficulty());
             }
         }
     }

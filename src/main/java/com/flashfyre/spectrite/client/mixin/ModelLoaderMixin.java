@@ -247,7 +247,7 @@ public abstract class ModelLoaderMixin
             boolean generated = false;
             JsonObject baseModelObj = null;
             try (final InputStream bmis = resourceManager.getResource(new Identifier(modelId.getNamespace(),
-                    "models/" + modelId.getPath() + ".json")).getInputStream())
+                    "models/" + modelId.getPath() + ".json")).get().getInputStream())
             {
                 final String baseModelJsonString = new String(bmis.readAllBytes());
                 baseModelObj = new JsonParser().parse(baseModelJsonString).getAsJsonObject();

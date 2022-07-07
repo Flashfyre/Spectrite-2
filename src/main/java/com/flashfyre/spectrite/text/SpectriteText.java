@@ -1,30 +1,28 @@
 package com.flashfyre.spectrite.text;
 
-import com.flashfyre.spectrite.mixin.BaseTextAccessor;
+import com.flashfyre.spectrite.mixin.MutableTextAccessor;
 import com.flashfyre.spectrite.util.SpectriteUtils;
-import net.minecraft.text.BaseText;
-import net.minecraft.text.LiteralText;
-import net.minecraft.text.OrderedText;
-import net.minecraft.text.Text;
+import com.google.common.collect.Lists;
+import net.minecraft.text.*;
 import net.minecraft.util.Language;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SpectriteText extends BaseText
+public class SpectriteText extends MutableText
 {
-    private final Text baseText;
+    private MutableText baseText;
 
     private final boolean rotateTextColor;
 
     private Integer previousColorIndex;
 
-    public SpectriteText(Text baseText, boolean rotateTextColor)
+    public SpectriteText(MutableText baseText, boolean rotateTextColor)
     {
+        super(TextContent.EMPTY, Lists.newArrayList(), Style.EMPTY);
         this.baseText = baseText;
         this.rotateTextColor = rotateTextColor;
-        if (!rotateTextColor)
-            this.siblings.addAll(getFormattedCharsAsSiblings());
+        ((MutableTextAccessor) this).getSiblings().addAll(getFormattedCharsAsSiblings());
     }
 
     @Override
@@ -32,7 +30,7 @@ public class SpectriteText extends BaseText
     {
         if (rotateTextColor)
         {
-            final OrderedText lastOrderedText = ((BaseTextAccessor) this).spectrite$getOrderedText();
+            final OrderedText lastOrderedText = ((MutableTextAccessor) this).spectrite$getOrderedText();
             final OrderedText ret = super.asOrderedText();
             final int colorIndex = Math.round((System.currentTimeMillis() >> 7) % 7);
             if (rotateTextColor && previousColorIndex != colorIndex)
@@ -41,7 +39,7 @@ public class SpectriteText extends BaseText
                 if (ret == lastOrderedText)
                 {
                     final OrderedText newValue = Language.getInstance().reorder(this);
-                    ((BaseTextAccessor) this).spectrite$setOrderedText(newValue);
+                    ((MutableTextAccessor) this).spectrite$setOrderedText(newValue);
                     return newValue;
                 }
             }
@@ -51,7 +49,7 @@ public class SpectriteText extends BaseText
     }
 
     @Override
-    public BaseText copy()
+    public MutableText copy()
     {
         return new SpectriteText(baseText, rotateTextColor);
     }
@@ -80,7 +78,7 @@ public class SpectriteText extends BaseText
         for (int c = 0; c < chars.length; c++)
         {
             final char currentChar = chars[c];
-            ret.add(new LiteralText(String.valueOf(currentChar)).formatted(SpectriteUtils.TEXT_COLORS[(c + colorIndex) % textColorCount]));
+            ret.add(Text.literal(String.valueOf(currentChar)).formatted(SpectriteUtils.TEXT_COLORS[(c + colorIndex) % textColorCount]));
         }
         return ret;
     }
@@ -89,8 +87,8 @@ public class SpectriteText extends BaseText
     {
         if (this == object)
             return true;
-        if (!(object instanceof SpectriteText spectriteText))
+        if (!(object instanceof SpectriteText spectriteTextContent))
             return false;
-        return rotateTextColor == spectriteText.rotateTextColor && baseText.equals(spectriteText.baseText) && super.equals(object);
+        return rotateTextColor == spectriteTextContent.rotateTextColor && baseText.equals(spectriteTextContent.baseText) && super.equals(object);
     }
 }

@@ -14,9 +14,9 @@ public class SuperchromaticEntityTrackingSoundInstance extends EntityTrackingSou
     protected Entity entity;
     protected int playTime = 0;
 
-    public SuperchromaticEntityTrackingSoundInstance(SoundEvent sound, SoundCategory category, float volume, float pitch, Entity entity)
+    public SuperchromaticEntityTrackingSoundInstance(SoundEvent sound, SoundCategory category, float volume, float pitch, Entity entity, long seed)
     {
-        super(sound, category, volume, pitch, entity);
+        super(sound, category, volume, pitch, entity, seed);
         this.entity = entity;
     }
 

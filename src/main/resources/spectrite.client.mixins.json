@@ -31,7 +31,7 @@
     "SpectriteClientWorldMixin",
     "SpriteAtlasHolderMixin",
     "SpriteAtlasTextureDataAccessor",
-    "TranslatableTextAccessor",
+    "TranslatableTextContentAccessor",
     "TridentEntityRendererMixin",
     "WitherSkullEntityRendererMixin"
   ],

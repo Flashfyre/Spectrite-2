@@ -34,7 +34,7 @@ public class SpectriteClientWorldMixin
             target = "Lnet/minecraft/client/sound/SoundManager;play(Lnet/minecraft/client/sound/SoundInstance;)V"),
             cancellable = true)
     private void spectrite$injectPlaySoundFromEntity(PlayerEntity player, Entity entity, SoundEvent sound,
-                                                     SoundCategory category, float volume, float pitch, CallbackInfo ci)
+                                                     SoundCategory category, float volume, float pitch, long seed, CallbackInfo ci)
     {
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity)
         {
@@ -42,8 +42,8 @@ public class SpectriteClientWorldMixin
             if (superchromaticEntityComponent != null && superchromaticEntityComponent.isSuperchromatic())
             {
                 final EntityTrackingSoundInstance entitySound = !(entity instanceof MobEntity mobEntity) || sound != mobEntity.getDeathSound()
-                        ? new SuperchromaticEntityTrackingSoundInstance(sound, category, volume, pitch, entity)
-                        : new SuperchromaticEntityTrackingDeathSoundInstance(sound, category, volume, pitch, entity);
+                        ? new SuperchromaticEntityTrackingSoundInstance(sound, category, volume, pitch, entity, seed)
+                        : new SuperchromaticEntityTrackingDeathSoundInstance(sound, category, volume, pitch, entity, seed);
                 this.client.getSoundManager().play(entitySound);
                 ci.cancel();
             }

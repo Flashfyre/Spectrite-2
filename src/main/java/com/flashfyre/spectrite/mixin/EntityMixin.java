@@ -15,7 +15,6 @@ import net.minecraft.server.network.ServerPlayerEntity;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
@@ -58,7 +57,7 @@ public abstract class EntityMixin
         final Entity entity = (Entity) ((Object) this);
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic()
                 && !entity.hasCustomName() && !(entity instanceof SuperchromaticEntity))
-            cir.setReturnValue(new TranslatableText("entity.spectrite.superchromatic.generic", cir.getReturnValue()));
+            cir.setReturnValue(Text.translatable("entity.spectrite.superchromatic.generic", cir.getReturnValue()));
     }
 
     @Inject(method = "getDisplayName", at = @At(value = "RETURN"), cancellable = true)

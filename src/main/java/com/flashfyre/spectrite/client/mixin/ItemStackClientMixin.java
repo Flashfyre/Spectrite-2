@@ -10,7 +10,9 @@ import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.EquipmentSlot;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.*;
-import net.minecraft.text.*;
+import net.minecraft.text.MutableText;
+import net.minecraft.text.StringVisitable;
+import net.minecraft.text.Text;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.math.MathHelper;
 import org.spongepowered.asm.mixin.Mixin;
@@ -50,16 +52,16 @@ public class ItemStackClientMixin
         {
             if (item instanceof SpectriteWeaponItem spectriteWeaponItem && spectriteWeaponItem.hasPassiveChromaBlast())
             {
-                final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + spectriteWeaponItem.getChromaBlastLevel()));
+                final MutableText chromaBlastText = Text.translatable("item.spectrite.modifiers.chroma_blast");
+                chromaBlastText.append(" ").append(Text.translatable("enchantment.level." + spectriteWeaponItem.getChromaBlastLevel()));
                 list.add(new SpectriteText(chromaBlastText, false));
             } else if (SuperchromaticItemUtils.isSuperchromatic(stack))
             {
-                list.add(new SpectriteText(new TranslatableText("item.spectrite.modifiers.superchromized"), false));
+                list.add(new SpectriteText(Text.translatable("item.spectrite.modifiers.superchromized"), false));
                 if (SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item) > 0)
                 {
-                    final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                    chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item)));
+                    final MutableText chromaBlastText = Text.translatable("item.spectrite.modifiers.chroma_blast");
+                    chromaBlastText.append(" ").append(Text.translatable("enchantment.level." + SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item)));
                     list.add(new SpectriteText(chromaBlastText, false));
                 }
             }
@@ -81,9 +83,9 @@ public class ItemStackClientMixin
                 do
                 {
                     final String translationKey = item.getTranslationKey() + ".tooltip.l" + ++lineCount;
-                    final TranslatableText tooltipLine = new TranslatableText(translationKey);
-                    ((TranslatableTextAccessor) tooltipLine).invokeUpdateTranslations();
-                    final StringVisitable translation = ((TranslatableTextAccessor) tooltipLine).getTranslations().stream().findFirst().orElse(null);
+                    final MutableText tooltipLine = Text.translatable(translationKey);
+                    ((TranslatableTextContentAccessor) tooltipLine.getContent()).invokeUpdateTranslations();
+                    final StringVisitable translation = ((TranslatableTextContentAccessor) tooltipLine.getContent()).getTranslations().stream().findFirst().orElse(null);
                     tooltipLineText = translation != null ? translation.getString() : null;
                     if (tooltipLineText == null || tooltipLineText.equals(translationKey))
                         break;
@@ -103,32 +105,32 @@ public class ItemStackClientMixin
                     if (spectriteWeaponItem != null || (spectriteToolItem != null && spectriteToolItem.getChargedEfficiencyMultiplier() > 1f))
                     {
                         if (stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty())
-                            list.add(LiteralText.EMPTY);
-                        list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
+                            list.add(Text.empty());
+                        list.add(Text.translatable("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
                         if (spectriteToolItem != null)
-                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency",
+                            list.add(Text.literal(" ").append(Text.translatable("item.spectrite.modifiers.charged.tool_efficiency",
                                     (int) (spectriteToolItem.getChargedEfficiencyMultiplier() * 100f)).formatted(Formatting.BLUE)));
                         if (spectriteWeaponItem != null)
                         {
                             final int chromaBlastLevel = spectriteWeaponItem.getChromaBlastLevel() + (spectriteWeaponItem.hasPassiveChromaBlast() ? 1 : 0);
-                            final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                            chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
-                            list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                            final MutableText chromaBlastText = Text.translatable("item.spectrite.modifiers.chroma_blast");
+                            chromaBlastText.append(" ").append(Text.translatable("enchantment.level." + chromaBlastLevel));
+                            list.add(Text.literal(" ").append(new SpectriteText(chromaBlastText, false)));
                             if (chromaBlastLevel > 0)
                             {
                                 final float cooldownSeconds = MathHelper.ceil(SuperchromaticItemUtils.getSuperchromaticOrChargeableSpectriteItemCooldownTicks(item) / 2f) / 10f;
                                 if (cooldownSeconds > 0f)
-                                    list.add(new LiteralText(" ")
-                                            .append(new TranslatableText("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
+                                    list.add(Text.literal(" ")
+                                            .append(Text.translatable("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
                             }
                         }
                     } else if (spectriteDamageableItem instanceof SpectriteArmorItem spectriteArmorItem)
                     {
                         if (stack.getAttributeModifiers(spectriteArmorItem.getSlotType()).isEmpty())
-                            list.add(LiteralText.EMPTY);
-                        final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
-                        list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
-                        list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
+                            list.add(Text.empty());
+                        final MutableText superchromaticText = Text.translatable("effect.spectrite.superchromatic");
+                        list.add(Text.translatable("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
+                        list.add(Text.literal(" ").append(new SpectriteText(superchromaticText, false)));
                     }
                 }
             } else if (item.getGroup() == ItemGroup.FOOD || item instanceof SuperchromaticChorusFruitItem)
@@ -145,22 +147,22 @@ public class ItemStackClientMixin
                     isUnlimited = SpectriteConfig.getSuperchromaticFoodUses() == 0;
                 }
                 if (cooldownSeconds > 0f)
-                    list.add(new TranslatableText("item.spectrite.modifiers.cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA));
+                    list.add(Text.translatable("item.spectrite.modifiers.cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA));
                 if (isUnlimited)
-                    list.add(new TranslatableText("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
+                    list.add(Text.translatable("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
             } else if (item instanceof SuperchromaticEnderPearlItem)
             {
                 if (SpectriteConfig.getSuperchromaticEnderPearlUses() == 0)
-                    list.add(new TranslatableText("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
+                    list.add(Text.translatable("item.spectrite.modifiers.unlimited_use").formatted(Formatting.GRAY));
             } else if (item instanceof SpectriteBombItem)
             {
                 if (isSectionVisible(stack, ItemStack.TooltipSection.MODIFIERS))
                 {
-                    list.add(LiteralText.EMPTY);
-                    list.add(new TranslatableText("item.spectrite.modifiers.on_impact").formatted(Formatting.GRAY));
-                    final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                    chromaBlastText.append(" ").append(new TranslatableText("enchantment.level.5"));
-                    list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                    list.add(Text.empty());
+                    list.add(Text.translatable("item.spectrite.modifiers.on_impact").formatted(Formatting.GRAY));
+                    final MutableText chromaBlastText = Text.translatable("item.spectrite.modifiers.chroma_blast");
+                    chromaBlastText.append(" ").append(Text.translatable("enchantment.level.5"));
+                    list.add(Text.literal(" ").append(new SpectriteText(chromaBlastText, false)));
                 }
             }
         } else if (SuperchromaticItemUtils.isSuperchromaticCompatible(stack))
@@ -173,39 +175,39 @@ public class ItemStackClientMixin
                     {
                         final boolean hasMainHandModifiers = !stack.getAttributeModifiers(EquipmentSlot.MAINHAND).isEmpty();
                         if (!hasMainHandModifiers)
-                            list.add(LiteralText.EMPTY);
+                            list.add(Text.empty());
                         if (item instanceof ToolItem)
                         {
                             if (!hasMainHandModifiers)
-                                list.add(new TranslatableText("item.modifiers.mainhand").formatted(Formatting.GRAY));
-                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) 125f).formatted(Formatting.BLUE)));
+                                list.add(Text.translatable("item.modifiers.mainhand").formatted(Formatting.GRAY));
+                            list.add(Text.literal(" ").append(Text.translatable("item.spectrite.modifiers.charged.tool_efficiency", (int) 125f).formatted(Formatting.BLUE)));
                         }
-                        list.add(new TranslatableText("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
+                        list.add(Text.translatable("item.spectrite.modifiers.charged").formatted(Formatting.GRAY));
                         if (item instanceof ToolItem)
-                            list.add(new LiteralText(" ").append(new TranslatableText("item.spectrite.modifiers.charged.tool_efficiency", (int) 175f).formatted(Formatting.BLUE)));
+                            list.add(Text.literal(" ").append(Text.translatable("item.spectrite.modifiers.charged.tool_efficiency", (int) 175f).formatted(Formatting.BLUE)));
 
                         final int chromaBlastLevel = SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item)
                                 + SuperchromaticItemUtils.getSuperchromaticItemPassiveChromaBlastLevel(item);
                         if (chromaBlastLevel > 0)
                         {
-                            final MutableText chromaBlastText = new TranslatableText("item.spectrite.modifiers.chroma_blast");
-                            chromaBlastText.append(" ").append(new TranslatableText("enchantment.level." + chromaBlastLevel));
-                            list.add(new LiteralText(" ").append(new SpectriteText(chromaBlastText, false)));
+                            final MutableText chromaBlastText = Text.translatable("item.spectrite.modifiers.chroma_blast");
+                            chromaBlastText.append(" ").append(Text.translatable("enchantment.level." + chromaBlastLevel));
+                            list.add(Text.literal(" ").append(new SpectriteText(chromaBlastText, false)));
                         }
                     } else if (item instanceof ArmorItem armorItem)
                     {
                         if (stack.getAttributeModifiers(armorItem.getSlotType()).isEmpty())
-                            list.add(LiteralText.EMPTY);
-                        final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
-                        list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
-                        list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
+                            list.add(Text.empty());
+                        final MutableText superchromaticText = Text.translatable("effect.spectrite.superchromatic");
+                        list.add(Text.translatable("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
+                        list.add(Text.literal(" ").append(new SpectriteText(superchromaticText, false).getString()));
                     }
                     if (SuperchromaticItemUtils.isSuperchromaticChargeable(stack) && SuperchromaticItemUtils.getSuperchromaticItemChromaBlastLevel(item) > 0)
                     {
                         final float cooldownSeconds = MathHelper.ceil(SuperchromaticItemUtils.getSuperchromaticOrChargeableSpectriteItemCooldownTicks(item) / 2f) / 10f;
                         if (cooldownSeconds > 0f)
-                            list.add(new LiteralText(" ")
-                                    .append(new TranslatableText("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
+                            list.add(Text.literal(" ")
+                                    .append(Text.translatable("item.spectrite.modifiers.charged_attack_cooldown", cooldownSeconds).formatted(Formatting.DARK_AQUA)));
                     }
                 } else
                 {
@@ -213,7 +215,7 @@ public class ItemStackClientMixin
                     if (superchromaticPoints > 0)
                     {
                         final int superchromizedPercent = MathHelper.floor((superchromaticPoints / (float) SuperchromaticItemUtils.getRequiredSuperchromaticPoints(stack)) * 100f);
-                        list.add(new SpectriteText(new TranslatableText("item.spectrite.modifiers.percent_superchromized", superchromizedPercent), false));
+                        list.add(new SpectriteText(Text.translatable("item.spectrite.modifiers.percent_superchromized", superchromizedPercent), false));
                     }
                 }
             }

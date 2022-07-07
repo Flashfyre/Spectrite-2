@@ -142,7 +142,7 @@ public class SpectriteResourcePack implements ResourcePack
     }
 
     @Override
-    public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, int maxDepth, Predicate<String> pathFilter)
+    public Collection<Identifier> findResources(ResourceType type, String namespace, String prefix, Predicate<Identifier> allowedPathPredicate)
     {
         if (type == ResourceType.SERVER_DATA)
             return Collections.emptyList();
@@ -188,7 +188,7 @@ public class SpectriteResourcePack implements ResourcePack
         final String start = "assets/" + namespace + "/" + prefix;
 
         return this.resources.keySet().stream()
-                .filter(s -> s.startsWith(start) && pathFilter.test(s))
+                .filter(s -> s.startsWith(start) && allowedPathPredicate.test(Spectrite.getId(s)))
                 .map(SpectriteResourcePack::fromPath)
                 .collect(Collectors.toList());
     }

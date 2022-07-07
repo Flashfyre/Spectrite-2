@@ -9,7 +9,6 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.text.Text;
-import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.collection.DefaultedList;
 import net.minecraft.world.World;
@@ -57,6 +56,6 @@ public class SpectriteItemUtils
     public static void appendSpectriteDamageableItemTooltip(ItemStack stack, World world, List<Text> tooltip, TooltipContext context)
     {
         if (stack.getItem() instanceof SpectriteDamageableItem spectriteDamageableItem && spectriteDamageableItem.isDepleted())
-            tooltip.add(new TranslatableText("item.spectrite.tooltip.depleted").formatted(Formatting.GRAY));
+            tooltip.add(Text.translatable("item.spectrite.tooltip.depleted").formatted(Formatting.GRAY));
     }
 }
