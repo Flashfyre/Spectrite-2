@@ -59,34 +59,15 @@ public final class SpectriteUtils
         return new float[]{r, g, b};
     }
 
-    public static int getCurrentHueColor(int offsetLevel)
+    public static int getCurrentHueColor(boolean invert)
     {
-        final int hueFrame = Math.round((System.currentTimeMillis() >> 5) % 180);
+        final int hueFrame = Math.round(((System.currentTimeMillis() >> 5) + (invert ? 90 : 0)) % 180);
         int r = MathHelper.floor(hueFrame >= 120 && hueFrame < 150 ? (255f / 30) * (hueFrame - 120)
                 : hueFrame < 30 || hueFrame >= 150 ? 255f : hueFrame < 60 ? (255f / 30) * (30 - (hueFrame - 30)) : 0f),
                 g = MathHelper.floor(hueFrame < 30 ? (255f / 30) * hueFrame : hueFrame < 90 ? 255f
                         : hueFrame < 120 ? (255f / 30) * (30 - (hueFrame - 90)) : 0f),
                 b = MathHelper.floor(hueFrame >= 60 && hueFrame < 90 ? (255f / 30) * (hueFrame - 60)
                         : hueFrame >= 90 && hueFrame < 150 ? 255f : hueFrame >= 150 ? (255f / 30) * (30 - (hueFrame - 150)) : 0f);
-
-        final int tempR = r;
-
-        switch (offsetLevel)
-        {
-            case 1:
-                r = g;
-                g = b;
-                b = tempR;
-                break;
-            case 2:
-                int tempG = g;
-                r = b;
-                g = tempR;
-                b = tempG;
-                break;
-            default:
-                break;
-        }
 
         return (r << 16) + (g << 8) + b + (255 >> 24);
     }

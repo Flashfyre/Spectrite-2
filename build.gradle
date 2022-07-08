@@ -67,6 +67,8 @@ dependencies {
 	include "dev.onyxstudios.cardinal-components-api:cardinal-components-item:5.0.1"
 	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.1"
 	include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:5.0.1"
+	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.1"
+	include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:5.0.1"
 
 	modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.19:${project.geckolib_version}"
 

@@ -32,9 +32,14 @@ public class SpriteAtlasHolderMixin
             final byte[] mcMetaBytes = SpectriteTextureUtils.getMcMetaBytes(resourceManager, null);
             final NativeImage superchromaticEffectTexture = SpectriteTextureUtils.getSpectriteBlockTexture(resourceManager,
                     "top", new Identifier("block/diamond_block"));
+            final NativeImage chromaGuardEffectTexture = SpectriteTextureUtils.getSpectriteBlockTexture(resourceManager,
+                    "top_odd", new Identifier("block/diamond_block"));
 
             resourcePack.putImageDynamic("superchromatic", "mob_effect", superchromaticEffectTexture);
             resourcePack.putMcMeta("superchromatic", "mob_effect", mcMetaBytes);
+
+            resourcePack.putImageDynamic("chroma_guard", "mob_effect", chromaGuardEffectTexture);
+            resourcePack.putMcMeta("chroma_guard", "mob_effect", mcMetaBytes);
 
             // While we're at it, may as well add the advancements GUI background
             final NativeImage advancementBackgroundTexture = SpectriteTextureUtils.getSpectriteOreTexture(resourceManager,

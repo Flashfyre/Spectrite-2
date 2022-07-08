@@ -127,10 +127,17 @@ public class ItemStackClientMixin
                     } else if (spectriteDamageableItem instanceof SpectriteArmorItem spectriteArmorItem)
                     {
                         if (stack.getAttributeModifiers(spectriteArmorItem.getSlotType()).isEmpty())
-                            list.add(Text.empty());
-                        final MutableText superchromaticText = Text.translatable("effect.spectrite.superchromatic");
-                        list.add(Text.translatable("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
-                        list.add(Text.literal(" ").append(new SpectriteText(superchromaticText, false)));
+                            list.add(LiteralText.EMPTY);
+                        final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
+                        list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
+                        list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
+                    } else if (item instanceof SpectriteShieldItem)
+                    {
+                        list.add(Text.empty());
+                        list.add(Text.translatable("item.modifiers.offhand").formatted(Formatting.GRAY));
+                        final MutableText chromaGuardText = Text.translatable("effect.spectrite.chroma_guard");
+                        chromaGuardText.append(" ").append(Text.translatable("enchantment.level.1"));
+                        list.add(Text.literal(" ").append(new SpectriteText(chromaGuardText, false)));
                     }
                 }
             } else if (item.getGroup() == ItemGroup.FOOD || item instanceof SuperchromaticChorusFruitItem)

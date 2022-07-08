@@ -1,8 +1,10 @@
 package com.flashfyre.spectrite.item;
 
 import com.flashfyre.spectrite.util.SpectriteItemUtils;
+import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
 import net.minecraft.client.item.TooltipContext;
 import net.minecraft.entity.Entity;
+import net.minecraft.entity.LivingEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.ShieldItem;
 import net.minecraft.tag.ItemTags;
@@ -50,5 +52,8 @@ public class SpectriteShieldItem extends ShieldItem implements SpectriteDamageab
     public void inventoryTick(ItemStack stack, World world, Entity entity, int slot, boolean selected)
     {
         SpectriteItemUtils.spectriteDamageableItemInventoryTick(stack, world, entity, slot);
+        if (!entity.world.isClient && entity instanceof LivingEntity livingEntity
+                && stack.isItemEqual(livingEntity.getOffHandStack()))
+            SuperchromaticEntityUtils.addPassiveChromaGuardEffectIfNotPresent(livingEntity, 0);
     }
 }

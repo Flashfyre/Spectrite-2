@@ -15,6 +15,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.util.Hand;
+import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.math.random.Random;
 import net.minecraft.world.LocalDifficulty;
 import net.minecraft.world.ServerWorldAccess;
@@ -114,6 +115,11 @@ public abstract class MobEntityMixin implements SpectriteCompatibleMobEntity
         final MobEntity mobEntity = (MobEntity) (Object) this;
 
         if (((SpectriteCompatibleMobEntity) mobEntity).isSuperchromatic())
+        {
             SuperchromaticEntityUtils.addPassiveSuperchromaticEffectIfNotPresent(mobEntity);
+            final int superchromaticMobPowerBonus = SuperchromaticEntityUtils.getSuperchromaticMobPowerBonus(mobEntity);
+            if (superchromaticMobPowerBonus > 0)
+                SuperchromaticEntityUtils.addPassiveChromaGuardEffectIfNotPresent(mobEntity, MathHelper.floor((superchromaticMobPowerBonus - 1.0f) / 2.0f));
+        }
     }
 }

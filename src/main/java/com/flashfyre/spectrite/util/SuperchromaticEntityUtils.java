@@ -181,6 +181,12 @@ public class SuperchromaticEntityUtils
             livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.SUPERCHROMATIC, 16, 0, true, false, true));
     }
 
+    public static void addPassiveChromaGuardEffectIfNotPresent(LivingEntity livingEntity, int amplifier)
+    {
+        if (!livingEntity.hasStatusEffect(StatusEffects.CHROMA_GUARD))
+            livingEntity.addStatusEffect(new StatusEffectInstance(StatusEffects.CHROMA_GUARD, 16, amplifier, true, true, true));
+    }
+
     public static void tryAddChromaBlast(LivingEntity livingEntity, Entity target)
     {
         if (target instanceof LivingEntity livingTarget)
@@ -450,6 +456,8 @@ public class SuperchromaticEntityUtils
             return 0;
         if (maxHealth < 220f)
             return 1;
-        return 2;
+        if (maxHealth < 400f)
+            return 2;
+        return 3;
     }
 }
