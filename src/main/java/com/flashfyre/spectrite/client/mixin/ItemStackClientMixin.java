@@ -129,6 +129,13 @@ public class ItemStackClientMixin
                         final MutableText superchromaticText = new TranslatableText("effect.spectrite.superchromatic");
                         list.add(new TranslatableText("item.spectrite.modifiers.superchromatic_set_bonus").formatted(Formatting.GRAY));
                         list.add(new LiteralText(" ").append(new SpectriteText(superchromaticText, false)));
+                    } else if (item instanceof SpectriteShieldItem)
+                    {
+                        list.add(LiteralText.EMPTY);
+                        list.add(new TranslatableText("item.modifiers.offhand").formatted(Formatting.GRAY));
+                        final MutableText chromaGuardText = new TranslatableText("effect.spectrite.chroma_guard");
+                        chromaGuardText.append(" ").append(new TranslatableText("enchantment.level.1"));
+                        list.add(new LiteralText(" ").append(new SpectriteText(chromaGuardText, false)));
                     }
                 }
             } else if (item.getGroup() == ItemGroup.FOOD || item instanceof SuperchromaticChorusFruitItem)

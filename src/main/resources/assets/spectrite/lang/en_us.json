@@ -72,15 +72,12 @@
 	"item.spectrite.modifiers.superchromatic_set_bonus": "Superchromatic Set Bonus:",
 	"item.spectrite.modifiers.on_impact": "On Impact:",
 	"item.spectrite.modifiers.unlimited_use": "Unlimited Use",
-	
 	"effect.spectrite.superchromatic": "Superchromatic",
-	
+	"effect.spectrite.chroma_guard": "Chroma Guard",
 	"entity.spectrite.spectrite_golem": "Spectrite Golem",
 	"entity.spectrite.superchromatic.generic": "Superchromatic %1$s",
-	
 	"death.attack.chroma_blast": "%1$s was chroma blasted",
 	"death.attack.chroma_blast.player": "%1$s was chroma blasted by %2$s",
-	
 	"advancements.spectrite.root.title": "\u00A7cS\u00A76p\u00A7ee\u00A72c\u00A79t\u00A75r\u00A7di\u00A7ct\u00A76e",
 	"advancements.spectrite.root.description": "Acquire a Spectrite Gem",
 	"advancements.spectrite.obtain_spectrite_pickaxe.title": "Prismatic Pickaxe",

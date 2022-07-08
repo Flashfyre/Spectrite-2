@@ -176,11 +176,15 @@ public class ChromaBlast extends Explosion
                         ab /= ac;
                         final double ad = entity == targetEntity ? 1f : getExposure(vec3d, entity);
                         final double ae = (1.0D - y) * ad;
-                        final double baseDamage = entity instanceof LivingEntity livingEntity
-                                && livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC)
-                                ? Math.max(this.power - (livingEntity.getStatusEffect(StatusEffects.SUPERCHROMATIC).getAmplifier() + 1.0D), 0f) * 2.0D
-                                : q;
-                        entity.damage(this.getDamageSource(), (((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D * baseDamage))) / 4f) + 1.0f);
+                        final int guardLevel = entity instanceof LivingEntity livingEntity
+                                && livingEntity.hasStatusEffect(StatusEffects.CHROMA_GUARD)
+                                ? livingEntity.getStatusEffect(StatusEffects.CHROMA_GUARD).getAmplifier() + 1
+                                : 0;
+                        final double baseDamage = guardLevel > 0 ? Math.max(this.power - guardLevel, 0f) * 2.0D : q;
+                        final float superchromaticDamageMultiplier = entity instanceof LivingEntity livingEntity
+                                && livingEntity.hasStatusEffect(StatusEffects.SUPERCHROMATIC) ? 2.5f : 1.0f;
+                        entity.damage(this.getDamageSource(), (((float) ((int) ((ae * ae + ae) / 2.0D * 7.0D
+                                * baseDamage * superchromaticDamageMultiplier))) / 4f) + 1.0f);
                         double af = ae;
                         if (entity instanceof LivingEntity)
                             af = ProtectionEnchantment.transformExplosionKnockback((LivingEntity) entity, ae);

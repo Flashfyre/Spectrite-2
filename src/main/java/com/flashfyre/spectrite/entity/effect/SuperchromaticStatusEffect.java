@@ -6,13 +6,16 @@ import net.minecraft.entity.effect.StatusEffectCategory;
 
 public class SuperchromaticStatusEffect extends StatusEffect
 {
-    public SuperchromaticStatusEffect(StatusEffectCategory category)
+    private final boolean invert;
+
+    public SuperchromaticStatusEffect(StatusEffectCategory category, boolean invert)
     {
-        super(category, SpectriteUtils.getCurrentHueColor(0));
+        super(category, SpectriteUtils.getCurrentHueColor(invert));
+        this.invert = invert;
     }
 
     public int getColor()
     {
-        return SpectriteUtils.getCurrentHueColor(0);
+        return SpectriteUtils.getCurrentHueColor(invert);
     }
 }
