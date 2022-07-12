@@ -18,6 +18,8 @@ import ladysnake.satin.api.managed.ManagedCoreShader;
 import ladysnake.satin.api.managed.ShaderEffectManager;
 import ladysnake.satin.api.managed.uniform.Uniform1f;
 import ladysnake.satin.api.managed.uniform.Uniform2f;
+import ladysnake.satin.impl.BlockRenderLayerRegistry;
+import ladysnake.satin.mixin.client.render.RenderPhaseAccessor;
 import net.fabricmc.api.ClientModInitializer;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
@@ -46,6 +48,7 @@ import net.minecraft.world.World;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.AbstractMap;
+import java.util.HashMap;
 import java.util.Map;
 
 @Environment(EnvType.CLIENT)
@@ -76,6 +79,12 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
     private static ManagedCoreShader superchromizedItemCharged;
     private static Uniform1f superchromizedItemChargedSTime;
     private static Uniform2f superchromizedItemChargedTexSize;
+
+    private static Map<String, ManagedCoreShader> superchromaticBlock = new HashMap<>();
+    private static Map<String, Uniform1f> superchromaticBlockSTime = new HashMap<>();
+
+    private static Map<String, ManagedCoreShader> superchromaticEntity = new HashMap<>();
+    private static Map<String, Uniform1f> superchromaticEntitySTime = new HashMap<>();
 
     public static Map.Entry<Integer, Integer> BLOCKS_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
     public static Map.Entry<Integer, Integer> CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = new AbstractMap.SimpleEntry<>(1, 1);
@@ -154,6 +163,36 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
                 ResourceManagerHelper.registerBuiltinResourcePack(getId("default"), modContainer, ResourcePackActivationType.DEFAULT_ENABLED));
 
         ClientTickEvents.END_CLIENT_TICK.register(client -> ticks++);
+
+        final RenderLayer[] blockRenderLayers = new RenderLayer[]{
+                RenderLayer.getSolid(),
+                RenderLayer.getCutout(),
+                RenderLayer.getCutoutMipped(),
+                RenderLayer.getTranslucent()
+        };
+
+        for (RenderLayer rl : blockRenderLayers)
+        {
+            final String layerName = ((RenderPhaseAccessor) rl).getName();
+            final Identifier superchromaticBlockShaderId = getId("superchromatic_block_" + layerName);
+            superchromaticBlock.put(layerName, ShaderEffectManager.getInstance().manageCoreShader(superchromaticBlockShaderId, VertexFormats.POSITION_COLOR_TEXTURE_LIGHT_NORMAL));
+            superchromaticBlockSTime.put(layerName, superchromaticBlock.get(layerName).findUniform1f("STime"));
+            BlockRenderLayerRegistry.INSTANCE.registerRenderLayer(superchromaticBlock.get(layerName).getRenderLayer(rl));
+        }
+
+        final String[] entityRenderLayerNames = new String[]{
+                "entity_solid",
+                "entity_cutout",
+                "entity_cutout_no_cull"
+        };
+
+        for (String layerName : entityRenderLayerNames)
+        {
+            final Identifier superchromaticEntityShaderId = getId("superchromatic_" + layerName);
+            superchromaticEntity.put(layerName, ShaderEffectManager.getInstance().manageCoreShader(superchromaticEntityShaderId));
+            superchromaticEntitySTime.put(layerName, superchromaticEntity.get(layerName).findUniform1f("STime"));
+        }
+
         EntitiesPostRenderCallback.EVENT.register((camera, frustum, tickDelta) ->
         {
             MinecraftClient client = MinecraftClient.getInstance();
@@ -192,6 +231,12 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
 
             superchromizedItemChargedSTime.set(sTimeValue);
             superchromizedItemChargedTexSize.set(BLOCKS_TEXTURE_SIZE.getKey(), BLOCKS_TEXTURE_SIZE.getValue());
+
+            for (String layerName : superchromaticBlock.keySet())
+                superchromaticBlockSTime.get(layerName).set(sTimeValue);
+
+            for (String layerName : superchromaticEntity.keySet())
+                superchromaticEntitySTime.get(layerName).set(sTimeValue);
 
             MinecraftClient client = MinecraftClient.getInstance();
             ((ClearCancelFramebuffer) client.getFramebuffer()).spectrite$cancelNextClear();
@@ -320,6 +365,26 @@ public class SpectriteClient extends Spectrite implements ClientModInitializer
         if (layer == null)
             return null;
         return (!charged ? superchromizedItem : superchromizedItemCharged).getRenderLayer(layer);
+    }
+
+    public RenderLayer getSuperchromaticBlockLayer(RenderLayer layer)
+    {
+        if (layer == null)
+            return null;
+        final String layerName = ((RenderPhaseAccessor) layer).getName();
+        if (superchromaticBlock.containsKey(layerName))
+            return superchromaticBlock.get(layerName).getRenderLayer(layer);
+        return layer;
+    }
+
+    public RenderLayer getSuperchromaticEntityLayer(RenderLayer layer)
+    {
+        if (layer == null)
+            return null;
+        final String layerName = ((RenderPhaseAccessor) layer).getName();
+        if (superchromaticEntity.containsKey(layerName))
+            return superchromaticEntity.get(layerName).getRenderLayer(layer);
+        return layer;
     }
 
     @Override

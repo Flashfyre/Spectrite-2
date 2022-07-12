@@ -9,7 +9,6 @@ uniform int Partial;
 
 in vec2 texCoord;
 in vec2 oneTexel;
-in float scale;
 
 out vec4 fragColor;
 

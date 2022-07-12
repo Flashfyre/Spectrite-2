@@ -60,11 +60,11 @@ public class SpectriteShieldItemRenderer implements BuiltinItemRendererRegistry.
     {
         matrices.push();
         matrices.scale(1.0F, -1.0F, -1.0F);
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = new Identifier("shield");
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = new Identifier("shield");
         renderModel(stack, matrices, vertexConsumers, SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(shieldEntityModel,
-                shieldEntityTexture, null), light, overlay);
+                shieldEntityTexture, null, false), light, overlay);
         matrices.pop();
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = null;
     }
 
     private void renderModel(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, int overlay)

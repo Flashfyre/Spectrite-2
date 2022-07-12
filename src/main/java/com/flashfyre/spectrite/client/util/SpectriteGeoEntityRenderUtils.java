@@ -35,9 +35,9 @@ public class SpectriteGeoEntityRenderUtils
     private static Identifier getOrGenerateSpectriteEntityTexture(GeoModel model, Identifier texture, EntityType entityType,
                                                                   String spectriteTexturePath, boolean cacheSize)
     {
-        final Identifier entityId = entityType != null ? EntityType.getId(entityType) : SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
+        final Identifier entityId = entityType != null ? EntityType.getId(entityType) : SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID;
         final String modelClassName = model != null ? model.getClass().getName() : entityId.getPath();
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = modelClassName;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME = modelClassName;
         if (!SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId))
             SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.put(entityId, new HashMap<>());
         final Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityTextureCache = SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId);

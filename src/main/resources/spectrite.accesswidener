@@ -9,3 +9,7 @@ accessible field net/minecraft/client/model/ModelPart cuboids Ljava/util/List;
 accessible field net/minecraft/client/model/ModelPart$Cuboid sides [Lnet/minecraft/client/model/ModelPart$Quad;
 accessible class net/minecraft/client/model/ModelPart$Quad
 accessible class net/minecraft/client/model/ModelPart$Vertex
+accessible class net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask
+accessible method net/minecraft/client/render/chunk/ChunkBuilder$BuiltChunk$RebuildTask render (FFFLnet/minecraft/client/render/chunk/ChunkBuilder$ChunkData;Lnet/minecraft/client/render/chunk/BlockBufferBuilderStorage;)Ljava/util/Set;
+accessible class net/minecraft/client/render/chunk/RenderedChunk
+accessible method net/minecraft/client/render/block/entity/BlockEntityRenderDispatcher render (Lnet/minecraft/client/render/block/entity/BlockEntityRenderer;Lnet/minecraft/block/entity/BlockEntity;FLnet/minecraft/client/util/math/MatrixStack;Lnet/minecraft/client/render/VertexConsumerProvider;)V

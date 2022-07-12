@@ -20,8 +20,10 @@ import java.util.stream.Collectors;
 
 public class SpectriteEntityRenderUtils
 {
-    public static Identifier CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
-    public static String CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME;
+    public static Identifier CURRENT_RENDERING_ENTITY_ID;
+    public static boolean CURRENT_RENDERING_ENTITY_SPECTRITE_COMPATIBLE;
+    public static String CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME;
+    public static boolean CURRENT_RENDERING_BLOCK_ENTITY_SUPERCHROMATIC;
     public static Map<Identifier, Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>>> ENTITY_SUPERCHROMATIC_TEXTURE_CACHE = new HashMap<>();
     public static Map<Identifier, Map<String, List<ModelPart>>> ENTITY_MODEL_PART_CACHE = new HashMap<>();
     public static Map<Identifier, Map.Entry<Integer, Integer>> ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE = new HashMap<>();
@@ -30,15 +32,16 @@ public class SpectriteEntityRenderUtils
             .add(0.5f, 0.0f, 0.0f, 0.15625f, 0f, 1f, false)
             .add(0.0f, 0.15625f, 0.1875f, 0.3125f, 1f, 1f, true);
 
-    public static Identifier getOrGenerateSpectriteEntityTexture(Model model, Identifier texture, EntityType entityType)
+    public static Identifier getOrGenerateSpectriteEntityTexture(Model model, Identifier texture, EntityType entityType,
+                                                                 boolean isPartial)
     {
-        return getOrGenerateSpectriteEntityTexture(model, texture, entityType, null);
+        return getOrGenerateSpectriteEntityTexture(model, texture, entityType, null, isPartial);
     }
 
     public static Identifier getOrGenerateSpectriteEntityTexture(Model model, Identifier texture, EntityType entityType,
-                                                                 String spectriteTexturePath)
+                                                                 String spectriteTexturePath, boolean isPartial)
     {
-        return getOrGenerateSpectriteEntityTexture(model, null, texture, entityType, spectriteTexturePath, false, false);
+        return getOrGenerateSpectriteEntityTexture(model, null, texture, entityType, spectriteTexturePath, isPartial, false);
     }
 
     public static Identifier getOrGenerateSpectriteChargeableEntityTexture(Model model, Identifier texture, EntityType entityType)
@@ -62,9 +65,9 @@ public class SpectriteEntityRenderUtils
                                                                   String spectriteTexturePath,
                                                                   boolean isPartial, boolean cacheSize)
     {
-        final Identifier entityId = entityType != null ? EntityType.getId(entityType) : CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
+        final Identifier entityId = entityType != null ? EntityType.getId(entityType) : CURRENT_RENDERING_ENTITY_ID;
         final String modelClassName = model != null ? model.getClass().getName() : entityId.getPath();
-        CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = modelClassName;
+        CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME = modelClassName;
         if (!ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId))
             ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.put(entityId, new HashMap<>());
         final Map<String, Map<Map.Entry<Identifier, Boolean>, Identifier>> entityTextureCache = ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId);

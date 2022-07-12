@@ -26,12 +26,11 @@ public abstract class EntityRenderDispatcherMixin
                                                                                              VertexConsumerProvider vertexConsumers, int light,
                                                                                              CallbackInfo ci)
     {
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = entity instanceof SpectriteCompatibleEntity
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = EntityType.getId(entity.getType());
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_SPECTRITE_COMPATIBLE = entity instanceof SpectriteCompatibleEntity
                 || entity instanceof PlayerEntity
-                || entity instanceof ArmorStandEntity
-                ? EntityType.getId(entity.getType())
-                : null;
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
+                || entity instanceof ArmorStandEntity;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME = null;
     }
 
     @Inject(method = "render", at = @At(value = "RETURN"))
@@ -40,7 +39,8 @@ public abstract class EntityRenderDispatcherMixin
                                                                                                VertexConsumerProvider vertexConsumers, int light,
                                                                                                CallbackInfo ci)
     {
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_SPECTRITE_COMPATIBLE = false;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME = null;
     }
 }

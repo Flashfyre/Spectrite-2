@@ -13,9 +13,11 @@
     "BeaconBlockEntityAccessor",
     "BeaconBlockEntityMixin",
     "BlockEntityAccessor",
+    "BlockItemMixin",
     "BowAttackGoalMixin",
     "BucketableMixin",
     "CarvedPumpkinBlockMixin",
+    "ChunkRegionMixin",
     "ConstantLootNumberProviderAccessor",
     "EnderPearlEntityMixin",
     "EntityMixin",
@@ -29,6 +31,7 @@
     "LootPoolBuilderAccessor",
     "LootTableBuilderAccessor",
     "MobEntityMixin",
+    "MobSpawnerLogicMixin",
     "PersistentProjectileEntityAccessor",
     "PersistentProjectileEntityMixin",
     "PlayerEntityAccessor",
@@ -41,10 +44,12 @@
     "SetCountLootFunctionAccessor",
     "SpectriteItemStackMixin",
     "SpectriteServerWorldMixin",
+    "StructureStartMixin",
     "TridentEntityMixin",
     "UniformLootNumberProviderAccessor",
     "WitherEntityMixin",
-    "WitherSkullEntityMixin"
+    "WitherSkullEntityMixin",
+    "WorldMixin"
   ],
   "client": [
     "BaseTextAccessor",
