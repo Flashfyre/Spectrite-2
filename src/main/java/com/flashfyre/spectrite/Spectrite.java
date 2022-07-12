@@ -14,6 +14,7 @@ import com.flashfyre.spectrite.soundEvent.SoundEvents;
 import com.flashfyre.spectrite.world.gen.ConfiguredFeatures;
 import com.flashfyre.spectrite.world.gen.Features;
 import com.flashfyre.spectrite.world.gen.PlacedFeatures;
+import com.llamalad7.mixinextras.MixinExtrasBootstrap;
 import me.shedaniel.autoconfig.AutoConfig;
 import me.shedaniel.autoconfig.serializer.JanksonConfigSerializer;
 import net.fabricmc.api.ModInitializer;
@@ -37,6 +38,8 @@ public class Spectrite implements ModInitializer
     public void onInitialize()
     {
         INSTANCE = this;
+
+        MixinExtrasBootstrap.init();
 
         AutoConfig.register(SpectriteConfig.class, JanksonConfigSerializer::new);
 

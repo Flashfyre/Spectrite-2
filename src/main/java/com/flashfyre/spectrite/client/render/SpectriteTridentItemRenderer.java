@@ -63,14 +63,14 @@ public class SpectriteTridentItemRenderer implements BuiltinItemRendererRegistry
     {
         matrices.push();
         matrices.scale(1.0F, -1.0F, -1.0F);
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = EntityType.getId(EntityType.TRIDENT);
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = EntityType.getId(EntityType.TRIDENT);
         final Identifier spectriteTridentEntityTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteChargeableEntityTexture(
                 tridentEntityModel, tridentEntityTexture, EntityType.TRIDENT);
         SpectriteClient.CHARGEABLE_SPECTRITE_ENTITY_TEXTURE_SIZE = SpectriteEntityRenderUtils.ENTITY_SPECTRITE_TEXTURE_SIZE_CACHE.getOrDefault(
                 spectriteTridentEntityTexture, new AbstractMap.SimpleEntry<>(1, 1));
         renderModel(stack, matrices, vertexConsumers, spectriteTridentEntityTexture, light, overlay);
         matrices.pop();
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID = null;
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID = null;
     }
 
     private void renderModel(ItemStack stack, MatrixStack matrices, VertexConsumerProvider vertexConsumers, Identifier texture, int light, int overlay)

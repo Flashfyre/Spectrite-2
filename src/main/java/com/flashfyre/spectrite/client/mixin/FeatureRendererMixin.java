@@ -27,7 +27,7 @@ public class FeatureRendererMixin
             Identifier ret, EntityModel<T> model, Identifier texture, MatrixStack matrices,
             VertexConsumerProvider vertexConsumers, int light, T entity)
     {
-        final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, texture, entity.getType());
+        final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, texture, entity.getType(), true);
         if (entity instanceof SpectriteCompatibleEntity spectriteCompatibleEntity && spectriteCompatibleEntity.isSuperchromatic())
             return spectriteTexture;
 

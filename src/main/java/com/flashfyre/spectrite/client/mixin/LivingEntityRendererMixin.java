@@ -29,7 +29,7 @@ public class LivingEntityRendererMixin
     @ModifyVariable(method = "getRenderLayer", at = @At("STORE"))
     private Identifier injectGetRenderLayerSubstituteSpectriteTexture(Identifier identifier, LivingEntity e, boolean showBody, boolean translucent, boolean showOutline)
     {
-        final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, identifier, e.getType());
+        final Identifier spectriteTexture = SpectriteEntityRenderUtils.getOrGenerateSpectriteEntityTexture(model, identifier, e.getType(), !(e instanceof SpectriteGolemEntity));
         if (e instanceof MobEntity && ((SpectriteCompatibleMobEntity) e).isSuperchromatic())
             return spectriteTexture;
 

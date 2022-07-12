@@ -29,6 +29,8 @@ public class SpectriteConfig implements ConfigData
 
     private float superchromaticMobSpawnRateBeaconBlockBonus = 0.037977f;
 
+    private float superchromaticStructureRate = 2.040816f;
+
     @ConfigEntry.Gui.CollapsibleObject
     private SuperchromaticEntityAttributes superchromaticEntityAttributes = new SuperchromaticEntityAttributes();
 
@@ -60,7 +62,7 @@ public class SpectriteConfig implements ConfigData
 
         private double superchromaticMobMovementSpeedBonus = 0.1d;
 
-        private double superchromaticMobMovementSpeedMultiplier = 1.27202d;
+        private double superchromaticMobMovementSpeedMultiplier = 1.0d;
 
         private double superchromaticMobKnockbackResistanceBonus = 0.25d;
 
@@ -195,6 +197,11 @@ public class SpectriteConfig implements ConfigData
     public static float getSuperchromaticMobSpawnRateBeaconBlockBonus()
     {
         return INSTANCE.superchromaticMobSpawnRateBeaconBlockBonus;
+    }
+
+    public static float getSuperchromaticStructureRate()
+    {
+        return INSTANCE.superchromaticStructureRate;
     }
 
     public static SuperchromaticEntityAttributes getSuperchromaticEntityAttributes()

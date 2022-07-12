@@ -7,6 +7,8 @@
     "AnimatedGeoModelAccessor",
     "ArmorFeatureRendererMixin",
     "ArrowEntityRendererMixin",
+    "BlockEntityRenderDispatcherMixin",
+    "BlockRenderInfoMixin",
     "EntityRenderDispatcherMixin",
     "FeatureRendererMixin",
     "FramebufferAccessor",
@@ -31,6 +33,7 @@
     "SpectriteClientWorldMixin",
     "SpriteAtlasHolderMixin",
     "SpriteAtlasTextureDataAccessor",
+    "SpriteIdentifierMixin",
     "TranslatableTextContentAccessor",
     "TridentEntityRendererMixin",
     "WitherSkullEntityRendererMixin"

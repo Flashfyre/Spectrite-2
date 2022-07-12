@@ -28,8 +28,10 @@ public interface IGeoRendererMixin
     private void spectrite$injectGenerateSpectriteEntityTexture(GeoBone bone, MatrixStack stack, VertexConsumer bufferIn, int packedLightIn,
                                                                 int packedOverlayIn, float red, float green, float blue, float alpha, CallbackInfo ci)
     {
-        final Identifier entityId = SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_ID;
-        final String modelClassName = SpectriteEntityRenderUtils.CURRENT_RENDERING_SPECTRITE_COMPATIBLE_ENTITY_MODEL_CLASS_NAME;
+        if (!SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_SPECTRITE_COMPATIBLE)
+            return;
+        final Identifier entityId = SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_ID;
+        final String modelClassName = SpectriteEntityRenderUtils.CURRENT_RENDERING_ENTITY_MODEL_CLASS_NAME;
         if (entityId != null && SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.containsKey(entityId)
                 && SpectriteEntityRenderUtils.ENTITY_SUPERCHROMATIC_TEXTURE_CACHE.get(entityId).containsKey(modelClassName))
         {
