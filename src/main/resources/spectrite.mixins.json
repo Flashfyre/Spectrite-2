@@ -32,6 +32,7 @@
     "LootTableBuilderAccessor",
     "MobEntityMixin",
     "MobSpawnerLogicMixin",
+    "NoiseChunkGeneratorMixin",
     "PersistentProjectileEntityAccessor",
     "PersistentProjectileEntityMixin",
     "PlayerEntityAccessor",

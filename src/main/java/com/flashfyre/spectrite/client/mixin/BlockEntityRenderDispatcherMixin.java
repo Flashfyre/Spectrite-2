@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.client.mixin;
 
 import com.flashfyre.spectrite.client.util.SpectriteEntityRenderUtils;
 import com.flashfyre.spectrite.component.chunk.SuperchromaticChunkComponent;
+import com.flashfyre.spectrite.world.Dimensions;
 import net.fabricmc.api.EnvType;
 import net.fabricmc.api.Environment;
 import net.minecraft.block.entity.BlockEntity;
@@ -24,7 +25,8 @@ public abstract class BlockEntityRenderDispatcherMixin
                                                                                  float tickDelta, MatrixStack matrices,
                                                                                  VertexConsumerProvider vertexConsumers, CallbackInfo ci)
     {
-        SpectriteEntityRenderUtils.CURRENT_RENDERING_BLOCK_ENTITY_SUPERCHROMATIC = SuperchromaticChunkComponent.KEY.get(
+        SpectriteEntityRenderUtils.CURRENT_RENDERING_BLOCK_ENTITY_SUPERCHROMATIC = blockEntity.getWorld().getRegistryKey() == Dimensions.SUPERCHROMATIC
+                || SuperchromaticChunkComponent.KEY.get(
                 blockEntity.getWorld().getChunk(blockEntity.getPos()))
                 .getSuperchromaticBlocks().contains(blockEntity.getPos());
     }

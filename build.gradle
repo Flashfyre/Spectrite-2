@@ -35,6 +35,10 @@ repositories {
 	maven { url 'https://dl.cloudsmith.io/public/geckolib3/geckolib/maven/' }
 	maven { url "https://maven.shedaniel.me/" }
 	maven {
+		name = "Kryptonaught"
+		url = "https://maven.kyrptonaught.dev/"
+	}
+	maven {
 		url = "https://jitpack.io"
 		content {
 			includeGroupByRegex "com.github.*"
@@ -67,22 +71,20 @@ dependencies {
 
 	modImplementation "net.fabricmc.fabric-api:fabric-api:${project.fabric_version}"
 
-	modImplementation "io.github.ladysnake:satin:${satin_version}"
-	include "io.github.ladysnake:satin:${satin_version}"
+	modImplementation(include("io.github.ladysnake:satin:${satin_version}"))
 
 	compileOnly "org.jetbrains:annotations:${jb_annotations_version}"
 
 	implementation("com.github.LlamaLad7:MixinExtras:${project.mixin_extras_version}")
 	annotationProcessor("com.github.LlamaLad7:MixinExtras:${project.mixin_extras_version}")
 
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0"
-	include "dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0"
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-item:4.2.0"
-	include "dev.onyxstudios.cardinal-components-api:cardinal-components-item:4.2.0"
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.2.0"
-	include "dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.2.0"
-	modImplementation "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:4.2.0"
-	include "dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:4.2.0"
+	modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-base:4.2.0"))
+	modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-item:4.2.0"))
+	modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:4.2.0"))
+	modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-chunk:4.2.0"))
+	modImplementation(include("dev.onyxstudios.cardinal-components-api:cardinal-components-world:4.2.0"))
+
+	modImplementation(include("net.kyrptonaught:customportalapi:${project.customportalapi_version}"))
 
 	modCompileOnly "software.bernie.geckolib:geckolib-fabric-1.18:${project.geckolib_version}"
 

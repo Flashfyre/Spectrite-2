@@ -24,7 +24,7 @@ out vec4 normal;
 
 void main() {
     vec3 pos = Position + ChunkOffset;
-    relPos = pos;
+    relPos = Position;
     gl_Position = ProjMat * ModelViewMat * vec4(pos, 1.0);
 
     vertexDistance = fog_distance(ModelViewMat, pos, FogShape);

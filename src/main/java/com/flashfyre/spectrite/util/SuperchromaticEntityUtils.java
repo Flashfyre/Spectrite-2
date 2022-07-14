@@ -10,6 +10,7 @@ import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.entity.effect.StatusEffects;
 import com.flashfyre.spectrite.entity.player.SuperchromaticCooldownPlayerEntity;
 import com.flashfyre.spectrite.item.SpectriteMeleeWeaponItem;
+import com.flashfyre.spectrite.world.Dimensions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -78,7 +79,7 @@ public class SuperchromaticEntityUtils
 
     public static boolean trySetMobSuperchromatic(MobEntity mobEntity)
     {
-        if (mobEntity instanceof SuperchromaticEntity)
+        if (mobEntity instanceof SuperchromaticEntity || mobEntity.getEntityWorld().getRegistryKey() == Dimensions.SUPERCHROMATIC)
         {
             setSuperchromatic(mobEntity, true);
             return true;

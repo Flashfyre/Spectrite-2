@@ -64,6 +64,8 @@ public class Blocks
                 return 10;
             }), () -> BlockEntities.SPECTRITE_CHEST);*/
 
+    public static Block SUPERCHROMATIC_PORTAL;
+
     public static void initBlocks()
     {
         registerBlock("spectrite_ore", SPECTRITE_ORE, new FabricItemSettings());

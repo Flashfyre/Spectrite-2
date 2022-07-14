@@ -2,6 +2,7 @@ package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.component.chunk.SuperchromaticChunkComponent;
 import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
+import com.flashfyre.spectrite.world.Dimensions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.mob.CaveSpiderEntity;
 import net.minecraft.entity.mob.MobEntity;
@@ -29,7 +30,8 @@ public class MobSpawnerLogicMixin
                                                                         int j, double d, double e, double f,
                                                                         Entity entity)
     {
-        if (SuperchromaticChunkComponent.KEY.get(world.getChunk(pos)).getSuperchromaticBlocks().contains(pos))
+        if (world.getRegistryKey() == Dimensions.SUPERCHROMATIC
+                || SuperchromaticChunkComponent.KEY.get(world.getChunk(pos)).getSuperchromaticBlocks().contains(pos))
         {
             SuperchromaticEntityUtils.setSuperchromatic(entity, true);
             if (entity instanceof CaveSpiderEntity)
