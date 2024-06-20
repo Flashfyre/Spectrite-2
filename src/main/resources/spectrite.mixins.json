@@ -30,6 +30,7 @@
     "LivingEntityMixin",
     "LootPoolBuilderAccessor",
     "LootTableBuilderAccessor",
+    "MinecraftServerMixin",
     "MobEntityMixin",
     "MobSpawnerLogicMixin",
     "NoiseChunkGeneratorMixin",

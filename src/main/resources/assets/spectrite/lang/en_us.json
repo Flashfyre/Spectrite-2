@@ -40,28 +40,20 @@
 	"item.spectrite.spectrite_bomb": "Spectrite Bomb",
 	
 	"item.spectrite.superchromatic_essence": "Superchromatic Essence",
-	
 	"item.spectrite.superchromatic_apple": "Superchromatic Apple",
 	"item.spectrite.superchromatic_carrot": "Superchromatic Carrot",
-	
 	"item.spectrite.superchromatic_axolotl_bucket": "Bucket of Superchromatic Axolotl",
-	
 	"item.spectrite.superchromatic_ender_pearl": "Superchromatic Ender Pearl",
 	"item.spectrite.superchromatic_nether_star": "Superchromatic Nether Star",
-	
 	"item.spectrite.superchromatic_chorus_fruit": "Superchromatic Chorus Fruit",
 	"item.spectrite.superchromatic_elixir": "Superchromatic Elixir",
-	
 	"item.spectrite.superchromatic_essence.tooltip.l1": "Can be used to Superchromize",
 	"item.spectrite.superchromatic_essence.tooltip.l2": "equipment at a smithing table",
-	"item.spectrite.superchromatic_chorus_fruit.tooltip.l1": "Teleports you randomly when",
-	"item.spectrite.superchromatic_chorus_fruit.tooltip.l2": "eaten, but the distance can",
-	"item.spectrite.superchromatic_chorus_fruit.tooltip.l3": "vary drastically",
+	"item.spectrite.superchromatic_chorus_fruit.tooltip.l1": "Teleports you to and from",
+	"item.spectrite.superchromatic_chorus_fruit.tooltip.l2": "the Superchromatic Dimension",
 	"item.spectrite.superchromatic_elixir.tooltip.l1": "Superchromizes a mob",
 	"item.spectrite.superchromatic_elixir.tooltip.l2": "(mob must be at full health)",
-	
 	"item.spectrite.tooltip.depleted": "Depleted",
-	
 	"item.spectrite.modifiers.superchromized": "Superchromized",
 	"item.spectrite.modifiers.percent_superchromized": "%d%% Superchromized",
 	"item.spectrite.modifiers.chroma_blast": "Chroma Blast",

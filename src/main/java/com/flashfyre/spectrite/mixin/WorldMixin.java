@@ -1,7 +1,6 @@
 package com.flashfyre.spectrite.mixin;
 
 import com.flashfyre.spectrite.component.chunk.SuperchromaticChunkComponent;
-import com.flashfyre.spectrite.component.world.SuperchromaticCompatibleWorldComponent;
 import com.flashfyre.spectrite.world.Dimensions;
 import com.flashfyre.spectrite.world.SuperchromaticCompatibleWorld;
 import net.minecraft.block.BlockState;
@@ -70,8 +69,7 @@ public abstract class WorldMixin implements SuperchromaticCompatibleWorld
                             otherWorld.setBlockState(pos, state);
                         ((SuperchromaticCompatibleWorld) otherWorld).setIgnoreSyncStateFlag(false);
                     }
-                } else
-                    SuperchromaticCompatibleWorldComponent.KEY.get(this).getSyncChunks().add(new ChunkPos(pos).getStartPos());
+                }
             }
             if (clearSuperchromaticFlag && !state.isAir())
             {

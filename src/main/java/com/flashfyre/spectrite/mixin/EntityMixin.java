@@ -4,6 +4,7 @@ import com.flashfyre.spectrite.entity.SpectriteCompatibleEntity;
 import com.flashfyre.spectrite.entity.SpectriteCompatibleMobEntity;
 import com.flashfyre.spectrite.entity.SuperchromaticEntity;
 import com.flashfyre.spectrite.util.SuperchromaticEntityUtils;
+import com.flashfyre.spectrite.world.Dimensions;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.boss.BossBar;
 import net.minecraft.entity.boss.ServerBossBar;
@@ -12,11 +13,14 @@ import net.minecraft.entity.mob.MobEntity;
 import net.minecraft.entity.mob.Monster;
 import net.minecraft.nbt.NbtCompound;
 import net.minecraft.server.network.ServerPlayerEntity;
+import net.minecraft.server.world.ServerWorld;
 import net.minecraft.sound.SoundCategory;
 import net.minecraft.sound.SoundEvent;
 import net.minecraft.text.Text;
 import net.minecraft.text.TranslatableText;
 import net.minecraft.util.Formatting;
+import net.minecraft.util.registry.RegistryKey;
+import net.minecraft.world.TeleportTarget;
 import net.minecraft.world.World;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Shadow;
@@ -116,5 +120,18 @@ public abstract class EntityMixin
         final Entity entity = (Entity) (Object) this;
         if (entity instanceof SpectriteCompatibleMobEntity && ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar() != null)
             ((SpectriteCompatibleMobEntity) entity).getSuperchromaticBossBar().removePlayer(player);
+    }
+
+    @Inject(method = "getTeleportTarget", at = @At("RETURN"), cancellable = true)
+    private void injectGetTeleportTargetSuperchromatic(ServerWorld destination, CallbackInfoReturnable<TeleportTarget> cir)
+    {
+        if (cir.getReturnValue() == null)
+        {
+            final Entity entity = (Entity) (Object) this;
+            final RegistryKey sourceKey = entity.world.getRegistryKey();
+            final RegistryKey destKey = destination.getRegistryKey();
+            if ((sourceKey == Dimensions.SUPERCHROMATIC && destKey == World.OVERWORLD) || (sourceKey == World.OVERWORLD && destKey == Dimensions.SUPERCHROMATIC))
+                cir.setReturnValue(new TeleportTarget(entity.getPos(), entity.getVelocity(), entity.getYaw(), entity.getPitch()));
+        }
     }
 }

@@ -10,7 +10,6 @@
     "BlockEntityRenderDispatcherMixin",
     "BlockRenderInfoMixin",
     "BuiltChunkRebuildTaskMixin",
-    "CustomPortalParticleFactoryMixin",
     "EntityRenderDispatcherMixin",
     "FeatureRendererMixin",
     "FramebufferAccessor",

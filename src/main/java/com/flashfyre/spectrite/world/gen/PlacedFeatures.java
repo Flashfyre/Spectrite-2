@@ -24,6 +24,9 @@ public class PlacedFeatures
     private static PlacedFeature ORE_SPECTRITE_OVERWORLD_LARGE = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD_LARGE),
             modifiersWithRarity(21, HeightRangePlacementModifier.trapezoid(YOffset.aboveBottom(-80), YOffset.aboveBottom(80))));
 
+    //public static PlacedFeature ORE_SPECTRITE_OVERWORLD_SUPERCHROMATIC = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_OVERWORLD_SUPERCHROMATIC),
+    //        modifiersWithCount(30, HeightRangePlacementModifier.uniform(YOffset.getBottom(), YOffset.fixed(72))));
+
     private static PlacedFeature ORE_SPECTRITE_NETHER = new PlacedFeature(RegistryEntry.of(ConfiguredFeatures.ORE_SPECTRITE_NETHER),
             modifiersWithRarity(14, net.minecraft.world.gen.feature.PlacedFeatures.TEN_ABOVE_AND_BELOW_RANGE));
 
@@ -52,6 +55,8 @@ public class PlacedFeatures
                 BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
         registerPlacedFeature("ore_spectrite_overworld_large", ORE_SPECTRITE_OVERWORLD_LARGE,
                 BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
+        //registerPlacedFeature("ore_spectrite_overworld_superchromatic", ORE_SPECTRITE_OVERWORLD_SUPERCHROMATIC,
+        //        BiomeSelectors.foundInOverworld(), GenerationStep.Feature.UNDERGROUND_ORES);
         registerPlacedFeature("ore_spectrite_nether", ORE_SPECTRITE_NETHER,
                 BiomeSelectors.foundInTheNether(), GenerationStep.Feature.UNDERGROUND_ORES);
         registerPlacedFeature("ore_spectrite_nether_enclosed_large", ORE_SPECTRITE_NETHER_ENCLOSED_LARGE,
@@ -82,6 +87,11 @@ public class PlacedFeatures
     private static List<PlacementModifier> modifiers(PlacementModifier countModifier, PlacementModifier heightModifier)
     {
         return List.of(countModifier, SquarePlacementModifier.of(), heightModifier, BiomePlacementModifier.of());
+    }
+
+    private static List<PlacementModifier> modifiersWithCount(int count, PlacementModifier heightModifier)
+    {
+        return modifiers(CountPlacementModifier.of(count), heightModifier);
     }
 
     private static List<PlacementModifier> modifiersWithRarity(int chance, PlacementModifier heightModifier)

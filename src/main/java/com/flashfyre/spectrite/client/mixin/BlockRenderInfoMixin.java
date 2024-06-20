@@ -32,8 +32,7 @@ public abstract class BlockRenderInfoMixin
     {
         if (((MinecraftClient.getInstance().world.getRegistryKey() == Dimensions.SUPERCHROMATIC
                 || SuperchromaticChunkComponent.KEY.get(MinecraftClient.getInstance().world.getChunk(this.blockPos)).getSuperchromaticBlocks().contains(blockPos))
-                && !blockState.isOf(Blocks.SPECTRITE_BLOCK))
-                || this.blockState.isOf(Blocks.SUPERCHROMATIC_PORTAL))
+                && !blockState.isOf(Blocks.SPECTRITE_BLOCK)))
             return SpectriteClient.CLIENT_INSTANCE.getSuperchromaticBlockLayer(renderLayer);
         return renderLayer;
     }

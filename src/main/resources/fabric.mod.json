@@ -29,9 +29,6 @@
     ],
     "cardinal-components-chunk": [
       "com.flashfyre.spectrite.component.chunk.ChunkComponents"
-    ],
-    "cardinal-components-world": [
-      "com.flashfyre.spectrite.component.world.WorldComponents"
     ]
   },
   "mixins": [
@@ -44,8 +41,7 @@
       "spectrite:superchromatic_item",
       "spectrite:superchromatic_entity",
       "spectrite:spectrite_weapon_entity_attributes",
-      "spectrite:superchromatic_chunk",
-      "spectrite:superchromatic_compatible_world"
+      "spectrite:superchromatic_chunk"
     ]
   },
   "depends": {

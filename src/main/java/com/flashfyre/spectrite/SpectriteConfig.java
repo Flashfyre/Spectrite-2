@@ -31,6 +31,10 @@ public class SpectriteConfig implements ConfigData
 
     private float superchromaticStructureRate = 2.040816f;
 
+    private boolean superchromaticDimension = true;
+
+    private boolean superchromaticDimensionSharesWorldSeed = false;
+
     @ConfigEntry.Gui.CollapsibleObject
     private SuperchromaticEntityAttributes superchromaticEntityAttributes = new SuperchromaticEntityAttributes();
 
@@ -202,6 +206,16 @@ public class SpectriteConfig implements ConfigData
     public static float getSuperchromaticStructureRate()
     {
         return INSTANCE.superchromaticStructureRate;
+    }
+
+    public static boolean isSuperchromaticDimension()
+    {
+        return INSTANCE.superchromaticDimension;
+    }
+
+    public static boolean isSuperchromaticDimensionSharesWorldSeed()
+    {
+        return INSTANCE.superchromaticDimensionSharesWorldSeed;
     }
 
     public static SuperchromaticEntityAttributes getSuperchromaticEntityAttributes()
